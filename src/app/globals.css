@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  font-family: ubuntu;
+  font-style: normal;
+}
+.transition-all{
+  transition-duration: 0.3s;
+}
+.profile-pic{
+  border-radius: 20px;
+  width: 40px;
+  height: 40px;
+}
+.nav-button{
+  margin-top: auto;
+  margin-bottom: auto;
+  background: #F3F4F6;
+  width:37px;
+  height: 37px;
+  border-radius: 17px;
+
+}
+.bg-body{
+  background: #F3F4F6;
+}
+.text-light-grey{
+  color: #BDBDBD;
+}
+.activity-text,.activity-time-text{
+  font-family: Ubuntu;
+font-weight: 400;
+font-size: 10px;
+line-height: 15px;
+letter-spacing: 0em;
+text-align: left;
+color:#565656;
+}
+.activity-time-text{
+  color:#BDBDBD;
+  padding-left: 1px;
+}
+.text-light_grey{
+  color:#BDBDBD;
+}
+.h-high{
+height: 450px;
+}

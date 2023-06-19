@@ -3,7 +3,7 @@ import ProfilePic from "./images/profile-pic.png"
 import addFriend from "./images/addFriend.png"
 export default function SideCard(){
     return(
-        <div className=" w-72 h-high p-2 bg-white rounded-2xl flex flex-col ">
+        <div className="h-high p-2 pt-1 bg-white rounded-2xl flex flex-col ">
             <div className="flex justify-between mt-5 mb-5">
                 <h2 className="font-bold text-xl">Activity</h2>
                 <button className="text-light_grey">See all</button>
@@ -22,15 +22,40 @@ export default function SideCard(){
             </div>
            <div className="flex flex-col gap-2">
             <h2 className="font-bold mb-0 mt-2">New</h2>
-           <div className="flex justify-between">
+
+            <div className="flex justify-between">
+                <div className="flex gap-2">
+                <Image
+                className="profile-pic"
+                src={ProfilePic}
+                alt="pictuer"
+                />
+                <div className=" w-36">
+                <h2 className=" font-semibold">Clark kent</h2>
+                <div className="flex">  <p className="activity-text">started following you. </p><p className="activity-time-text"> 1m</p></div>
+                </div>
+            </div>
+            
+                <div>
+                    <button className=" w-12 h-12 rounded-3xl bg-pink-100 profile-pic">
+                    <Image
+                    className=" align-middle ml-auto mr-auto "
+                    src={addFriend}
+                    alt="add friend"
+                    />
+                    </button>
+                </div>
+            </div>
+
+            <div className="flex justify-between">
             <div className="flex gap-2">
                 <Image
                 className="profile-pic"
                 src={ProfilePic}
                 alt="pictuer"
                 />
-                <div>
-                <h2 className=" font-semibold">clark kent</h2>
+                <div className=" w-36">
+                <h2 className=" font-semibold">Clark kent</h2>
                 <div className="flex">  <p className="activity-text">started following you. </p><p className="activity-time-text"> 1m</p></div>
                 </div>
             </div>
@@ -51,30 +76,8 @@ export default function SideCard(){
                 src={ProfilePic}
                 alt="pictuer"
                 />
-                <div>
-                <h2 className=" font-semibold">clark kent</h2>
-                <div className="flex">  <p className="activity-text">started following you. </p><p className="activity-time-text"> 1m</p></div>
-                </div>
-            </div>
-            
-                <div><button className=" w-12 h-12 rounded-3xl bg-pink-100 profile-pic">
-                    <Image
-                    className=" align-middle ml-auto mr-auto "
-                    src={addFriend}
-                    alt="add friend"
-                    />
-                    </button></div>
-                </div>
-
-                <div className="flex justify-between">
-            <div className="flex gap-2">
-                <Image
-                className="profile-pic"
-                src={ProfilePic}
-                alt="pictuer"
-                />
-                <div>
-                <h2 className=" font-semibold">clark kent</h2>
+                <div className=" w-40 w-36">
+                <h2 className=" font-semibold">Clark kent</h2>
                 <div className="flex">  <p className="activity-text">started following you. </p><p className="activity-time-text"> 1m</p></div>
                 </div>
             </div>
@@ -95,8 +98,8 @@ export default function SideCard(){
                 src={ProfilePic}
                 alt="pictuer"
                 />
-                <div>
-                <h2 className=" font-semibold">clark kent</h2>
+                <div className=" w-40 w-36">
+                <h2 className=" font-semibold">Clark kent</h2>
                 <div className="flex">  <p className="activity-text">started following you. </p><p className="activity-time-text"> 1m</p></div>
                 </div>
             </div>
@@ -118,8 +121,8 @@ export default function SideCard(){
                 src={ProfilePic}
                 alt="pictuer"
                 />
-                <div>
-                <h2 className=" font-semibold">clark kent</h2>
+                <div className=" w-40 w-36">
+                <h2 className=" font-semibold">Clark kent</h2>
                 <div className="flex">  <p className="activity-text">started following you. </p><p className="activity-time-text"> 1m</p></div>
                 </div>
             </div>

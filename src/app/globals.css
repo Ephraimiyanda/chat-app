@@ -37,9 +37,10 @@ body {
   border-radius: 17px;
 
 }
-.bg-body{
+body,.searchbar,input{
   background: #F3F4F6;
 }
+
 .text-light-grey{
   color: #BDBDBD;
 }
@@ -61,4 +62,13 @@ color:#565656;
 }
 .h-high{
 height: 450px;
+}
+.sidebar{
+  left: 0;
+  margin-top: -12px;
+  z-index: 0;
+  height: 89.5vh;
+}
+.home::-webkit-scrollbar{
+  width: 0px;
 }

@@ -5,10 +5,10 @@ import video from "./images/videocall.png"
 import ProfilePic from "./images/profile-pic.png"
 export default function Navbar(){
     return(
-        <div className=" grid grid-cols-10 align-middle pt-4 bg-white pb-4 mb-3 pl-3 pr-3 ml-auto top-0  bottom-0 border-b border-b-stone-300 ">
-          <h1 className=" text-3xl font-bold xl:col-span-2 xl:col-start-2 md:col-start-1 ">Herosocial</h1>
-            <div className="xl:col-span-4 xl:col-start-4 md:col-start-3 col-span-7 md:col-span-5 md:row-start-1 row-start-2"><SearchBar/></div>
-           <div className="flex gap-3  pr-0 ml-auto xl:col-span-2 md:col-span-3  col-start-8">
+        <div className=" grid grid-cols-11 align-middle pt-4 bg-white pb-4  pl-3 pr-3 ml-auto top-0  bottom-0 border-b border-b-stone-300 ">
+          <h1 className=" text-3xl font-bold xl:col-span-2 xl:col-start-2 md:col-start-1  ">Herosocial</h1>
+            <div className="  xl:col-span-5 xl:col-start-4 md:col-start-3 col-span-7 md:col-span-5 md:row-start-1 row-start-2  search-div ml-auto mr-auto"><SearchBar/></div>
+           <div className="flex gap-3   ml-auto xl:col-span-2  col-start-9 pr-3 col-span-3">
            <button className="nav-button" >
                 <Image
                   className=" ml-auto mr-auto"

@@ -1,60 +1,46 @@
 'use client'
-import React, { useState } from 'react';
-import Image from 'next/image';
-import bb from "./images/addFriend.png";
+import Image, { ImageProps } from 'next/image';
 import Link from 'next/link';
-
+import MessageIcon from "./images/message-three-points-1560-svgrepo-com.svg"
+import ProfileIcon from "./images/profile-round-1342-svgrepo-com.svg"
+import VideoIcon from "./images/play-square-svgrepo-com.svg"
+import Home from "./images/ikea-home-smart-svgrepo-com.svg"
+import SettingsIcon from "./images/settings-svgrepo-com.svg"
+import NotificationIcon from "./images/notification-bing-svgrepo-com.svg"
+import Explore from "./images/search-left-1506-svgrepo-com.svg"
 interface NavItemProps {
-  name: string;
-  isHovered: boolean;
   link:string;
+  imgSrc:ImageProps;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ name, isHovered,link }) => {
+const NavItem: React.FC<NavItemProps> = ({imgSrc, link }) => {
   return (
    <Link href={link}>
     <li className="flex items-center w-fit h-8">
       <Image
-        src={bb}
-        alt={name}
-        width={24}
-        height={24}
+        width={27}
+        height={27}
+        {...imgSrc}
         className="mr-2"
       />
-      <span
-        className={`transition-all duration-700 overflow-hidden ${isHovered ? 'w-24' : 'w-0'}`}
-      >
-        {name}
-      </span>
     </li>
    </Link>
   );
 };
 
 const SideNavbar = () => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
 
   return (
     <div
-      className={`navbar bg-white p-4 w-fit absolute overflow-y-hidden h-full overflow-hidden sidebar pt-16 border-r border-b-stone-300 ${
-        isHovered ? 'sidebar-hovered' : ''
-      }`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <ul className="flex flex-col gap-3">
-        <NavItem isHovered={isHovered} link='/chat' name="Profile" />
-        <NavItem isHovered={isHovered} link="" name="Settings" />
-        <NavItem isHovered={isHovered} link="" name="Message" />
-        {/* Add more NavItem components for additional navbar items */}
+      className="navbar bg-white absolute p-4 w-fit overflow-y-hidden h-full overflow-hidden sidebar pt-16 border-r border-b-stone-300 " >
+      <ul className="flex flex-col gap-8">
+        <NavItem imgSrc={{src:Home,alt:"home"}} link='/'  />
+        <NavItem imgSrc={{src:ProfileIcon,alt:"Message"}}  link=""  />
+        <NavItem imgSrc={{src:MessageIcon,alt:"chats"}} link="/chat" />
+        <NavItem imgSrc={{src:VideoIcon,alt:"media"}}  link=""  />
+        <NavItem imgSrc={{src:Explore,alt:"explore"}}  link=""  />
+        <NavItem imgSrc={{src:NotificationIcon,alt:"notifications"}}  link=""  />
+        <NavItem imgSrc={{src:SettingsIcon,alt:"settings"}}  link=""  />
       </ul>
     </div>
   );

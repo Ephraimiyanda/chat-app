@@ -16,8 +16,7 @@ function Contacts({ onContactSelect }: ContactsProps) {
   };
 
   return (
-    <div>
-      <h2>Contacts</h2>
+    <div className='h-screen overflow-auto pl-3 pr-1'>
       <ul>
         {contacts.map((contact) => (
           <li key={contact.id} onClick={() => handleContactClick(contact.id)}>

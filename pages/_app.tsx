@@ -13,9 +13,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <AppContext.Provider value={{ will }}>
     <div>
       <Navbar />
-      <div className="main-content">
+      <div className="main-content flex">
         <SideNavbar />
-        <div className="page-content">
+        <div className="page-content w-full">
           <Component {...pageProps} />
         </div>
       </div>

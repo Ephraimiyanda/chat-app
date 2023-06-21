@@ -7,7 +7,7 @@ import bookmark from "./images/bookmark.png"
 export default function Stories(){
     return(
         <div className="  overflow-y-auto flex flex-col gap-5 h-screen ml-auto mr-auto home">
-            <div className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full" >
+            <section className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full" >
                 <Image
                 className="rounded-lg "
                 src={baby}
@@ -49,8 +49,8 @@ export default function Stories(){
                 </button>
               </div>
 
-            </div>
-            <div className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full" >
+            </section>
+            <section className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full" >
                 <Image
                 className="rounded-lg "
                 src={baby}
@@ -92,8 +92,8 @@ export default function Stories(){
                 </button>
               </div>
 
-            </div>
-            <div className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full" >
+            </section>
+            <section className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full" >
                 <Image
                 className="rounded-lg "
                 src={baby}
@@ -135,7 +135,7 @@ export default function Stories(){
                 </button>
               </div>
 
-            </div>
+            </section>
         </div>
     )
 }

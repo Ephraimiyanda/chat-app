@@ -16,12 +16,12 @@ interface NavItemProps {
 const NavItem: React.FC<NavItemProps> = ({imgSrc, link }) => {
   return (
    <Link href={link}>
-    <li className="flex items-center w-fit h-8">
+    <li className="flex items-center h-8">
       <Image
         width={27}
         height={27}
         {...imgSrc}
-        className="mr-2"
+        className="mr-auto ml-auto"
       />
     </li>
    </Link>
@@ -35,7 +35,7 @@ const SideNavbar = () => {
       className="navbar bg-white absolute p-4 w-fit overflow-y-hidden h-full overflow-hidden sidebar pt-16 border-r border-b-stone-300 " >
       <ul className="flex flex-col gap-8">
         <NavItem imgSrc={{src:Home,alt:"home"}} link='/'  />
-        <NavItem imgSrc={{src:ProfileIcon,alt:"Message"}}  link=""  />
+        <NavItem imgSrc={{src:ProfileIcon,alt:"Message"}}  link="/profile"  />
         <NavItem imgSrc={{src:MessageIcon,alt:"chats"}} link="/chat" />
         <NavItem imgSrc={{src:VideoIcon,alt:"media"}}  link=""  />
         <NavItem imgSrc={{src:Explore,alt:"explore"}}  link=""  />

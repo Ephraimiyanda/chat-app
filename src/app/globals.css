@@ -67,16 +67,16 @@ height: 450px;
   left: 0;
   z-index: 0;
   height: 100vh;
+  overflow: hidden;
+  position: relative;
+  
 }
 .h-89{
   height: 100vh;
 }
-.home::-webkit-scrollbar{
-  width: 0px;
-}
 .message-input{
   bottom: 0;
-  position: sticky;
+  position: fixed;
 }
 .message-input input{
 height: 60px;
@@ -95,6 +95,25 @@ input{
 }
 .search-div{
   width: 88%;
+}
+::-webkit-scrollbar {
+  width: 4px; 
+  border-radius: 5px; 
+ 
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; 
+  border-radius: 5px; 
+}
+
+
+::-webkit-scrollbar-thumb:hover { 
+  background-color: #555; 
 }
 @media (max-width:1280px) {
   .search-div{

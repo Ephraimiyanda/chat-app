@@ -16,10 +16,10 @@ function Contacts({ onContactSelect }: ContactsProps) {
   };
 
   return (
-    <div className='h-screen overflow-auto pl-3 pr-1'>
+    <div className='h--[89] overflow-auto pl-3 pr-1 pb-16'>
       <ul>
         {contacts.map((contact) => (
-          <li key={contact.id} onClick={() => handleContactClick(contact.id)}>
+          <li className=' cursor-pointer' key={contact.id} onClick={() => handleContactClick(contact.id)}>
             {contact.name}
           </li>
         ))}

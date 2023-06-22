@@ -15,7 +15,7 @@ function Message({ contactId }: MessagesProps) {
 
   return (
     <div className='flex flex-col h-full'>
-      <div className='h-[90%]'>
+      <div className=''>
         <h2>Messages</h2>
           {filteredMessages.length === 0 ? (
           <p>No messages</p>
@@ -29,7 +29,7 @@ function Message({ contactId }: MessagesProps) {
           </ul>
          )}
       </div>
-      <div className=" message-input  w-full h-[10%]">
+      <div className=" message-input  w-full border-t bortder-stone-300">
         <input type="text" className=" w-full px-4 py-2" />
       </div>
     </div>

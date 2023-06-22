@@ -11,11 +11,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [will, setWill] = useState(false);
   return (
     <AppContext.Provider value={{ will }}>
-    <div>
+    <div className='fixed w-full'>
       <Navbar />
       <div className="main-content flex">
         <SideNavbar />
-        <div className="page-content w-full">
+        <div className="page-content w-full ">
           <Component {...pageProps} />
         </div>
       </div>

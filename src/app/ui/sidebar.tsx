@@ -33,7 +33,7 @@ const SideNavbar = () => {
   return (
     <div
       className="navbar bg-white absolute p-4 w-fit overflow-y-hidden h-full overflow-hidden sidebar pt-16 border-r border-b-stone-300 " >
-      <ul className="flex flex-col gap-8">
+      <ul className="flex flex-col sm:gap-8 gap-[6%]">
         <NavItem imgSrc={{src:Home,alt:"home"}} link='/'  />
         <NavItem imgSrc={{src:ProfileIcon,alt:"Message"}}  link="/profile"  />
         <NavItem imgSrc={{src:MessageIcon,alt:"chats"}} link="/chat" />

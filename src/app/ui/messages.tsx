@@ -4,7 +4,7 @@ import SearchBar from "./search components/search bar";
 import Link from "next/link";
 export default function Messages(){
     return(
-        <div className="h-high p-2 pt-1 bg-white rounded-2xl flex flex-col ">
+        <div className="h-high p-2 pt-1 bg-white rounded-2xl flex flex-col  ">
             <div className="flex justify-between mt-5 mb-5">
                 <h2 className="font-bold text-xl">Messages</h2>
                 <button className="text-light_grey">See all</button>

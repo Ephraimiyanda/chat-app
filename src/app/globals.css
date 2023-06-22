@@ -41,9 +41,7 @@ body,.searchbar,input{
   background: #F3F4F6;
 }
 
-.text-light-grey{
-  color: #BDBDBD;
-}
+
 .activity-text,.activity-time-text{
 font-family: Ubuntu;
 font-weight: 400;
@@ -96,27 +94,73 @@ input{
 .search-div{
   width: 88%;
 }
-::-webkit-scrollbar {
-  width: 4px; 
-  border-radius: 5px; 
- 
-}
 
+.home::-webkit-scrollbar,.activity::-webkit-scrollbar{
+  width: 4px;
+  background: #F3F4F6;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.activity:hover::-webkit-scrollbar-thumb,.home:hover ::-webkit-scrollbar-thumb{
+   background-color: #888; 
+  border-radius: 5px;  
+}
 ::-webkit-scrollbar-track {
-  background-color: #f1f1f1; 
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #888; 
-  border-radius: 5px; 
+  background-color: #F3F4F6; 
 }
 
 
-::-webkit-scrollbar-thumb:hover { 
-  background-color: #555; 
-}
 @media (max-width:1280px) {
   .search-div{
+    width: 100%;
+  }
+}
+@media (max-width:640px){
+  .sidebar{
+    width: 100%;
+    bottom:0 ;
+    left: 0;
+    z-index: 0;
+    height: fit-content;
+    padding-top: 10px;
+    overflow: hidden;
+    position: fixed;
+    border-top: 1px solid #F3F4F6;
+  }
+  .sidebar ul{
+
+    flex-direction: unset;
+    justify-content: space-around;
+  }
+  .searchbar{
+    display: none;
+  }
+  ::-webkit-scrollbar{
+    width: 0px;
+  }
+  .stories{
+    grid-column-start:1;
+  }
+  .home{
+    padding-right: 0px;
+    gap: 20px;
+  }
+
+  .home section{
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-bottom: 100px;
+    height: 100%;
+  }
+  .home section img{
+    border-radius: 0px;
+  }
+  .homepage{
+    margin-left: 0px;
+  }
+  .story-picture{
+    height: 100%;
     width: 100%;
   }
 }

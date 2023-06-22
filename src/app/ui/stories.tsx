@@ -9,7 +9,7 @@ export default function Stories(){
         <div className=" home overflow-y-auto flex flex-col gap-5 h-[89vh] ml-auto mr-auto pr-2  pb-14">
             <section className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full" >
                 <Image
-                className="rounded-lg "
+                className="story-picture rounded-lg "
                 src={baby}
                 alt="story picture"
                 />
@@ -52,7 +52,7 @@ export default function Stories(){
             </section>
             <section className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full" >
                 <Image
-                className="rounded-lg "
+                className="story-picture rounded-lg "
                 src={baby}
                 alt="story picture"
                 />
@@ -95,7 +95,7 @@ export default function Stories(){
             </section>
             <section className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full" >
                 <Image
-                className="rounded-lg "
+                className="story-picture rounded-lg "
                 src={baby}
                 alt="story picture"
                 />

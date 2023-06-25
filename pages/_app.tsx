@@ -1,16 +1,20 @@
 "use client"
 import type { AppProps } from 'next/app';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '@/app/ui/Navbar';
 import SideNavbar from '@/app/ui/sidebar';
 import "../src/app/globals.css"
 import { AppContext } from '../public/context/AppContext';
 import  { useState } from 'react';
+import useFetch from '../public/fetch/userfetch';
+
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const{user}=useFetch(`http://localhost:5000/users/0`);
   const [will, setWill] = useState(false);
+console.log(user)
   return (
-    <AppContext.Provider value={{ will }}>
+    <AppContext.Provider value={{ will,user }}>
     <div className='fixed w-full'>
       <Navbar />
       <div className="main-content flex">

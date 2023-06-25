@@ -95,21 +95,24 @@ input{
   width: 88%;
 }
 
-.home::-webkit-scrollbar,.activity::-webkit-scrollbar{
+.home::-webkit-scrollbar,.activity::-webkit-scrollbar,.i-post::-webkit-scrollbar{
   width: 4px;
   background: #F3F4F6;
   border: none;
   padding: 0;
   margin: 0;
 }
-.activity:hover::-webkit-scrollbar-thumb,.home:hover ::-webkit-scrollbar-thumb{
-   background-color: #888; 
+.i-post::-webkit-scrollbar-track{
+background: white;
+}
+.activity:hover::-webkit-scrollbar-thumb,.home:hover ::-webkit-scrollbar-thumb,.i-post:hover::-webkit-scrollbar-thumb{
+  background-color: #888; 
   border-radius: 5px;  
 }
 ::-webkit-scrollbar-track {
   background-color: #F3F4F6; 
 }
-
+ 
 
 @media (max-width:1280px) {
   .search-div{
@@ -181,7 +184,5 @@ input{
     height: 100%;
     width: 100%;
   }
-  .i-post {
-
-  }
+ 
 }

@@ -21,7 +21,7 @@ export default function Profile(){
                     <p><span className=" font-semibold">34</span> <Link href={""}>Following</Link> </p>
                 </div>
             </div>
-            <div className="i-post  pr-1 pl-1 grid grid-cols-4 grid-rows-[auto] gap-[3px]  overflow-y-auto sm:h-[50vh] h-[40vh]  ">
+            <div className="i-post  pl-1 grid grid-cols-4 grid-rows-[auto] gap-[3px]  overflow-y-auto  h-[40vh] sm:w-[80%]  ml-auto mr-auto">
                                 <Image
                     className="  ml-auto mr-auto w-full h-full "
                     src={ProfilePic}

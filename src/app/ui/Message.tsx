@@ -5,8 +5,29 @@ import { AppContext } from '../../../public/context/AppContext';
 interface MessagesProps {
   contactId: string;
 }
-
+interface Follower {
+  name: string;
+  id: string;
+  avatar:string;
+}
 function Message({ contactId }: MessagesProps) {
+  const{user}=useContext(AppContext);
+  const [followers, setFollowers] = useState<Follower[]>([]);
+
+  useEffect(() => {
+    if (user && user.followers) {
+      Promise.all(
+        user.followers.map((follower: Follower) =>
+          fetch(`http://localhost:5000/users/${follower.id}`)
+            .then(response => response.json())
+        )
+      )
+        .then((followerData: Follower[]) => {
+          setFollowers(prevFollowers => [...prevFollowers, ...followerData]);
+        })
+        .catch(error => console.log(error));
+    }
+  }, [user]);
 
   const messages = [
     { id: 1, sender: 'John', content: 'Hello' },

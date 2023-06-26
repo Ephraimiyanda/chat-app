@@ -1,11 +1,7 @@
 import React from 'react';
-import { useRouter } from 'next/router';
-import Chat from '@/app/ui/chat';
+import Chat from './index';
 
 function ChatPage() {
-  const router = useRouter();
-  const { contactId } = router.query;
-
   return <Chat/>;
 }
 

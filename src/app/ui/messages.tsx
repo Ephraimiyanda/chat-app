@@ -1,6 +1,5 @@
-import Image from "next/image";
+import Image, { ImageProps } from "next/image";
 import ProfilePic from "./images/profile-pic.png";
-import pic from ""
 import SearchBar from "./search components/search bar";
 import Link from "next/link";
 import { useContext, useState,useEffect} from "react"
@@ -12,7 +11,6 @@ interface Follower {
   }
 export default function Messages(){
     const{user}=useContext(AppContext);
-
     const [followers, setFollowers] = useState<Follower[]>([]);
 
     useEffect(() => {
@@ -44,7 +42,7 @@ export default function Messages(){
             </div>
 
             <div className="flex flex-col gap-2">
-                <div>
+            
                     { followers.map((follower,index)=>
                                 <div key={index} className="flex justify-between">
                                 <div className="flex gap-2">
@@ -56,14 +54,14 @@ export default function Messages(){
                                     height={27}
                                     />
                                     <div>
-                                    <h2 className=" font-semibold text-sm ">{follower.name}</h2>
+                                    <h2 className=" font-semibold text-sm "><Link href={`/chat/${follower.id}`}>{follower.name}</Link></h2>
                                     <div className="flex">  <p className="activity-time-text  ">About 20min ago </p></div>
                                     </div>
                                 </div>
                                 </div>
                     )}
                   
-                </div>
+             
             <div className="flex justify-between">
             <div className="flex gap-2">
                 <Image

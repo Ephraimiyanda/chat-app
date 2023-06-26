@@ -1,10 +1,13 @@
 import React from 'react';
+import { useContext,useState,useEffect } from 'react';
+import { AppContext } from '../../../public/context/AppContext';
 
 interface MessagesProps {
   contactId: string;
 }
 
 function Message({ contactId }: MessagesProps) {
+
   const messages = [
     { id: 1, sender: 'John', content: 'Hello' },
     { id: 2, sender: 'Me', content: 'Hi' },

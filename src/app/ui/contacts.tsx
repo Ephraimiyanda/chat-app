@@ -10,7 +10,7 @@ interface chatProps {
 }
 
 
-function Chats() {
+function Contacts() {
 
 
   const{user}=useContext(AppContext);
@@ -56,4 +56,4 @@ function Chats() {
   );
 }
 
-export default Chats;
+export default Contacts;

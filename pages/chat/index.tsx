@@ -6,7 +6,6 @@ import Message from '@/app/ui/Message';
 function Chat() {
   const router = useRouter();
   const { contactId } = router.query;
-
  
   return (
     <div className="chat-container ml-auto flex h-screen w-full">
@@ -19,7 +18,7 @@ function Chat() {
       </div>
       <div className="messages-container bg-white w-[100%] overflow-x-hidden">
         {contactId ? (
-          <Message contactId={contactId as string} />
+          <Message contactId={contactId as string}  />
         ) : (
           <p>Select a contact to start chatting</p>
         )}

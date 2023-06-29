@@ -12,7 +12,6 @@ import useFetch from '../public/fetch/userfetch';
 function MyApp({ Component, pageProps }: AppProps) {
   const{user}=useFetch(`http://localhost:5000/users/0`);
   const [will, setWill] = useState(false);
-console.log(user)
   return (
     <AppContext.Provider value={{ will,user }}>
     <div className='fixed w-full'>

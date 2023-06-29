@@ -1,36 +1,52 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../../../public/context/AppContext';
 
-interface MessagesProps {
-  sender: Number;
-  receiver:Number;
-  id: string;
-  content: string;
-  contactId: number; 
+interface ContactIdProps {
+  contactId: Number;
 }
 
-function Message({contactId}:MessagesProps) { 
+interface MessagesProps {
+  sender: number;
+  receiver: number;
+  id: string;
+  content: string;
+  timestamp: string;
+  contactId: number;
+}
+
+function Message({ contactId }: ContactIdProps) {
   const { user } = useContext(AppContext);
 
-  const filteredMessages = user.messages.filter(
+  const filteredMessages = user && user.messages.filter(
     (message: MessagesProps) =>
-      (message.sender === user.id && message.receiver === contactId) ||
-      (message.sender === contactId && message.receiver === user.id)
+      (message.sender === Number(contactId) && message.receiver === Number(user.id)) ||
+      (message.receiver === Number(contactId) && message.sender === Number(user.id))
   );
 
-  console.log(filteredMessages);
+  const sortedMessages = filteredMessages?.sort(
+    (a: MessagesProps, b: MessagesProps) => {
+      const timeA = new Date(a.timestamp).getTime();
+      const timeB = new Date(b.timestamp).getTime();
+      return timeA - timeB; 
+    }
+  );
 
   return (
     <div className="flex flex-col h-full">
       <div>
-        <h2>Messages</h2>
-        {filteredMessages.length === 0 ? (
+        {sortedMessages && sortedMessages.length === 0 ? (
           <p>No messages</p>
         ) : (
-          <ul>
-            {filteredMessages.map((message: MessagesProps) => (
-              <li key={message.id}>
-                <p>{message.content}</p>
+          <ul className='pl-3 pr-3'>
+            {sortedMessages?.map((message: MessagesProps) => (
+              <li key={message.id} className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit flex ${
+                message.sender === user.id ? 'bg-green-300 ml-auto' : 'bg-red-300'
+              }`}>
+                <p>
+                  {message.content}
+                 
+                </p>
+                <span className=' text-xs ml-auto mt-auto pl-3'>{new Date(message.timestamp).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}).toLocaleLowerCase()}</span>
               </li>
             ))}
           </ul>

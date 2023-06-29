@@ -4,6 +4,7 @@ import SearchBar from "./search components/search bar";
 import Link from "next/link";
 import { useContext, useState,useEffect} from "react"
 import { AppContext } from "../../../public/context/AppContext";
+import ContactProps from "./contactProps";
 interface Follower {
     name: string;
     id: string;
@@ -44,21 +45,11 @@ export default function Messages(){
             <div className="flex flex-col gap-2">
             
                     { followers.map((follower,index)=>
-                                <div key={index} className="flex justify-between">
-                                <div className="flex gap-2">
-                                    <Image
-                                    className="profile-pic"
-                                    src={follower.avatar}
-                                    alt="picture"
-                                    width={27}
-                                    height={27}
-                                    />
-                                    <div>
-                                    <h2 className=" font-semibold text-sm "><Link href={`/chat/${follower.id}`}>{follower.name}</Link></h2>
-                                    <div className="flex">  <p className="activity-time-text  ">About 20min ago </p></div>
-                                    </div>
-                                </div>
-                                </div>
+                      <div key={index} className="flex justify-between">
+                      <div className="flex gap-2">
+                      <Link href={`/chat/${follower.id}`} ><ContactProps contactAvatar={follower.avatar} conatctId={follower.id} contactName={follower.name}/></Link>
+                      </div>
+                      </div>
                     )}
                   
              

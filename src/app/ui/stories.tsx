@@ -1,85 +1,141 @@
-import Image from "next/image";
-import { useEffect, useState, useContext } from "react";
-import { AppContext } from "../../../public/context/AppContext";
-import baby from "./images/Jonathan_Kent_Arrow_Earth-38_0001.png";
-import share from "./images/share.png";
-import comment from "./images/comment.png";
-import like from "./images/like.png";
-import bookmark from "./images/bookmark.png";
-import Cookies from "js-cookie";
+import Image from "next/image"
+import baby from "./images/Jonathan_Kent_Arrow_Earth-38_0001.png"
+import share from "./images/share.png"
+import comment from "./images/comment.png"
+import like from "./images/like.png"
+import bookmark from "./images/bookmark.png"
+export default function Stories(){
+    return(
+        <div className=" home overflow-y-auto flex flex-col gap-5 h-[89vh] ml-auto mr-auto md:pl-2 md:pr-2 lg:pl-0  pb-14">
+            <section className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full" >
+                <Image
+                className="story-picture rounded-lg "
+                src={baby}
+                alt="story picture"
+                />
+              <div className="flex justify-between mt-2">
+              <div className="flex gap-2 ">
+                    <button className=" p-2">
+                    <Image
+                    className="w-5"
+                    src={like}
+                    alt="like"
+                    />
+                    </button>
 
-interface User {
-  id: number;
-  name: string;
-  dateJoined: string;
-  email: string;
-  phoneNumber: string;
-  posts: {
-    id: string;
-    content: string;
-    timestamp: string;
-  }[];
-  followers: {
-    id: number;
-    name: string;
-    posts: {
-      id: string;
-      content: string;
-      timestamp: string;
-    }[];
-  }[];
-  following: {
-    id: number;
-    name: string;
-  }[];
-  savedPosts: {
-    id: number;
-    content: string;
-    timestamp: string;
-  }[];
-  messages: {
-    id: number;
-    content: string;
-    sender: number;
-    receiver: number;
-    timestamp: string;
-  }[];
-}
+                   <button className=" p-2">
+                   <Image
+                   className="w-5"
+                    src={comment}
+                    alt="comment"
+                    />
+                   </button>
 
-export default function Stories() {
-  const { user } = useContext(AppContext);
+                    <button className=" p-2">
+                    <Image
+                    className="w-5"
+                    src={share}
+                    alt="share"
+                    />
+                    </button>
 
-  if (!user || !user.followers) {
-    return <div>Loading user data...</div>;
-  }
+                </div>
+                <button className=" p-2">
+                    <Image
+                    className="w-4"
+                    src={bookmark}
+                    alt="bookmark"
+                    />
+                </button>
+              </div>
 
-  const sortedFollowers = user.followers.sort((a: any, b: any) => {
-    const latestPostA = a.posts.reduce(
-      (latest: string, post: { timestamp: string }) =>
-        post.timestamp > latest ? post.timestamp : latest,
-      ""
-    );
-    const latestPostB = b.posts.reduce(
-      (latest: string, post: { timestamp: string }) =>
-        post.timestamp > latest ? post.timestamp : latest,
-      ""
-    );
-    return latestPostB.localeCompare(latestPostA);
-  });
+            </section>
+            <section className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full" >
+                <Image
+                className="story-picture rounded-lg "
+                src={baby}
+                alt="story picture"
+                />
+              <div className="flex justify-between mt-2">
+              <div className="flex gap-2 ">
+                    <button className=" p-2">
+                    <Image
+                    className="w-5"
+                    src={like}
+                    alt="like"
+                    />
+                    </button>
 
-  return (
-    <div className="home overflow-y-auto flex flex-col gap-5 h-[89vh] ml-auto mr-auto md:pl-2 md:pr-2 lg:pl-0 pb-14">
-      {sortedFollowers.map((follower: any) => (
-        <section key={follower.id} className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full">
-          <div>{follower.name}</div>
-          {follower.posts.map((post: any) => (
-            <div key={post.id}>
-              <p>{post.content}</p>
-              <p>{post.timestamp}</p>
-            </div>
-          ))}
-        </section>
-      ))}
-    </div>
-  );
+                   <button className=" p-2">
+                   <Image
+                   className="w-5"
+                    src={comment}
+                    alt="comment"
+                    />
+                   </button>
+
+                    <button className=" p-2">
+                    <Image
+                    className="w-5"
+                    src={share}
+                    alt="share"
+                    />
+                    </button>
+
+                </div>
+                <button className=" p-2">
+                    <Image
+                    className="w-4"
+                    src={bookmark}
+                    alt="bookmark"
+                    />
+                </button>
+              </div>
+
+            </section>
+            <section className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full" >
+                <Image
+                className="story-picture rounded-lg "
+                src={baby}
+                alt="story picture"
+                />
+              <div className="flex justify-between mt-2">
+              <div className="flex gap-2 ">
+                    <button className=" p-2">
+                    <Image
+                    className="w-5"
+                    src={like}
+                    alt="like"
+                    />
+                    </button>
+
+                   <button className=" p-2">
+                   <Image
+                   className="w-5"
+                    src={comment}
+                    alt="comment"
+                    />
+                   </button>
+
+                    <button className=" p-2">
+                    <Image
+                    className="w-5"
+                    src={share}
+                    alt="share"
+                    />
+                    </button>
+
+                </div>
+                <button className=" p-2">
+                    <Image
+                    className="w-4"
+                    src={bookmark}
+                    alt="bookmark"
+                    />
+                </button>
+              </div>
+
+            </section>
+        </div>
+    )
 }

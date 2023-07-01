@@ -17,7 +17,7 @@ export default function ContactProps({contactAvatar,conatctId,contactName}:Conta
         height={27}
         />
         <div>
-        <h2 className=" font-semibold text-sm "><Link href={`/chat/${conatctId}`}>{contactName}</Link></h2>
+        <h2 className=" font-semibold text-sm ">{contactName}</h2>
         <div className="flex">  <p className="activity-time-text  ">About 20min ago </p></div>
         </div>
     </div>

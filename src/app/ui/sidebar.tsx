@@ -37,7 +37,7 @@ const SideNavbar = () => {
         <NavItem imgSrc={{src:Home,alt:"home"}} link='/'  />
         <NavItem imgSrc={{src:ProfileIcon,alt:"Message"}}  link="/profile"  />
         <NavItem imgSrc={{src:MessageIcon,alt:"chats"}} link="/chat" />
-        <NavItem imgSrc={{src:VideoIcon,alt:"media"}}  link=""  />
+        <NavItem imgSrc={{src:VideoIcon,alt:"media"}}  link="/videoPlayer"  />
         <NavItem imgSrc={{src:Explore,alt:"explore"}}  link=""  />
         <NavItem imgSrc={{src:NotificationIcon,alt:"notifications"}}  link=""  />
         <NavItem imgSrc={{src:SettingsIcon,alt:"settings"}}  link=""  />

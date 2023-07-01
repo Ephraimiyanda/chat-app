@@ -1,27 +1,26 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
 const VideoPlayer = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
-  const progressBarRef = useRef<HTMLDivElement>(null);
-  const toggleButtonRef = useRef<HTMLButtonElement>(null);
-  const skipButtonsRef = useRef<NodeListOf<HTMLButtonElement> | null>(null);
-  const volumeRangeRef = useRef<HTMLInputElement>(null);
-  const playbackRateRangeRef = useRef<HTMLInputElement>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const rangeRef = useRef<HTMLInputElement | null>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
+  const volumeRangeRef = useRef<HTMLInputElement | null>(null);
+  const playbackRateRangeRef = useRef<HTMLSelectElement | null>(null);
   const mousedownRef = useRef(false);
+
+  const [playbackRateOptions] = useState([0.5, 1, 1.5, 2]);
 
   useEffect(() => {
     const video = videoRef.current;
-    const progress = progressRef.current;
-    const progressBar = progressBarRef.current;
+    const range = rangeRef.current;
     const toggleButton = toggleButtonRef.current;
-    const skipButtons = skipButtonsRef.current;
     const volumeRange = volumeRangeRef.current;
     const playbackRateRange = playbackRateRangeRef.current;
 
-    if (!video || !progress || !progressBar || !toggleButton || !skipButtons || !volumeRange || !playbackRateRange) {
+    if (!video || !range || !toggleButton || !volumeRange || !playbackRateRange) {
       return;
     }
-
+ 
     const togglePlay = () => {
       const method = video.paused ? 'play' : 'pause';
       video[method]();
@@ -30,11 +29,6 @@ const VideoPlayer = () => {
     const updateButton = () => {
       const icon = video.paused ? '►' : '❚ ❚';
       toggleButton.textContent = icon;
-    };
-
-    const skip = (e: MouseEvent) => {
-      const skipValue = parseFloat((e.target as HTMLButtonElement).dataset.skip!);
-      video.currentTime += skipValue;
     };
 
     const handleVolumeChange = () => {
@@ -47,11 +41,11 @@ const VideoPlayer = () => {
 
     const handleProgress = () => {
       const percent = (video.currentTime / video.duration) * 100;
-      progressBar.style.flexBasis = `${percent}%`;
+      range.value = String(percent);
     };
 
-    const scrub = (e: MouseEvent) => {
-      const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
+    const handleRangeChange = () => {
+      const scrubTime = (parseFloat(range.value) / 100) * video.duration;
       video.currentTime = scrubTime;
     };
 
@@ -61,16 +55,12 @@ const VideoPlayer = () => {
     video.addEventListener('timeupdate', handleProgress);
 
     toggleButton.addEventListener('click', togglePlay);
-    skipButtons.forEach((button) =>
-      button.addEventListener('click', skip)
-    );
     volumeRange.addEventListener('input', handleVolumeChange);
     playbackRateRange.addEventListener('input', handlePlaybackRateChange);
 
-    progress.addEventListener('click', scrub);
-    progress.addEventListener('mousemove', (e) => mousedownRef.current && scrub(e));
-    progress.addEventListener('mousedown', () => (mousedownRef.current = true));
-    progress.addEventListener('mouseup', () => (mousedownRef.current = false));
+    range.addEventListener('input', handleRangeChange);
+    range.addEventListener('mousedown', () => (mousedownRef.current = true));
+    range.addEventListener('mouseup', () => (mousedownRef.current = false));
 
     return () => {
       video.removeEventListener('click', togglePlay);
@@ -79,58 +69,67 @@ const VideoPlayer = () => {
       video.removeEventListener('timeupdate', handleProgress);
 
       toggleButton.removeEventListener('click', togglePlay);
-      skipButtons.forEach((button) =>
-        button.removeEventListener('click', skip)
-      );
       volumeRange.removeEventListener('input', handleVolumeChange);
       playbackRateRange.removeEventListener('input', handlePlaybackRateChange);
 
-      progress.removeEventListener('click', scrub);
-      progress.removeEventListener('mousemove', (e) => mousedownRef.current && scrub(e));
-      progress.removeEventListener('mousedown', () => (mousedownRef.current = true));
-      progress.removeEventListener('mouseup', () => (mousedownRef.current = false));
+      range.removeEventListener('input', handleRangeChange);
+      range.removeEventListener('mousedown', () => (mousedownRef.current = true));
+      range.removeEventListener('mouseup', () => (mousedownRef.current = false));
     };
   }, []);
 
   return (
-    <div className="player">
-      <video className="player__video viewer" ref={videoRef}>
-        <source src="../../src/app/ui/images/652333414.mp4" type="video/mp4" />
-      </video>
+    <div className="player w-fit ml-auto mr-auto h-full flex">
+      <div className='h-fit m-auto'>
+      <video className="player__video viewer" ref={videoRef} src="/652333414.mp4" autoPlay loop />
 
-      <div className="player__controls">
-        <div ref={progressRef} className="progress">
-          <div ref={progressBarRef} className="progress__filled"></div>
-        </div>
-        <button ref={toggleButtonRef} className="player__button toggle" title="Toggle Play">
-          ►
-        </button>
-        <input
-          type="range"
-          name="volume"
-          className="player__slider"
-          min="0"
-          max="1"
-          step="0.05"
-          defaultValue="1"
-          ref={volumeRangeRef}
-        />
-        <input
-          type="range"
-          name="playbackRate"
-          className="player__slider"
-          min="0.5"
-          max="2"
-          step="0.1"
-          defaultValue="1"
-          ref={playbackRateRangeRef}
-        />
-        <button data-skip="-10" className="player__button">
-          « 10s
-        </button>
-        <button data-skip="25" className="player__button">
-          25s »
-        </button>
+<div className="player__controls">
+<div className='flex w-full '>
+<button ref={toggleButtonRef} className="w-[3%]" title="Toggle Play">
+❚ ❚
+  </button>
+
+    <input
+      type="range"
+      className="w-[98%] cursor-pointer"
+      min="0"
+      max="100"
+      step="0.01"
+      defaultValue="0"
+      ref={rangeRef}
+    />
+
+</div>
+  <div className="volume">
+    <label htmlFor="volume">Volume:</label>
+    <input
+      type="range"
+      name="volume"
+      className="cursor-pointer"
+      min="0"
+      max="1"
+      step="0.05"
+      defaultValue="0.3"
+      ref={volumeRangeRef}
+    />
+  </div>
+
+  <div className="playback-rate">
+    <label htmlFor="playbackRate">Playback Speed:</label>
+    <select
+      name="playbackRate"
+      className="player__select"
+      defaultValue="1"
+      ref={playbackRateRangeRef}
+    >
+      {playbackRateOptions.map((option) => (
+        <option key={option} value={option}>
+          {option}x
+        </option>
+      ))}
+    </select>
+  </div>
+</div>
       </div>
     </div>
   );

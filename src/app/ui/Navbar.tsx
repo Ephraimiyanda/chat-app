@@ -3,7 +3,7 @@ import Image from "next/image"
 import add from "./images/add.png"
 import video from "./images/videocall.png"
 import ProfilePic from "./images/profile-pic.png"
-import Icon from "./images/batman.webp"
+import Icon from "./images/81910ddd-d139-4abc-89a6-a71f64701a26.svg"
 export default function Navbar(){
     return(
         <div className=" grid grid-cols-11 align-middle sm:pt-4 bg-white pb-4  pl-3 pr-3 ml-auto top-0  bottom-0 border-b border-b-stone-300 sm:h-fit h-[55px] pt-[4px]">

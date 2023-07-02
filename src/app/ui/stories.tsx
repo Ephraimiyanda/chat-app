@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../../../public/context/AppContext";
-import baby from "./images/Jonathan_Kent_Arrow_Earth-38_0001.png";
 import share from "./images/share.png";
 import comment from "./images/comment.png";
 import like from "./images/like.png";
 import bookmark from "./images/bookmark.png";
 import ContactProps from "./contactProps";
+
 interface Follower {
   timestamp: string | number | Date;
   name: string;
@@ -16,7 +16,7 @@ interface Follower {
     id: string;
     content: string;
     timestamp: string;
-    text:string;
+    text: string;
   }[];
 }
 
@@ -26,6 +26,8 @@ export default function Stories() {
   const [currentPostIndexes, setCurrentPostIndexes] = useState<{
     [followerId: string]: number;
   }>({});
+  const [activeFollowerIndex, setActiveFollowerIndex] = useState(0);
+  const [activePostIndex, setActivePostIndex] = useState(0);
 
   useEffect(() => {
     if (user && user.followers) {
@@ -68,8 +70,8 @@ export default function Stories() {
 
   return (
     <div className="home overflow-y-auto flex flex-col gap-5 h-[89vh] ml-auto mr-auto md:pl-2 md:pr-2 lg:pl-0 pb-14">
-      {sortedFollowers.map((follower: Follower) => {
-        const { id, name, posts,avatar } = follower;
+      {sortedFollowers.map((follower: Follower, index) => {
+        const { id, name, posts, avatar } = follower;
         const currentPostIndex = currentPostIndexes[id] || 0;
         const sortedPosts = posts.sort((a, b) => {
           const timeA = new Date(a.timestamp).getTime();
@@ -82,59 +84,89 @@ export default function Stories() {
         return (
           <section
             key={id}
-            className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full"
+            className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full relative"
           >
-            
-            {sortedPosts.map((post, index) => (
-              <div
-                key={post.id}
-                style={{
-                  display: index === currentPostIndex ? "block" : "none",
-                }}
-              >
-                <section className="pl-1 pr-1 pt-2 rounded-lg bg-white w-full ">
-                <div className="pb-2"><ContactProps contactAvatar={avatar} contactName={name} contactText={`About ${new Date(post.timestamp).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}).toLocaleLowerCase()} ${new Date(post.timestamp).toLocaleDateString()===new Date().toLocaleDateString()?"today":`on ${new Date(post.timestamp).toLocaleDateString()}`}`}/></div>
-                  <Image
-                    className="story-picture rounded-lg "
-                    src={post.content}
-                    alt="story picture"
-                    width={550}
-                    height={360}
+              <div className="pb-2">
+                  <ContactProps
+                    contactAvatar={avatar}
+                    contactName={name}
+                    contactText={`About ${new Date(
+                      sortedPosts[currentPostIndex].timestamp
+                    ).toLocaleTimeString([], {
+                      hour: "numeric",
+                      minute: "2-digit",
+                    }).toLocaleLowerCase()} ${
+                      new Date(sortedPosts[currentPostIndex].timestamp).toLocaleDateString() ===
+                      new Date().toLocaleDateString()
+                        ? "today"
+                        : `on ${new Date(sortedPosts[currentPostIndex].timestamp).toLocaleDateString()}`
+                    }`}
                   />
-                  <div className="flex justify-between mt-2">
-                    <div className="flex gap-2 ">
-                      <button className=" p-2">
-                        <Image className="w-5" src={like} alt="like" />
-                      </button>
-
-                      <button className=" p-2">
-                        <Image className="w-5" src={comment} alt="comment" />
-                      </button>
-
-                      <button className=" p-2">
-                        <Image className="w-5" src={share} alt="share" />
-                      </button>
-                    </div>
-                    <button className=" p-2">
-                      <Image className="w-4" src={bookmark} alt="bookmark" />
-                    </button>
-                  </div>
-                  <div>{post.text}</div>
-                </section>
-                
+                </div>
+            <div
+              className="story-picture rounded-lg relative"
+              onMouseEnter={() => setActiveFollowerIndex(index)}
+              onMouseLeave={() => setActiveFollowerIndex(-1)}
+            >
+              <Image
+                src={sortedPosts[currentPostIndex].content}
+                className=" rounded-lg"
+                alt="story picture"
+                width={550}
+                height={360}
+              />
+              <div className="flex w-fit m-auto -mt-5 ">
+                {sortedPosts.length>1?sortedPosts.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`w-2 h-2 mx-1 rounded-full ${
+                      index === currentPostIndex ? "bg-white" : "bg-gray-300"
+                    }`}
+                  ></div>
+                )):<div className="mt-2"></div>}
               </div>
-            ))}
-
-            <div>
-              {!isFirstPost && (
-                <button onClick={() => handlePrevPost(id)}>
-                  Previous Post
-                </button>
-              )}
-              {!isLastPost && (
-                <button onClick={() => handleNextPost(id)}>Next Post</button>
+              {activeFollowerIndex === index && (
+                <>
+                  {!isFirstPost && (
+                    <button
+                      onClick={() => handlePrevPost(id)}
+                      className="p-2 absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full z-10"
+                    >
+                      ‹
+                    </button>
+                  )}
+                  {!isLastPost && (
+                    <button
+                      onClick={() => handleNextPost(id)}
+                      className="p-2 absolute top-1/2 right-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full z-10"
+                    >
+                      ›
+                    </button>
+                  )}
+                </>
               )}
             </div>
+            <div className="flex justify-between mt-2">
+              <div className="flex gap-2 ">
+                <button className="p-2">
+                  <Image className="w-5" src={like} alt="like" />
+                </button>
+
+                <button className="p-2">
+                  <Image className="w-5" src={comment} alt="comment" />
+                </button>
+
+                <button className="p-2">
+                  <Image className="w-5" src={share} alt="share" />
+                </button>
+              </div>
+              <button className="p-2">
+                <Image className="w-4" src={bookmark} alt="bookmark" />
+              </button>
+            </div>
+            <div>{sortedPosts[currentPostIndex].text}</div>
+
+            <div className="flex justify-center mt-2  bottom-4 w-full"></div>
           </section>
         );
       })}

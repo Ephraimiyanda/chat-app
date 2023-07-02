@@ -43,7 +43,7 @@ function Contacts() {
       <ul className='pt-4 flex flex-col gap-2 pb-10'>
         {chats.map((chat) => (
           <Link href={`/chat/${chat.id}`} key={chat.id} className=' hover:bg-stone-200 pl-3 pr-1  pt-2 pb-2'> 
-          <ContactProps contactAvatar={chat.avatar} conatctId={chat.id} contactName={chat.name}/>
+          <ContactProps contactAvatar={chat.avatar} contactText={'About 20min ago' }contactName={chat.name}/>
           </Link>
         
         ))}

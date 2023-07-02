@@ -6,7 +6,7 @@ import share from "./images/share.png";
 import comment from "./images/comment.png";
 import like from "./images/like.png";
 import bookmark from "./images/bookmark.png";
-
+import ContactProps from "./contactProps";
 interface Follower {
   timestamp: string | number | Date;
   name: string;
@@ -69,7 +69,7 @@ export default function Stories() {
   return (
     <div className="home overflow-y-auto flex flex-col gap-5 h-[89vh] ml-auto mr-auto md:pl-2 md:pr-2 lg:pl-0 pb-14">
       {sortedFollowers.map((follower: Follower) => {
-        const { id, name, posts } = follower;
+        const { id, name, posts,avatar } = follower;
         const currentPostIndex = currentPostIndexes[id] || 0;
         const sortedPosts = posts.sort((a, b) => {
           const timeA = new Date(a.timestamp).getTime();
@@ -92,14 +92,14 @@ export default function Stories() {
                   display: index === currentPostIndex ? "block" : "none",
                 }}
               >
-                <section className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full">
-                <h3>{name}</h3>
+                <section className="pl-1 pr-1 pt-2 rounded-lg bg-white w-full">
+                <div className="pb-2"><ContactProps contactAvatar={avatar} contactName={name} contactText={`About ${new Date(post.timestamp).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}).toLocaleLowerCase()}`}/></div>
                   <Image
                     className="story-picture rounded-lg "
                     src={post.content}
                     alt="story picture"
-                    width={100}
-                    height={100}
+                    width={550}
+                    height={360}
                   />
                   <div className="flex justify-between mt-2">
                     <div className="flex gap-2 ">

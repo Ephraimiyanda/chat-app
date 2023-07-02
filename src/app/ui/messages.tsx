@@ -47,7 +47,7 @@ export default function Messages(){
                     { followers.map((follower,index)=>
                       <div key={index} className="flex justify-between">
                       <div className="flex gap-2">
-                      <Link href={`/chat/${follower.id}`} ><ContactProps contactAvatar={follower.avatar} conatctId={follower.id} contactName={follower.name}/></Link>
+                      <Link href={`/chat/${follower.id}`} ><ContactProps contactAvatar={follower.avatar} contactText={"About 20min ago"} contactName={follower.name}/></Link>
                       </div>
                       </div>
                     )}

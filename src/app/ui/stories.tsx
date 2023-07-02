@@ -27,7 +27,6 @@ export default function Stories() {
     [followerId: string]: number;
   }>({});
   const [activeFollowerIndex, setActiveFollowerIndex] = useState(0);
-  const [activePostIndex, setActivePostIndex] = useState(0);
 
   useEffect(() => {
     if (user && user.followers) {
@@ -120,7 +119,7 @@ export default function Stories() {
                   <div
                     key={index}
                     className={`w-2 h-2 mx-1 rounded-full ${
-                      index === currentPostIndex ? "bg-white" : "bg-gray-300"
+                      index === currentPostIndex ? "bg-white" : "bg-stone-300"
                     }`}
                   ></div>
                 )):<div className="mt-2"></div>}

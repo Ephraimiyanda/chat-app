@@ -92,8 +92,8 @@ export default function Stories() {
                   display: index === currentPostIndex ? "block" : "none",
                 }}
               >
-                <section className="pl-1 pr-1 pt-2 rounded-lg bg-white w-full">
-                <div className="pb-2"><ContactProps contactAvatar={avatar} contactName={name} contactText={`About ${new Date(post.timestamp).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}).toLocaleLowerCase()}`}/></div>
+                <section className="pl-1 pr-1 pt-2 rounded-lg bg-white w-full ">
+                <div className="pb-2"><ContactProps contactAvatar={avatar} contactName={name} contactText={`About ${new Date(post.timestamp).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}).toLocaleLowerCase()} ${new Date(post.timestamp).toLocaleDateString()===new Date().toLocaleDateString()?"today":`on ${new Date(post.timestamp).toLocaleDateString()}`}`}/></div>
                   <Image
                     className="story-picture rounded-lg "
                     src={post.content}

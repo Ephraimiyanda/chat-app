@@ -6,9 +6,9 @@ const VideoPlayer = () => {
   const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
   const volumeRangeRef = useRef<HTMLInputElement | null>(null);
   const playbackRateRangeRef = useRef<HTMLSelectElement | null>(null);
-  const mousedownRef = useRef(false);
-
+  const [controlsVisible, setControlsVisible] = useState(false);
   const [playbackRateOptions] = useState([0.5, 1, 1.5, 2]);
+  const [lastInteractionTime, setLastInteractionTime] = useState<number>(0);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -20,7 +20,7 @@ const VideoPlayer = () => {
     if (!video || !range || !toggleButton || !volumeRange || !playbackRateRange) {
       return;
     }
- 
+
     const togglePlay = () => {
       const method = video.paused ? 'play' : 'pause';
       video[method]();
@@ -59,8 +59,6 @@ const VideoPlayer = () => {
     playbackRateRange.addEventListener('input', handlePlaybackRateChange);
 
     range.addEventListener('input', handleRangeChange);
-    range.addEventListener('mousedown', () => (mousedownRef.current = true));
-    range.addEventListener('mouseup', () => (mousedownRef.current = false));
 
     return () => {
       video.removeEventListener('play', updateButton);
@@ -72,65 +70,93 @@ const VideoPlayer = () => {
       playbackRateRange.removeEventListener('input', handlePlaybackRateChange);
 
       range.removeEventListener('input', handleRangeChange);
-      range.removeEventListener('mousedown', () => (mousedownRef.current = true));
-      range.removeEventListener('mouseup', () => (mousedownRef.current = false));
     };
   }, []);
 
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const currentTime = Date.now();
+      if (currentTime - lastInteractionTime > 3000) {
+        setControlsVisible(false);
+      }
+    }, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [lastInteractionTime]);
+
+  const handleMouseEnter = () => {
+    setControlsVisible(true);
+    setLastInteractionTime(Date.now());
+  };
+
+  const handleMouseLeave = () => {
+    setLastInteractionTime(Date.now());
+  };
+
   return (
-    <div className="player w-fit ml-auto mr-auto h-full flex">
-      <div className='h-fit m-auto'>
+    <div className="player w-full h-full relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <video className="player__video viewer" ref={videoRef} src="/652333414.mp4" autoPlay loop />
 
-<div className="player__controls h-full -mt-16 w-full relative">
-<div className="flex -rotate-90 w-fit h-full  float-right -mt-20">
-   
-   <label htmlFor="volume" className='w-fit rotate-90 m-0'>🔊</label>
-    <input
-      type="range"
-      name="volume"
-      className="cursor-pointer  w-28 "
-      min="0"
-      max="1"
-      step="0.05"
-      defaultValue="0.3"
-      ref={volumeRangeRef}
-    />
-  </div>
+      <div
+        className={`player__controls absolute bottom-0 left-0 w-full ${
+          controlsVisible ? 'opacity-100' : 'opacity-0'
+        } transition-opacity duration-300 ease-in-out`}
+      >
+        <div className="flex justify-end mb-2 mr-2">
+          <div className="playback-rate">
+            <select
+              className="bg-slate-800 text-white p-1 rounded-md"
+              defaultValue="1"
+              ref={playbackRateRangeRef}
+            >
+              {playbackRateOptions.map((option) => (
+                <option key={option} value={option} className="text-white p-1 w-3">
+                  {option}x
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
 
-  <div className="playback-rate">
-    <label htmlFor="playbackRate">Playback Speed:</label>
-    <select
-      name="playbackRate"
-      className="player__select"
-      defaultValue="1"
-      ref={playbackRateRangeRef}
-    >
-      {playbackRateOptions.map((option) => (
-        <option key={option} value={option}>
-          {option}x
-        </option>
-      ))}
-    </select>
-  </div>
-<div className='flex w-full '>
-<button ref={toggleButtonRef} className="w-[20px] text-white" title="Toggle Play">
-❚ ❚
-  </button>
+        <div className="flex">
+          <button
+            ref={toggleButtonRef}
+            className="w-[20px] text-white"
+            title="Toggle Play"
+          >
+            ❚ ❚
+          </button>
 
-    <input
-      type="range"
-      className="w-[98%] cursor-pointer"
-      min="0"
-      max="100"
-      step="0.01"
-      defaultValue="0"
-      ref={rangeRef}
-    />
+          <input
+            type="range"
+            className="w-[98%] cursor-pointer"
+            min="0"
+            max="100"
+            step="0.01"
+            defaultValue="0"
+            ref={rangeRef}
+          />
+        </div>
 
-</div>
-  
-</div>
+        <div className="flex">
+          <div className="-rotate-90 flex">
+            <label htmlFor="volume" className="w-fit rotate-90 m-0">
+              🔊
+            </label>
+            <input
+              type="range"
+              name="volume"
+              className="cursor-pointer w-28"
+              min="0"
+              max="1"
+              step="0.05"
+              defaultValue="0.3"
+              ref={volumeRangeRef}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

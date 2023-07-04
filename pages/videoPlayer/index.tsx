@@ -63,7 +63,6 @@ const VideoPlayer = () => {
     range.addEventListener('mouseup', () => (mousedownRef.current = false));
 
     return () => {
-      video.removeEventListener('click', togglePlay);
       video.removeEventListener('play', updateButton);
       video.removeEventListener('pause', updateButton);
       video.removeEventListener('timeupdate', handleProgress);
@@ -83,29 +82,14 @@ const VideoPlayer = () => {
       <div className='h-fit m-auto'>
       <video className="player__video viewer" ref={videoRef} src="/652333414.mp4" autoPlay loop />
 
-<div className="player__controls">
-<div className='flex w-full '>
-<button ref={toggleButtonRef} className="w-[3%]" title="Toggle Play">
-❚ ❚
-  </button>
-
-    <input
-      type="range"
-      className="w-[98%] cursor-pointer"
-      min="0"
-      max="100"
-      step="0.01"
-      defaultValue="0"
-      ref={rangeRef}
-    />
-
-</div>
-  <div className="volume">
-    <label htmlFor="volume">Volume:</label>
+<div className="player__controls h-full -mt-16 w-full relative">
+<div className="flex -rotate-90 w-fit h-full  float-right -mt-20">
+   
+   <label htmlFor="volume" className='w-fit rotate-90 m-0'>🔊</label>
     <input
       type="range"
       name="volume"
-      className="cursor-pointer"
+      className="cursor-pointer  w-28 "
       min="0"
       max="1"
       step="0.05"
@@ -129,6 +113,23 @@ const VideoPlayer = () => {
       ))}
     </select>
   </div>
+<div className='flex w-full '>
+<button ref={toggleButtonRef} className="w-[20px] text-white" title="Toggle Play">
+❚ ❚
+  </button>
+
+    <input
+      type="range"
+      className="w-[98%] cursor-pointer"
+      min="0"
+      max="100"
+      step="0.01"
+      defaultValue="0"
+      ref={rangeRef}
+    />
+
+</div>
+  
 </div>
       </div>
     </div>

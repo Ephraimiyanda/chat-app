@@ -184,18 +184,15 @@ input[type=range]:focus{
   }
 
   .home section{
-    padding-right: 0px;
-    padding-left: 0px;
-    padding-bottom: 100px;
+    padding-right: 2px;
+    padding-left: 2px;
+    padding-bottom: 20px;
     height: 100%;
   }
 
   .homepage{
     margin-left: 0px;
   }
-  .story-picture{
-    height: 100%;
-    width: 100%;
-  }
+ 
  
 }

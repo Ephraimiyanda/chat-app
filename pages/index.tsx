@@ -6,7 +6,7 @@ import Messages from "../src/app/ui/messages"
 
 export default function Homepage(){
     return(
-        <div className="homepage sm:pr-3 grid grid-cols-10 gap-7 pt-2 -ml-[69px] overflow-y-auto sm:h-screen h-[87.5vh]">
+        <div className="homepage sm:pr-3 grid grid-cols-10 gap-7 pt-2 -ml-[69px] overflow-y-auto sm:h-[102vh] h-[87.5vh]">
         <div className="col-span-2 col-start-2 h-screen overflow-y-auto hidden sm:hidden xl:grid">
           <SideCard />
         </div>

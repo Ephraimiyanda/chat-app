@@ -113,10 +113,11 @@ background: white;
   background-color: #F3F4F6; 
 }
 input[type="range"]{
-  height: 3px;
+  height: 4px;
   margin: 10px;
   padding: 0;
-  color: -internal-light-dark(rgb(104, 115, 189), rgb(255, 255, 255))
+  accent-color: white;  
+  border-width: 0px;
 }
 input[type=range]::-webkit-slider-thumb {
   height: 15px;
@@ -126,8 +127,12 @@ input[type=range]::-webkit-slider-thumb {
   cursor: pointer;
   -webkit-appearance: none;
 }
+input[type="range"]::-webkit-slider-runnable-track{
+  border: 0px;
+}
 input[type=range]:focus{
   border: 0px;
+  
 }
 @media (max-width:1280px) {
   .search-div{

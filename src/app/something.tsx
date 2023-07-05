@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useContext, useState, useEffect } from "react";
-import { AppContext } from "../../../public/context/AppContext";
+import { AppContext } from "../../public/context/AppContext";
 import baby from "./images/Jonathan_Kent_Arrow_Earth-38_0001.png";
 import share from "./images/share.png";
 import comment from "./images/comment.png";

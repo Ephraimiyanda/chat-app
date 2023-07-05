@@ -4,7 +4,6 @@ const VideoPlayer = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const rangeRef = useRef<HTMLInputElement | null>(null);
   const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
-  const volumeRangeRef = useRef<HTMLInputElement | null>(null);
   const playbackRateRangeRef = useRef<HTMLSelectElement | null>(null);
   const [controlsVisible, setControlsVisible] = useState(false);
   const [playbackRateOptions] = useState([0.5, 1, 1.5, 2]);
@@ -14,10 +13,9 @@ const VideoPlayer = () => {
     const video = videoRef.current;
     const range = rangeRef.current;
     const toggleButton = toggleButtonRef.current;
-    const volumeRange = volumeRangeRef.current;
     const playbackRateRange = playbackRateRangeRef.current;
 
-    if (!video || !range || !toggleButton || !volumeRange || !playbackRateRange) {
+    if (!video || !range || !toggleButton || !playbackRateRange) {
       return;
     }
 
@@ -31,14 +29,6 @@ const VideoPlayer = () => {
       toggleButton.textContent = icon;
     };
 
-    const handleVolumeChange = () => {
-      video.volume = parseFloat(volumeRange.value);
-    };
-
-    const handlePlaybackRateChange = () => {
-      video.playbackRate = parseFloat(playbackRateRange.value);
-    };
-
     const handleProgress = () => {
       const percent = (video.currentTime / video.duration) * 100;
       range.value = String(percent);
@@ -49,25 +39,25 @@ const VideoPlayer = () => {
       video.currentTime = scrubTime;
     };
 
-    video.addEventListener('click', togglePlay);
+    video.addEventListener('click', ()=>{
+      togglePlay();
+      handleMouseEnter();
+    });
     video.addEventListener('play', updateButton);
     video.addEventListener('pause', updateButton);
     video.addEventListener('timeupdate', handleProgress);
 
     toggleButton.addEventListener('click', togglePlay);
-    volumeRange.addEventListener('input', handleVolumeChange);
-    playbackRateRange.addEventListener('input', handlePlaybackRateChange);
 
     range.addEventListener('input', handleRangeChange);
 
     return () => {
+      video.removeEventListener('click', togglePlay);
       video.removeEventListener('play', updateButton);
       video.removeEventListener('pause', updateButton);
       video.removeEventListener('timeupdate', handleProgress);
 
       toggleButton.removeEventListener('click', togglePlay);
-      volumeRange.removeEventListener('input', handleVolumeChange);
-      playbackRateRange.removeEventListener('input', handlePlaybackRateChange);
 
       range.removeEventListener('input', handleRangeChange);
     };
@@ -79,7 +69,7 @@ const VideoPlayer = () => {
       if (currentTime - lastInteractionTime > 3000) {
         setControlsVisible(false);
       }
-    }, 100);
+    }, 3000);
 
     return () => {
       clearTimeout(timeoutId);
@@ -96,23 +86,33 @@ const VideoPlayer = () => {
   };
 
   return (
-    <div className="player w-full h-full relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <video className="player__video viewer" ref={videoRef} src="/652333414.mp4" autoPlay loop />
+    <div className="player w-fit m-auto h-full relative">
+      <video
+        ref={videoRef}
+        src="/652333414.mp4"
+        autoPlay
+        loop
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        
+      />
 
       <div
-        className={`player__controls absolute bottom-0 left-0 w-full ${
+        className={`relative bottom-0 left-0 w-full  -mt-16 ${
           controlsVisible ? 'opacity-100' : 'opacity-0'
         } transition-opacity duration-300 ease-in-out`}
+        
+        onMouseEnter={handleMouseEnter}
       >
         <div className="flex justify-end mb-2 mr-2">
-          <div className="playback-rate">
+          <div className="playback-rate -mt-16 mb-[70px]">
             <select
-              className="bg-slate-800 text-white p-1 rounded-md"
+              className="bg-slate-800 text-white p-1 rounded-md "
               defaultValue="1"
               ref={playbackRateRangeRef}
             >
               {playbackRateOptions.map((option) => (
-                <option key={option} value={option} className="text-white p-1 w-3">
+                <option key={option} value={option} className="text-white p-0 min-h-0">
                   {option}x
                 </option>
               ))}
@@ -123,7 +123,7 @@ const VideoPlayer = () => {
         <div className="flex">
           <button
             ref={toggleButtonRef}
-            className="w-[20px] text-white"
+            className="w-[25px] text-white"
             title="Toggle Play"
           >
             ❚ ❚
@@ -131,31 +131,13 @@ const VideoPlayer = () => {
 
           <input
             type="range"
-            className="w-[98%] cursor-pointer"
+            className="w-full bg-white cursor-pointer"
             min="0"
             max="100"
             step="0.01"
             defaultValue="0"
             ref={rangeRef}
           />
-        </div>
-
-        <div className="flex">
-          <div className="-rotate-90 flex">
-            <label htmlFor="volume" className="w-fit rotate-90 m-0">
-              🔊
-            </label>
-            <input
-              type="range"
-              name="volume"
-              className="cursor-pointer w-28"
-              min="0"
-              max="1"
-              step="0.05"
-              defaultValue="0.3"
-              ref={volumeRangeRef}
-            />
-          </div>
         </div>
       </div>
     </div>

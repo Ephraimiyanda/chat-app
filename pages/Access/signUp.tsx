@@ -13,7 +13,7 @@ const SignUp = () => {
     <div className=" w-[85%] m-auto h-[80%] p-4 flex">
 
       <form className="w-full sm:w-[400px] sm:m-auto flex flex-col gap-2">
-      <h1  className="w-fit m-auto">Sign Up</h1>
+      <h1  className="w-fit m-auto text-xl">Sign Up</h1>
       <h2 className=" text-2xl">Register to get started.</h2>
       <p className=" text-[#a09d9d]">please enter below details</p>
         <div className="flex gap-2">
@@ -40,7 +40,7 @@ const SignUp = () => {
           placeholder="Enter your password"
         />
         <input className=" border border-black rounded-md bg-[#f0f5fa] w-full p-2" type="password" placeholder="Confirm your password"/>
-        <button className="text-white bg-black p-2 rounded-md" type="button" onClick={handleSignUp}>
+        <button className="text-white bg-black p-2 rounded-md" type="button" >
           Sign Up
         </button>
       </form>

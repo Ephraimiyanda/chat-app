@@ -1,29 +1,46 @@
-"use client"
-import type { AppProps } from 'next/app';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Navbar from '@/app/ui/Navbar';
 import SideNavbar from '@/app/ui/sidebar';
 import "../src/app/globals.css"
 import { AppContext } from '../public/context/AppContext';
-import  { useState } from 'react';
 import useFetch from '../public/fetch/userfetch';
-import Cookies from "js-cookie"
+import { AppProps } from 'next/app';
+import Cookies from 'js-cookie';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const{user}=useFetch(`http://localhost:5000/users/0`);
-  Cookies.set("user", JSON.stringify(user));
-  const [will, setWill] = useState(false);
+  const [user, setUserData] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const userCookie = Cookies.get("user");
+    if (userCookie) {
+      const userData = JSON.parse(userCookie);
+      setUserData(userData);
+    } else {
+      if (router.pathname !== '/Access') {
+        router.push('/Access');
+      }
+    }
+  }, [router]);
+
+  const isSignUpPage = router.pathname === '/Access';
+
+  if (!user && !isSignUpPage) {
+    return <Component {...pageProps} />;
+  }
+
   return (
-    <AppContext.Provider value={{ will,user }}>
-    <div className='fixed w-full'>
-      <Navbar />
-      <div className="main-content flex">
-        <SideNavbar />
-        <div className="page-content w-full h-screen">
-          <Component {...pageProps} />
+    <AppContext.Provider value={{ user, setUserData }}>
+      <div className='fixed w-full'>
+        <Navbar />
+        <div className="main-content flex">
+          <SideNavbar />
+          <div className="page-content w-full h-screen">
+            <Component {...pageProps} />
+          </div>
         </div>
       </div>
-    </div>
     </AppContext.Provider>
   );
 }

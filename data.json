@@ -1,1053 +1,1052 @@
 {
-  "users":[
-  {
-    "id": 0,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      },
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 0,
-        "content": "Hi, how are you?",
-        "sender": 3,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:01:00Z"
-      },
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      },
-      {
-        "id":3,
-        "content": " are you?",
-        "sender": 3,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:02:00Z"
-      },
-      {
-        "id":4,
-        "content": " you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T13:01:00Z"
-      },      {
-        "id":5,
-        "content": "where are you?",
-        "sender": 0,
-        "receiver": 2,
-        "timestamp": "2023-06-21T13:01:00Z"
-      }
-    ]
-  },
-  {
-    "id": 1,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:04:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },
-  {
-    "id": 2,
-    "name": "John ",
-    "avatar":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "1",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      },
-      {
-        "id": "2",
-        "text":"welldone",
-        "content": "https://th.bing.com/th/id/OIP.1YM53mG10H_U25iPjop83QHaEo?pid=ImgDet&rs=1",
-        "timestamp": "2023-06-21T10:00:00Z"
-      },
-      {
-        "id": "3",
-        "text":"working",
-        "content": "https://th.bing.com/th/id/OIP.HxV79tFMPfBAIo0BBF-sOgHaEy?pid=ImgDet&rs=1",
-        "timestamp": "2023-06-21T10:00:00Z"
-      },
-      {
-        "id": "4",
-        "text":"working well",
-        "content": "https://th.bing.com/th/id/OIP.HxV79tFMPfBAIo0BBF-sOgHaEy?pid=ImgDet&rs=1",
-        "timestamp": "2023-05-22T10:00:00Z"
-      },
-      {
-        "id": "4",
-        "text":"working well",
-        "content": "https://th.bing.com/th/id/OIP.HxV79tFMPfBAIo0BBF-sOgHaEy?pid=ImgDet&rs=1",
-        "timestamp": "2023-05-22T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 3,
-    "name": "John Doe",
-    "avatar":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T09:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 4,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 5,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 6,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 7,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 8,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 9,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 10,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 11,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 12,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 13,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 14,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 15,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 16,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 17,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 18,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 19,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 20,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 22,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  },  {
-    "id": 23,
-    "name": "John Doe",
-    "dateJoined": "2023-06-21",
-    "email": "john.doe@example.com",
-    "phoneNumber": "1234567890",
-    "posts": [
-      {
-        "id": "post_id",
-        "text":"testing chat app",
-        "content":"https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
-        "timestamp": "2023-06-21T10:00:00Z"
-      }
-    ],
-    "followers": [
-      {
-        "id": 2,
-        "name": "Jane Smith"
-      }
-    ],
-    "following": [
-      {
-        "id": 3,
-        "name": "Adam Johnson"
-      }
-    ],
-    "savedPosts": [
-      {
-        "id": 4,
-        "content": "Lorem ipsum dolor sit amet",
-        "timestamp": "2023-06-21T11:00:00Z"
-      }
-    ],
-    "messages": [
-      {
-        "id": 1,
-        "content": "Hi, how are you?",
-        "sender": 2,
-        "receiver": 0,
-        "timestamp": "2023-06-21T12:00:00Z"
-      }
-
-    ]
-  }
-  
-]
+  "users": [
+    {
+      "id": 0,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "password": "e1f2i3iyanda",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        },
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 0,
+          "content": "Hi, how are you?",
+          "sender": 3,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:01:00Z"
+        },
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        },
+        {
+          "id": 3,
+          "content": " are you?",
+          "sender": 3,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:02:00Z"
+        },
+        {
+          "id": 4,
+          "content": " you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T13:01:00Z"
+        },
+        {
+          "id": 5,
+          "content": "where are you?",
+          "sender": 0,
+          "receiver": 2,
+          "timestamp": "2023-06-21T13:01:00Z"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:04:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "John ",
+      "avatar": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "1",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        },
+        {
+          "id": "2",
+          "text": "welldone",
+          "content": "https://th.bing.com/th/id/OIP.1YM53mG10H_U25iPjop83QHaEo?pid=ImgDet&rs=1",
+          "timestamp": "2023-06-21T10:00:00Z"
+        },
+        {
+          "id": "3",
+          "text": "working",
+          "content": "https://th.bing.com/th/id/OIP.HxV79tFMPfBAIo0BBF-sOgHaEy?pid=ImgDet&rs=1",
+          "timestamp": "2023-06-21T10:00:00Z"
+        },
+        {
+          "id": "4",
+          "text": "working well",
+          "content": "https://th.bing.com/th/id/OIP.HxV79tFMPfBAIo0BBF-sOgHaEy?pid=ImgDet&rs=1",
+          "timestamp": "2023-05-22T10:00:00Z"
+        },
+        {
+          "id": "4",
+          "text": "working well",
+          "content": "https://th.bing.com/th/id/OIP.HxV79tFMPfBAIo0BBF-sOgHaEy?pid=ImgDet&rs=1",
+          "timestamp": "2023-05-22T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "John Doe",
+      "avatar": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T09:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "name": "John Doe",
+      "dateJoined": "2023-06-21",
+      "email": "john.doe@example.com",
+      "phoneNumber": "1234567890",
+      "posts": [
+        {
+          "id": "post_id",
+          "text": "testing chat app",
+          "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        }
+      ],
+      "followers": [
+        {
+          "id": 2,
+          "name": "Jane Smith"
+        }
+      ],
+      "following": [
+        {
+          "id": 3,
+          "name": "Adam Johnson"
+        }
+      ],
+      "savedPosts": [
+        {
+          "id": 4,
+          "content": "Lorem ipsum dolor sit amet",
+          "timestamp": "2023-06-21T11:00:00Z"
+        }
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "content": "Hi, how are you?",
+          "sender": 2,
+          "receiver": 0,
+          "timestamp": "2023-06-21T12:00:00Z"
+        }
+      ]
+    }
+  ]
 }

@@ -8,6 +8,10 @@ import Home from "./images/ikea-home-smart-svgrepo-com.svg"
 import SettingsIcon from "./images/settings-svgrepo-com.svg"
 import NotificationIcon from "./images/notification-bing-svgrepo-com.svg"
 import Explore from "./images/search-left-1506-svgrepo-com.svg"
+import React, { useContext } from 'react';
+import { AppContext } from '../../../public/context/AppContext';
+import Cookies from 'js-cookie';
+
 interface NavItemProps {
   link:string;
   imgSrc:ImageProps;
@@ -29,7 +33,11 @@ const NavItem: React.FC<NavItemProps> = ({imgSrc, link }) => {
 };
 
 const SideNavbar = () => {
-
+  const { user, setUserData } = useContext(AppContext);
+  const handleLogout = () => {
+    Cookies.remove("user");
+    setUserData(null);
+  };
   return (
     <div
       className="navbar bg-white absolute p-4 w-fit overflow-y-hidden h-full overflow-hidden sidebar pt-16 border-r border-b-stone-300 " >
@@ -41,6 +49,15 @@ const SideNavbar = () => {
         <NavItem imgSrc={{src:Explore,alt:"explore"}}  link=""  />
         <NavItem imgSrc={{src:NotificationIcon,alt:"notifications"}}  link=""  />
         <NavItem imgSrc={{src:SettingsIcon,alt:"settings"}}  link=""  />
+        {user && (
+        <button
+          className="text-white bg-red-500 p-2 rounded-md"
+          type="button"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+      )}
       </ul>
     </div>
   );

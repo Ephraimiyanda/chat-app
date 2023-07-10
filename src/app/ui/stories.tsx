@@ -28,7 +28,8 @@ export default function Stories() {
   const { user } = useContext(AppContext);
   const [sortedFollowers, setSortedFollowers] = useState<Follower[]>([]);
   const [activeFollowerIndex, setActiveFollowerIndex] = useState<number>(-1);
-  const [currentPostIndexes, setCurrentPostIndexes] = useState<CurrentPostIndexes>({});
+  const [currentPostIndexes, setCurrentPostIndexes] =useState<CurrentPostIndexes>({});
+  const [activePostIndex, setActivePostIndex] = useState<number>(0);
 
   useEffect(() => {
     if (user && user.followers) {
@@ -70,7 +71,9 @@ export default function Stories() {
   };
 
   const handleNextPost = (followerId: string, currentDate: string) => {
-    const follower = sortedFollowers.find((follower) => follower.id === followerId);
+    const follower = sortedFollowers.find(
+      (follower) => follower.id === followerId
+    );
     if (follower) {
       setCurrentPostIndexes((prevState) => {
         const currentIndex = prevState[followerId]?.[currentDate] || 0;
@@ -78,7 +81,10 @@ export default function Stories() {
           ...prevState,
           [followerId]: {
             ...prevState[followerId],
-            [currentDate]: Math.min(currentIndex + 1, follower.posts.length - 1),
+            [currentDate]: Math.min(
+              currentIndex + 1,
+              follower.posts.length - 1
+            ),
           },
         };
         return updatedIndexes;
@@ -122,12 +128,24 @@ export default function Stories() {
           const isNextPostDisabled = currentPostIndex === posts.length - 1;
 
           return (
-            <section key={`${id}-${date}`} className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full">
+            <section
+              key={`${id}-${date}`}
+              className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full"
+            >
               <div className="pb-2">
                 <ContactProps
                   contactAvatar={avatar}
                   contactName={name}
-                  contactText={`About ${new Date(posts[currentPostIndex].timestamp).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}).toLocaleLowerCase()} ${date} (${posts.length} post${posts.length > 1 ? "s" : ""})`}
+                  contactText={`About ${new Date(
+                    posts[currentPostIndex].timestamp
+                  )
+                    .toLocaleTimeString([], {
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })
+                    .toLocaleLowerCase()} on ${date} (${posts.length} post${
+                    posts.length > 1 ? "s" : ""
+                  })`}
                 />
               </div>
               {posts.length > 0 && (
@@ -135,17 +153,33 @@ export default function Stories() {
                   <button
                     onClick={() => handlePrevPost(id, date)}
                     disabled={isPrevPostDisabled}
-                    className={`absolute top-[42%] sm:top-1/2 sm:left-4 transform -translate-y-[70%] p-2 text-[30px] bg-black bg-opacity-60 text-white rounded-full ${isPrevPostDisabled && "hidden"}`}
+                    className={`absolute top-[42%] sm:top-1/2 sm:left-4 transform -translate-y-[70%] p-2 text-[30px] bg-black bg-opacity-60 text-white rounded-full ${
+                      isPrevPostDisabled && "hidden"
+                    }`}
                   >
                     ‹
                   </button>
                   <button
                     onClick={() => handleNextPost(id, date)}
                     disabled={isNextPostDisabled}
-                    className={`absolute top-[42%] sm:top-1/2 right-0 sm:right-4 transform -translate-y-[70%] p-2 text-[30px] bg-black bg-opacity-60 text-white rounded-full ${isNextPostDisabled && "hidden"}`}
+                    className={`absolute top-[42%]  right-0 sm:right-4 transform -translate-y-[70%] p-2 text-[30px] bg-black bg-opacity-60 text-white rounded-full ${
+                      isNextPostDisabled && "hidden"
+                    }`}
                   >
                     ›
                   </button>
+
+                  <div className="white-box flex justify-center mt-2 absolute top-[75%] left-[0] right-[0]  transform -translate-y-[70%]  ">
+                 {posts.length>1 && posts.map((post, index) => (
+                   <div
+                     key={index}
+                     className={` w-2 h-2 rounded-full mx-1 cursor-pointer ${
+                       currentPostIndex === index ? 'bg-white' : 'bg-gray-400'
+                     }`}
+                     onClick={() => setActivePostIndex(index)}
+                   />
+                 ))}
+               </div>
                   <Image
                     src={posts[currentPostIndex]?.content}
                     className="rounded-lg  sm:h-[350px] h[300px]"
@@ -170,8 +204,8 @@ export default function Stories() {
                     </button>
                   </div>
                   <p>{posts[currentPostIndex]?.text}</p>
+                 
                 </div>
-                
               )}
             </section>
           );

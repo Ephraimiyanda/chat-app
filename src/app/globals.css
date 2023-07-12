@@ -220,9 +220,11 @@ label.label input[type="file"] {
   }
 }
 @media (max-width: 540px) {
-  .i-post {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+.post-contents{
+  width: 150px;
+  height: 150px;
+  
+}
   .white-box {
     top: 70%;
   }

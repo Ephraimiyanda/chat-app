@@ -3,6 +3,7 @@
     {
       "id": 0,
       "name": "John Doe",
+      "avatar": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
       "dateJoined": "2023-06-21",
       "email": "john.doe@example.com",
       "password": "e1f2i3iyanda",
@@ -12,6 +13,18 @@
           "id": "post_id",
           "text": "testing chat app",
           "content": "https://wallup.net/wp-content/uploads/2016/01/263693-nature-landscape-wildflowers-trees-calm-river-water-overcast-clouds.jpg",
+          "timestamp": "2023-06-21T10:00:00Z"
+        },
+        {
+          "id": "2",
+          "text": "welldone",
+          "content": "https://th.bing.com/th/id/OIP.1YM53mG10H_U25iPjop83QHaEo?pid=ImgDet&rs=1",
+          "timestamp": "2023-06-21T10:00:00Z"
+        },
+        {
+          "id": "3",
+          "text": "working",
+          "content": "https://th.bing.com/th/id/OIP.HxV79tFMPfBAIo0BBF-sOgHaEy?pid=ImgDet&rs=1",
           "timestamp": "2023-06-21T10:00:00Z"
         }
       ],

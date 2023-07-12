@@ -39,7 +39,7 @@ export default function Messages() {
       <div>
         <SearchBar />
       </div>
-      <div className=" flex justify-between text-sm font-bold border-b border-b-slate-200 mt-4 mb-3 ">
+      <div className=" flex justify-between text-sm font-bold border-b border-b-slate-200 mt-4 mb-3 flex-wrap ">
         <p className="border-b-2 border-b-white hover:border-b-2 hover:border-b-black cursor-pointer">
           Primary
         </p>

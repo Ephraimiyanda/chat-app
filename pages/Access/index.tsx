@@ -8,8 +8,8 @@ const App = () => {
   const [isSignUpPage, setIsSignUpPage] = useState(true);
 
   return (
-    <div className="bg-white h-full">
-      {isSignUpPage ? <SignUp /> : <Login />}
+    <div className="bg-white h-screen">
+      <div className="pb-2">{isSignUpPage ? <SignUp /> : <Login />}</div>
       <div className="w-fit m-auto ">
         {isSignUpPage ? (
           <div className="flex gap-1">

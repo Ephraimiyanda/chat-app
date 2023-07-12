@@ -1,37 +1,40 @@
+// MyApp.tsx
+
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
+import { AppContext } from '../public/context/AppContext';
 import Navbar from '@/app/ui/Navbar';
 import SideNavbar from '@/app/ui/sidebar';
-import "../src/app/globals.css"
-import { AppContext } from '../public/context/AppContext';
-import useFetch from '../public/fetch/userfetch';
 import { AppProps } from 'next/app';
-import Cookies from 'js-cookie';
+import "../src/app/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [user, setUserData] = useState(null);
   const router = useRouter();
+  const [user, setUser] = useState(null);
+  const isAccessPage = router.pathname === '/Access';
 
   useEffect(() => {
-    const userCookie = Cookies.get("user");
-    if (userCookie) {
-      const userData = JSON.parse(userCookie);
-      setUserData(userData);
-    } else {
-      if (router.pathname !== '/Access') {
-        router.push('/Access');
-      }
+    const userCookie = Cookies.get('user');
+    const userData = userCookie ? JSON.parse(userCookie) : null;
+
+    setUser(userData); 
+
+    if (!userData && !isAccessPage) {
+      router.push('/Access', undefined, { shallow: true });
     }
-  }, [router]);
+  }, [isAccessPage, router]);
 
-  const isSignUpPage = router.pathname === '/Access';
-
-  if (!user && !isSignUpPage) {
+  if (isAccessPage) {
     return <Component {...pageProps} />;
   }
 
+  if (!user) {
+    return null; 
+  }
+
   return (
-    <AppContext.Provider value={{ user, setUserData }}>
+    <AppContext.Provider value={{ user }}>
       <div className='fixed w-full'>
         <Navbar />
         <div className="main-content flex">

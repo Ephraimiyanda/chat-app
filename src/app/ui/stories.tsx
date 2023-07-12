@@ -130,7 +130,7 @@ export default function Stories() {
           return (
             <section
               key={`${id}-${date}`}
-              className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full"
+              className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full "
             >
               <div className="pb-2">
                 <ContactProps
@@ -153,7 +153,7 @@ export default function Stories() {
                   <button
                     onClick={() => handlePrevPost(id, date)}
                     disabled={isPrevPostDisabled}
-                    className={`absolute top-[42%] sm:top-1/2 sm:left-4 transform -translate-y-[70%] p-2 text-[30px] bg-black bg-opacity-60 text-white rounded-full ${
+                    className={`absolute top-[45%]  sm:left-4 transform -translate-y-[70%] p-2 text-[30px] bg-black bg-opacity-60 text-white rounded-full ${
                       isPrevPostDisabled && "hidden"
                     }`}
                   >
@@ -162,7 +162,7 @@ export default function Stories() {
                   <button
                     onClick={() => handleNextPost(id, date)}
                     disabled={isNextPostDisabled}
-                    className={`absolute top-[42%]  right-0 sm:right-4 transform -translate-y-[70%] p-2 text-[30px] bg-black bg-opacity-60 text-white rounded-full ${
+                    className={`absolute top-[45%]  right-0 sm:right-4 transform -translate-y-[70%] p-2 text-[30px] bg-black bg-opacity-60 text-white rounded-full ${
                       isNextPostDisabled && "hidden"
                     }`}
                   >
@@ -182,7 +182,7 @@ export default function Stories() {
                </div>
                   <Image
                     src={posts[currentPostIndex]?.content}
-                    className="rounded-lg  sm:h-[350px] h[300px]"
+                    className="rounded-lg  sm:h-[350px] h[300px] w-full"
                     alt="story picture"
                     width={550}
                     height={360}

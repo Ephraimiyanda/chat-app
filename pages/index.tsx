@@ -5,14 +5,14 @@ import Messages from "../src/app/ui/messages";
 
 export default function Homepage() {
   return (
-    <div className="homepage sm:pr-3 grid grid-cols-10 gap-7 pt-2 -ml-[69px] overflow-y-auto sm:h-[102vh] h-[87.5vh]">
-      <div className="col-span-2 col-start-2 h-screen overflow-y-auto hidden sm:hidden xl:grid">
+    <div className="homepage  flex m-auto justify-around xl:justify-between max-w-[75rem] gap-7 pt-2  overflow-y-auto sm:h-[102vh] h-[88.5vh]">
+      <div className="col-span-2 col-start-2 h-screen overflow-y-auto hidden sm:hidden xl:grid w-[20%] ">
         <SideCard />
       </div>
-      <div className="stories xl:col-span-4 xl:col-start-4 md:col-span-6 sm:col-start-2 sm:col-span-9 md:col-start-2 flex col-start-2 col-span-10 home">
+      <div className="stories  flex  home">
         <Stories />
       </div>
-      <div className=" xl:col-span-2 activity h-[89vh] md:flex flex-col gap-4 overflow-y-auto hidden sm:col-start-8 sm:col-span-3  pb-10 pr-2 ">
+      <div className=" xl:col-span-2 activity h-[89vh] md:flex xl:w-[22%] flex-col gap-4 overflow-y-auto hidden sm:col-start-8 sm:col-span-3  pb-10 pr-2 w-[25%]">
         <div>
           <Messages />
         </div>

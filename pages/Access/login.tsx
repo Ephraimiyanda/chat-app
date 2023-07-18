@@ -12,9 +12,12 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const router = useRouter();
   const { user } = useFetch(`http://localhost:5000/users/0`);
+  const { setUser } = useContext(AppContext);
+  
   const handleLogin = () => {
     Cookies.set('user', JSON.stringify(user));
     router.push('/');
+    setUser(user)
   };
 
   const Logout = () => {
@@ -26,7 +29,7 @@ const Login = () => {
       <form className='w-full sm:w-[400px] sm:m-auto flex flex-col gap-2 sm:mt-[10%] mt-[30%]'>
         <div className='flex w-fit m-auto'>
           <Image className='ml-auto mr-auto' src={IconImg} alt='icon' width={100} />
-          <h1 className='w-fit m-auto text-xl'>Login</h1>
+          <h1 className='w-fit m-auto text-xl text-2xl font-bold'>Login</h1>
         </div>
         <input
           className='border border-black rounded-md bg-[#f0f5fa] w-full p-2'

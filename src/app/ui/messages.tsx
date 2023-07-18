@@ -31,7 +31,7 @@ export default function Messages() {
   }, [user]);
 
   return (
-    <div className="h-fit pb-8 p-2 pt-1 bg-white rounded-2xl flex flex-col  ">
+    <div className="h-fit pb-8 p-2 pt-1 bg-white rounded-2xl flex flex-col box-shadow">
       <div className="flex justify-between mt-5 mb-5">
         <h2 className="font-bold text-xl">Messages</h2>
         <button className="text-light_grey">See all</button>
@@ -39,7 +39,7 @@ export default function Messages() {
       <div>
         <SearchBar />
       </div>
-      <div className=" flex justify-between text-sm font-bold border-b border-b-slate-200 mt-4 mb-3 flex-wrap ">
+      <div className=" flex justify-between  font-bold border-b border-b-slate-200 mt-4 mb-3 flex-wrap ">
         <p className="border-b-2 border-b-white hover:border-b-2 hover:border-b-black cursor-pointer">
           Primary
         </p>
@@ -70,7 +70,7 @@ export default function Messages() {
           <div className="flex gap-2">
             <Image className="profile-pic" src={ProfilePic} alt="picture" />
             <div>
-              <h2 className=" font-semibold text-sm ">Clark kent</h2>
+              <h2 className=" font-semibold  ">Clark kent</h2>
               <div className="flex">
                 {" "}
                 <p className="activity-time-text  ">About 20min ago </p>
@@ -83,7 +83,7 @@ export default function Messages() {
           <div className="flex gap-2">
             <Image className="profile-pic" src={ProfilePic} alt="pictuer" />
             <div>
-              <h2 className=" font-semibold text-sm ">Clark kent</h2>
+              <h2 className=" font-semibold  ">Clark kent</h2>
               <div className="flex">
                 {" "}
                 <p className="activity-time-text  ">About 20min ago </p>
@@ -96,7 +96,7 @@ export default function Messages() {
           <div className="flex gap-2">
             <Image className="profile-pic" src={ProfilePic} alt="pictuer" />
             <div>
-              <h2 className=" font-semibold text-sm ">Clark kent</h2>
+              <h2 className=" font-semibold  ">Clark kent</h2>
               <div className="flex">
                 {" "}
                 <p className="activity-time-text  ">About 20min ago </p>
@@ -109,7 +109,7 @@ export default function Messages() {
           <div className="flex gap-2">
             <Image className="profile-pic" src={ProfilePic} alt="pictuer" />
             <div>
-              <h2 className=" font-semibold text-sm ">Clark kent</h2>
+              <h2 className=" font-semibold  ">Clark kent</h2>
               <div className="flex">
                 {" "}
                 <p className="activity-time-text  ">About 20min ago </p>
@@ -121,3 +121,4 @@ export default function Messages() {
     </div>
   );
 }
+44725627817

@@ -1,25 +1,114 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import IconImg from "../../src/app/ui/images/81910ddd-d139-4abc-89a6-a71f64701a26.svg"
-
+import Cookies from "js-cookie";
+import { AppContext } from "../../public/context/AppContext";
+import { useContext } from "react";
+import { useRouter } from "next/navigation";
 const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [birthdate, setBirthdate] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [photo, setPhoto] = useState(null);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [birthdate, setBirthdate] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [photo, setPhoto] = useState(null);
+    const [passwordError, setPasswordError] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [loggedInUser, setLoggedInUser] = useState(null);
+    const { setUser } = useContext(AppContext);
+   const router=useRouter()
 
-  const handleSignUp = () => {
-    // Perform sign-up logic here
-    console.log("Sign-up:", email, password, firstName, lastName, birthdate, phoneNumber, photo);
-  };
+  
 
-  const handleFileUpload = (event:any) => {
-    const file = event.target.files[0];
-    setPhoto(file);
-  };
+    const handleSignUp = async () => {
+      // Validate the password to contain both letters and numbers
+      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+      if (!passwordRegex.test(password)) {
+        setPasswordError("Password must contain at least 8 characters, including letters and numbers.");
+        return;
+      }
+  
+      // Check if the passwords match
+      if (password !== confirmPassword) {
+        setPasswordError("Passwords do not match.");
+        return;
+      }
+  
+      // Clear the password error if it was previously set
+      setPasswordError("");
+  
+      try {
+        const newUser = {
+          email,
+          password,
+          firstName,
+          lastName,
+          birthdate,
+          phoneNumber,
+          photo,
+        };
+  
+        const response = await fetch("/api/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        });
+  
+        if (response.ok) {
+          // Handle successful signup
+          const userData = await response.json();
+          setLoggedInUser(userData); // Set the logged-in user's details
+          console.log("Sign-up success:", userData);
+        } else {
+          // Handle signup error
+          console.error("Sign-up error:", await response.json());
+        }
+      } catch (error) {
+        // Handle any other errors
+        console.error("Sign-up error:", error);
+      }
+    };
+  
+    const handleLogin = async () => {
+      try {
+        const userCredentials = {
+          email,
+          password,
+        };
+  
+        const response = await fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userCredentials),
+        });
+  
+        if (response.ok) {
+          // Handle successful login
+          const data = await response.json();
+          setLoggedInUser(data);
+          Cookies.set('user', JSON.stringify(data));
+          router.push('/');
+          setUser(data) // Set the logged-in user's details
+          console.log("Login success:", data);
+        } else {
+          // Handle login error
+          console.error("Login error:", await response.json());
+        }
+      } catch (error) {
+        // Handle any other errors
+        console.error("Login error:", error);
+      }
+    };
+   
+    const handleFileUpload = (event:any) => {
+      const file = event.target.files[0];
+      setPhoto(file);
+    };
 
   return (
     <div className="w-[85%] m-auto h-[80%] p-4 flex">
@@ -31,11 +120,8 @@ const SignUp = () => {
         alt="icon"
         width={100}
         />
-        <h1 className="w-fit mt-auto mb-auto text-xl">Sign Up</h1>
+        <h1 className="w-fit mt-auto mb-auto text-3xl font-bold">Sign Up</h1>
         </div>
-        
-        <h2 className="text-2xl">Register to get started.</h2>
-        <p className="text-[#a09d9d]">Please enter the details below</p>
         <div className="flex gap-2">
           <label className="label">
             <input
@@ -102,5 +188,6 @@ const SignUp = () => {
     </div>
   );
 };
+
 
 export default SignUp;

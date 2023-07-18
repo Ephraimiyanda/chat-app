@@ -17,7 +17,7 @@ export default function ContactProps({contactAvatar,contactName,contactText}:Con
         height={27}
         />
         <div>
-        <h2 className=" font-semibold text-sm ">{contactName}</h2>
+        <h2 className=" font-semibold  ">{contactName}</h2>
         <div className="flex">  <p className="activity-time-text  ">{contactText} </p></div>
         </div>
     </div>

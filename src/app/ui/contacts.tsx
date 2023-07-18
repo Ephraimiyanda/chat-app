@@ -1,23 +1,35 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Link from "next/link";
-import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../../../public/context/AppContext";
 import Image from "next/image";
 import ContactProps from "./contactProps";
+
 interface chatProps {
   name: string;
   id: string;
   avatar: string;
 }
+
 interface loaderprop {
   src: string;
 }
-const imageLoader = ({ src }: loaderprop) => {
-  return src;
-};
+
 function Contacts() {
   const { user } = useContext(AppContext);
   const [chats, setChats] = useState<chatProps[]>([]);
+  const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
+
+  const handleClick = (index: number) => {
+    setActiveIndex(index);
+    localStorage.setItem("activeIndex", index.toString());
+  };
+
+  useEffect(() => {
+    const storedIndex = localStorage.getItem("activeIndex");
+    if (storedIndex) {
+      setActiveIndex(parseInt(storedIndex));
+    }
+  }, []);            
 
   useEffect(() => {
     if (user && user.followers) {
@@ -34,15 +46,18 @@ function Contacts() {
         .catch((error) => console.log(error));
     }
   }, [user]);
-
+              
   return (
-    <div className="h--[89] overflow-auto  pb-16">
-      <ul className="pt-4 flex flex-col gap-2 pb-10">
-        {chats.map((chat) => (
+    <div className="contact-container overflow-auto pb-16">
+      <ul className=" flex flex-col gap-2 pb-10">
+        {chats.map((chat, index) => (
           <Link
             href={`/chat/${chat.id}`}
             key={chat.id}
-            className=" hover:bg-stone-200 pl-3 pr-1  pt-2 pb-2"
+            className={`contacts hover:bg-stone-200 pl-3 pr-1 pt-1 pb-1 ${
+              activeIndex === index ? "bg-stone-200" : ""
+            }`}
+            onClick={() => handleClick(index)}
           >
             <ContactProps
               contactAvatar={chat.avatar}

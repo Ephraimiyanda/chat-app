@@ -8,25 +8,47 @@ import Navbar from '@/app/ui/Navbar';
 import SideNavbar from '@/app/ui/sidebar';
 import { AppProps } from 'next/app';
 import "../src/app/globals.css";
-
+interface User {
+  id: number; 
+}
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState <User|null> (null);
   const isAccessPage = router.pathname === '/Access';
 
   useEffect(() => {
     const userCookie = Cookies.get('user');
     const userData = userCookie ? JSON.parse(userCookie) : null;
 
-    setUser(userData); 
-
-    if (!userData && !isAccessPage) {
+    if (!user && userData) {
+      setUser(userData);
+    } else if (!userData && !isAccessPage) {
       router.push('/Access', undefined, { shallow: true });
     }
-  }, [isAccessPage, router]);
+  }, [user]);
+  
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (user && user.id) {
+        try {
+          const response = await fetch(`http://localhost:5000/users/${user.id}`);
+          const userData = await response.json();
+          setUser(prevUser => ({ ...prevUser, ...userData }));
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+    };
+
+    fetchUser();
+  }, [user]);
   if (isAccessPage) {
-    return <Component {...pageProps} />;
+    return (
+      <AppContext.Provider value={{ user ,setUser}}>
+        <Component {...pageProps} />
+      </AppContext.Provider>
+    );
   }
 
   if (!user) {
@@ -34,7 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <AppContext.Provider value={{ user }}>
+    <AppContext.Provider value={{ user ,setUser}}>
       <div className='fixed w-full'>
         <Navbar />
         <div className="main-content flex">

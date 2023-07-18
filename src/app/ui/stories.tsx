@@ -93,7 +93,7 @@ export default function Stories() {
   };
 
   return (
-    <div className="home overflow-y-auto flex flex-col gap-5 h-[89vh] ml-auto mr-auto md:pl-2 md:pr-2 lg:pl-0 pb-14">
+    <div className="home overflow-y-auto flex flex-col gap-5 h-[89vh] ml-auto mr-auto md:pl-2 md:pr-2 pt-1 pb-14">
       {sortedFollowers.map((follower: Follower, index: number) => {
         const { id, name, posts, avatar } = follower;
         const sortedPosts = posts.sort((a, b) => {
@@ -130,7 +130,7 @@ export default function Stories() {
           return (
             <section
               key={`${id}-${date}`}
-              className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full "
+              className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full box-shadow"
             >
               <div className="pb-2">
                 <ContactProps
@@ -147,6 +147,7 @@ export default function Stories() {
                     posts.length > 1 ? "s" : ""
                   })`}
                 />
+                <p className="pt-2 pb-2 max-w-[550px]">{posts[currentPostIndex]?.text}</p>
               </div>
               {posts.length > 0 && (
                 <div className="relative rounded-lg">
@@ -174,7 +175,7 @@ export default function Stories() {
                    <div
                      key={index}
                      className={` w-2 h-2 rounded-full mx-1 cursor-pointer ${
-                       currentPostIndex === index ? 'bg-white' : 'bg-gray-400'
+                       currentPostIndex === index ? 'bg-white transition duration-500' : 'bg-stone-400 opacity-90 '
                      }`}
                      onClick={() => setActivePostIndex(index)}
                    />
@@ -187,7 +188,7 @@ export default function Stories() {
                     width={550}
                     height={360}
                   />
-                  <div className=" bottom-0 left-0 w-full  p-3 flex items-center justify-between">
+                  <div className=" bottom-0 left-0 w-full  pt-3 pb-3 flex items-center justify-between">
                     <div className="flex gap-4 flex-row-reverse">
                       <button>
                         <Image src={share} alt="Share" width={20} />
@@ -203,7 +204,7 @@ export default function Stories() {
                       <Image src={bookmark} alt="Bookmark" width={20} />
                     </button>
                   </div>
-                  <p>{posts[currentPostIndex]?.text}</p>
+                  
                  
                 </div>
               )}

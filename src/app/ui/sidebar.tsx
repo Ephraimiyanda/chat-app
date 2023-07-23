@@ -22,6 +22,7 @@ const NavItem: React.FC<NavItemProps> = ({imgSrc, link }) => {
         height={27}
         {...imgSrc}
         className="mr-auto ml-auto"
+        alt='sidebar elements'
       />
     </li>
    </Link>

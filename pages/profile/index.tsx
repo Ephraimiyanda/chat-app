@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import ProfilePic from "../../src/app/ui/images/profile-pic.png";
-import { useContext } from "react";
+import { Key, useContext } from "react";
 import { AppContext } from "../../public/context/AppContext";
 
 export default function Profile() {
@@ -47,8 +47,9 @@ export default function Profile() {
           </div>
           <div className="i-post  pl-1 flex flex-wrap justify-start gap-[3px]  overflow-y-auto  h-[40vh]  ml-auto mr-auto pt-2">
             {user.posts &&
-              user.posts.map((posts: any) => (
+              user.posts.map((posts: any,index: Key | null | undefined) => (
                 <Image
+                key={index}
                   className="post-contents  w-[200px]  lg:w-[200px] h-[50%]"
                   src={posts.content && posts.content}
                   alt="profile pic"

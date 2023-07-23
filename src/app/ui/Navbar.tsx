@@ -8,7 +8,12 @@ import { useContext } from "react";
 import { AppContext } from "../../../public/context/AppContext";
 import Link from "next/link";
 export default function Navbar() {
-  const{user}=useContext(AppContext)
+  const{user,setShowCreatePost}=useContext(AppContext);
+
+  const handleShowCreatePost=()=>{
+    setShowCreatePost(true)
+  }
+
   return (
     <div className="flex align-middle sm:pt-4 bg-white pb-4 pl-3 pr-3 ml-auto top-0 bottom-0 border-b border-b-stone-300 sm:h-fit h-[55px] pt-[4px]">
       <Image
@@ -26,13 +31,14 @@ export default function Navbar() {
           <SearchBar />
         </div>
         <div className="flex gap-3 ml-auto">
-          <button className="nav-button">
+          <button className="nav-button" onClick={handleShowCreatePost}>
             <Image
               className="ml-auto mr-auto"
               src={add}
               alt="add"
               width={20}
               height={20}
+              
             />
           </button>
           <button className="nav-button">

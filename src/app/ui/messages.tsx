@@ -6,7 +6,7 @@ import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../../../public/context/AppContext";
 import ContactProps from "./contactProps";
 interface Follower {
-  name: string;
+  heroName: string;
   id: string;
   avatar: string;
 }
@@ -59,7 +59,7 @@ export default function Messages() {
                 <ContactProps
                   contactAvatar={follower.avatar}
                   contactText={"About 20min ago"}
-                  contactName={follower.name}
+                  contactName={follower.heroName}
                 />
               </Link>
             </div>

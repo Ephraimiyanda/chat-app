@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../../../public/context/AppContext";
@@ -6,10 +7,11 @@ import comment from "./images/comment.png";
 import like from "./images/like.png";
 import bookmark from "./images/bookmark.png";
 import ContactProps from "./contactProps";
+import Loader from "./loader";
 
 interface Follower {
   timestamp: string | number | Date;
-  name: string;
+  heroName: string;
   id: string;
   avatar: string;
   posts: {
@@ -31,6 +33,9 @@ export default function Stories() {
   const [currentPostIndexes, setCurrentPostIndexes] =useState<CurrentPostIndexes>({});
   const [activePostIndex, setActivePostIndex] = useState<number>(0);
 
+//const imageLoader=({src,quality})=>{
+ //return `${src}?q=${quality || 75}`
+//}
   useEffect(() => {
     if (user && user.followers) {
       Promise.all(
@@ -53,7 +58,7 @@ export default function Stories() {
   }, [user]);
 
   if (!sortedFollowers || sortedFollowers.length === 0) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   const handlePrevPost = (followerId: string, currentDate: string) => {
@@ -95,7 +100,7 @@ export default function Stories() {
   return (
     <div className="home overflow-y-auto flex flex-col gap-5 h-[89vh] ml-auto mr-auto md:pl-2 md:pr-2 pt-1 pb-14">
       {sortedFollowers.map((follower: Follower, index: number) => {
-        const { id, name, posts, avatar } = follower;
+        const { id, heroName, posts, avatar } = follower;
         const sortedPosts = posts.sort((a, b) => {
           const timeA = new Date(a.timestamp).getTime();
           const timeB = new Date(b.timestamp).getTime();
@@ -135,7 +140,7 @@ export default function Stories() {
               <div className="pb-2">
                 <ContactProps
                   contactAvatar={avatar}
-                  contactName={name}
+                  contactName={heroName}
                   contactText={`About ${new Date(
                     posts[currentPostIndex].timestamp
                   )
@@ -182,11 +187,13 @@ export default function Stories() {
                  ))}
                </div>
                   <Image
+                  //  loader={imageLoader}
                     src={posts[currentPostIndex]?.content}
                     className="rounded-lg  sm:h-[350px] h[300px] w-full"
                     alt="story picture"
                     width={550}
                     height={360}
+                    
                   />
                   <div className=" bottom-0 left-0 w-full  pt-3 pb-3 flex items-center justify-between">
                     <div className="flex gap-4 flex-row-reverse">

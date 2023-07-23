@@ -11,14 +11,39 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
-  const { user } = useFetch(`http://localhost:5000/users/0`);
   const { setUser } = useContext(AppContext);
-  
-  const handleLogin = () => {
-    Cookies.set('user', JSON.stringify(user));
-    router.push('/');
-    setUser(user)
-  };
+ 
+  const handleLogin = async ()=>{
+
+    try{
+      const LoggedInUser={
+        password,
+        heroName:email
+      }
+      const LoggedInRes = await fetch("https://ephraim-iyanda.onrender.com/user/login",{
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(LoggedInUser),
+      })
+      if (LoggedInRes.ok) {
+        // Handle successful signup
+        const userData = await LoggedInRes.json();
+        setUser(userData);
+        console.log(userData)
+        Cookies.set('user', JSON.stringify(userData));
+        router.push('/');
+      }
+      else{
+        console.log("login-up error:", await LoggedInRes.json())
+      }
+    }catch (error) {
+      // Handle any other errors
+      console.error("Sign-up error:", error);
+    }
+    }
+
 
   const Logout = () => {
     Cookies.remove('user');

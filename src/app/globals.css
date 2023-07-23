@@ -99,6 +99,10 @@ input:focus {
   width: 88%;
 }
 
+
+
+/* scrollbar styles */
+
 .home::-webkit-scrollbar,
 .activity::-webkit-scrollbar,
 .i-post::-webkit-scrollbar {
@@ -120,6 +124,8 @@ input:focus {
 ::-webkit-scrollbar-track {
   background-color: #f3f4f6;
 }
+
+/* slider styles for video viewer */
 input[type="range"] {
   height: 4px;
   margin: 10px;
@@ -141,11 +147,12 @@ input[type="range"]::-webkit-slider-runnable-track {
 input[type="range"]:focus {
   border: 0px;
 }
-label.label input[type="file"] {
-  position: absolute;
-  top: -1000px;
+
+/* file input styles */
+.label input[type="file"] {
+opacity: 0;
 }
-.label {
+.label  {
   cursor: pointer;
   border: 1px solid #cccccc;
   border-radius: 5px;
@@ -160,9 +167,92 @@ label.label input[type="file"] {
   height: 40px;
   width: 40px;
 }
+
+/* shadow for componenets */
 .box-shadow{
   box-shadow:0px 0px 3px 0px rgba(235, 235, 235, 0.8);
  }
+
+
+
+.inner {
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;  
+}
+
+.inner.one {
+  left: 0%;
+  top: 0%;
+  animation: rotate-one 1s linear infinite;
+  border-bottom: 3px solid black;
+}
+
+.inner.two {
+  right: 0%;
+  top: 0%;
+  animation: rotate-two 1s linear infinite;
+  border-right: 3px solid black;
+}
+
+.inner.three {
+  right: 0%;
+  bottom: 0%;
+  animation: rotate-three 1s linear infinite;
+  border-top: 3px solid black;
+}
+/* back button for create posts */
+.back-btn{
+  border-top-left-radius: 0.375rem;
+
+}
+/* input for create posts */
+.label .createPostInput{
+position: relative;
+ top:0;
+}
+/* loading component */
+
+
+
+.loader {
+  position: absolute;
+  top: calc(50% - 32px);
+  left: calc(50% - 32px);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  perspective: 800px;
+}
+
+@keyframes rotate-one {
+  0% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+  }
+}
+
+@keyframes rotate-two {
+  0% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+  }
+}
+
+@keyframes rotate-three {
+  0% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+  }
+}
 
 
 @media (max-width: 1280px) {

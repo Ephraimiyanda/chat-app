@@ -1,11 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import Link from "next/link";
 import { AppContext } from "../../../public/context/AppContext";
-import Image from "next/image";
 import ContactProps from "./contactProps";
 
 interface chatProps {
-  name: string;
+  heroName: string;
   id: string;
   avatar: string;
 }
@@ -62,7 +61,7 @@ function Contacts() {
             <ContactProps
               contactAvatar={chat.avatar}
               contactText={"About 20min ago"}
-              contactName={chat.name}
+              contactName={chat.heroName}
             />
           </Link>
         ))}

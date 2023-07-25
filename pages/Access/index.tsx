@@ -9,14 +9,14 @@ const App = () => {
 
   return (
     <div className="bg-white h-screen">
-      <div className="pb-2">{isSignUpPage ? <SignUp /> : <Login />}</div>
+      <div className="pb-2">{isSignUpPage ? <Login />  :<SignUp />}</div>
       <div className="w-fit m-auto ">
-        {isSignUpPage ? (
+        {!isSignUpPage ? (
           <div className="flex gap-1">
             <p className="h-fit m-auto">Already have an account ? </p>
             <button
               className="p-2 bg-black text-white rounded-md"
-              onClick={() => setIsSignUpPage(false)}
+              onClick={() => setIsSignUpPage(true)}
             >
               Login
             </button>
@@ -26,7 +26,7 @@ const App = () => {
             <p className="h-fit m-auto">Dont have an account?</p>
             <button
               className="p-2 bg-black text-white rounded-md"
-              onClick={() => setIsSignUpPage(true)}
+              onClick={() => setIsSignUpPage(false)}
             >
               Sign Up
             </button>

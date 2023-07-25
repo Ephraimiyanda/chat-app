@@ -9,24 +9,40 @@ import { useRouter } from "next/router"; // Update the import statement
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [userName, setUserName] = useState("");
   const [birthdate, setBirthdate] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [photo, setPhoto] = useState(null);
+  const [photo, setPhoto] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [loggedInUserData, setLoggedInUserData] = useState(null);
   const { setUser } = useContext(AppContext);
+  const [loading,setLoading]=useState("idle");
+  const [imagePreview, setImagePreview] = useState("");
   const router = useRouter();
 
-  useEffect(() => {
-    // Your effect will run on initial render and whenever the dependencies change
-  }, []); // Empty dependency array means it will only run on initial render
-
+  const handleImageUpload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('file', photo);
+      formData.append("api_key", "743174149656362");
+      formData.append("upload_preset","j1d4ychj")
+      const uploadRes = await fetch('https://api.cloudinary.com/v1_1/dg0kdnwt1/auto/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const Pic = await uploadRes.json();
+      if (Pic.url) {
+        return Pic.secure_url;
+      }
+    } catch (error) {
+      console.error('Image upload error:', error);
+    }
+  };
+ 
   const handleSignUp = async (e:any) => {
-    e.preventDefault(); // Prevent the form from submitting in the default way
-
+   
+    e.preventDefault();
     // Validate the password to contain both letters and numbers
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
     if (!passwordRegex.test(password)) {
@@ -46,15 +62,24 @@ const SignUp = () => {
     setPasswordError("");
 
     try {
+      let imageUrl ="";
+ 
+      if(photo){
+       imageUrl = await handleImageUpload();
+      }else{
+        imageUrl="https://th.bing.com/th/id/R.24b823241775b806d626d4a624f03dbf?rik=noe3cJUJEyhJjw&riu=http%3a%2f%2fwww.mrctemiscamingue.org%2fwp-content%2fuploads%2f2021%2f06%2fblank-profile-picture-973460_960_720-1-400x400.png&ehk=ITnmgofPuK7Ob7bTkCa7Vu3QKPrH21Ys2Rmrvtw%2bhPE%3d&risl=&pid=ImgRaw&r=0"
+      }
+
       const newUser = {
-        name: firstName + " " + lastName,
+        name:userName ,
         email,
         phoneNumber,
         DOB: birthdate,
         password,
+        avatar:imageUrl
         // Add any other fields you want to store in the database
       };
-
+      setLoading("loading")
       const signupResponse = await fetch(
         "https://ephraim-iyanda.onrender.com/user/register",
         {
@@ -69,9 +94,9 @@ const SignUp = () => {
       if (signupResponse.ok) {
         // Handle successful signup
         const userData = await signupResponse.json();
-        console.log("Sign-up success:", userData);
-        //login after signup
-        handleLogin();
+        if(userData){
+          setLoggedInUserData(userData)
+        }
       } else {
         // Handle signup error
         console.error("Sign-up error:", await signupResponse.json());
@@ -81,24 +106,16 @@ const SignUp = () => {
       console.error("Sign-up error:", error);
     }
   };
-  const handleLoginAfterSignUp = async (e:any) => {
-    try {
-       await handleSignUp(e); // Wait for handleSignUp to finish
-      
-        // If handleSignUp is successful, proceed with handleLogin
-        handleLogin();
-      
-    } catch (error) {
-      console.error("handleSignUp error:", error);
-    }
-  };
+
+
   const handleLogin = async ()=>{
 
     try{
       const LoggedInUser={
         password,
-        heroName:email
+        heroName:userName
       }
+      setLoading("loading")
       const LoggedInRes = await fetch("https://ephraim-iyanda.onrender.com/user/login",{
         method:"POST",
         headers: {
@@ -112,26 +129,42 @@ const SignUp = () => {
         setUser(userData);
         Cookies.set('user', JSON.stringify(userData));
         router.push('/');
+        
       }
       else{
+        
         console.log("login-up error:", await LoggedInRes.json())
+        setLoading("failed")
       }
     }catch (error) {
       // Handle any other errors
+      
       console.error("Sign-up error:", error);
     }
     }
 
-  const handleFileUpload = (event:any) => {
-    const file = event.target.files[0];
-    setPhoto(file);
-  };
+  useEffect(()=>{
+  if(loggedInUserData ){
+    handleLogin()
+  }
+ 
+},[loggedInUserData])
+
+
+const handleFileUpload = (event: any) => {
+  const file = event.target.files[0];
+  setPhoto(file);
+  // Create a temporary URL for image preview
+  const filePreview = URL.createObjectURL(file);
+  setImagePreview(filePreview);
+};
+ 
 
   return (
     <div className="w-[85%] m-auto h-[80%] p-4 flex">
       <form
         className="w-full sm:w-[400px] sm:m-auto flex flex-col gap-2"
-        onSubmit={handleLoginAfterSignUp}
+        onSubmit={handleSignUp}
       >
         <div className="flex w-fit m-auto">
           <Image
@@ -143,8 +176,10 @@ const SignUp = () => {
           <h1 className="w-fit mt-auto mb-auto text-3xl font-bold">Sign Up</h1>
         </div>
         <div className="flex gap-2">
+         
+          {!imagePreview ?  
           <label className="label">
-            <input
+          <input
               name="photo"
               className="p-2 bg-addPhoto bg-no-repeat"
               type="file"
@@ -152,20 +187,21 @@ const SignUp = () => {
               onChange={handleFileUpload}
             />
           </label>
+           :
+            <div
+              className="rounded-full border m-auto border-black overflow-hidden "
+              style={{ width: "100px", height: "100px" }}
+            >
+              <Image src={imagePreview} alt="preview" width={100} height={100} />
+            </div>
+          }
         </div>
         <input
           className="border border-black rounded-md bg-[#f0f5fa] w-full p-2"
           type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          placeholder="Enter first name"
-        />
-        <input
-          className="border border-black rounded-md bg-[#f0f5fa] w-full p-2"
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          placeholder="Enter last name"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          placeholder="Enter hero name"
         />
         <input
           className="border border-black rounded-md bg-[#f0f5fa] w-full p-2 text-[#a09d9d]"
@@ -203,7 +239,7 @@ const SignUp = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <button className="text-white bg-black p-2 rounded-md" type="submit"> 
-          Sign Up
+          {loading==="idle"? "Sign Up":loading==="loading"?"...signing up":loading==="failed"?"please try again":""}
         </button>
       </form>
     </div>

@@ -1,14 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../../public/context/AppContext';
 import Image from 'next/image';
-
+import Cookies from 'js-cookie';
+import { json } from 'node:stream/consumers';
+interface User{
+  userModel:Object
+}
 export default function CreatePost() {
   const [postContent, setPostContent] = useState('');
   const [selectedImage, setSelectedImage] = useState("");
   const [imagePreview, setImagePreview] = useState('');
   const { setShowCreatePost } = useContext(AppContext);
   const [imageUrl, setImageUrl] = useState('');
-  
+  const userModel= Cookies.get("user")
+  const user=JSON.parse(userModel as string);
+ // const user=JSON.parse(userModel)
   // Function to handle image upload to Cloudinary
   const handleImageUpload = async () => {
     try {
@@ -21,12 +27,10 @@ export default function CreatePost() {
         body: formData,
       });
       const Pic = await uploadRes.json();
-      console.log('Uploaded image URL:', Pic.url);
       if (Pic.url) {
         setImageUrl(Pic.secure_url);
       }
     } catch (error) {
-      // Handle any errors during image upload or post creation
       console.error('Image upload error:', error);
     }
   };
@@ -36,6 +40,7 @@ export default function CreatePost() {
     try {
       // After successful image upload, you can now submit the post with the image URL
       const postToUpload = {
+        sender:user._id,
         text: postContent,
         content: imageUrl,
       };
@@ -74,7 +79,6 @@ export default function CreatePost() {
   const handleImageChange = (event:any) => {
     const imageFile = event.target.files[0];
     setSelectedImage(imageFile);
-
     // Create a preview URL for the selected image
     const imageURL = URL.createObjectURL(imageFile);
     setImagePreview(imageURL);
@@ -87,7 +91,7 @@ export default function CreatePost() {
 
   return (
     <div onClick={handleHideCreatePost} className="fixed w-full h-full flex justify-center align-middle bg-[#00000080] z-[2]">
-      <form onSubmit={handleSubmit} className="w-[90%] sm:w-[600px] h-[70%] bg-white m-auto mt-[3%] bg white relative rounded-md" onClick={(e) => { e.stopPropagation(); }}>
+      <form onSubmit={handleSubmit} className="w-[90%] mt-[20%] sm:w-[600px] h-[70%] bg-white m-auto sm:mt-[3%] bg white relative rounded-md" onClick={(e) => { e.stopPropagation(); }}>
         {!selectedImage ? (
           <div className="flex flex-col justify-center items-center h-full">
             <label htmlFor="imageInput" className="label flex">
@@ -100,7 +104,7 @@ export default function CreatePost() {
                 className="createPostInput"
               />
             </label>
-            <span>Drag image to the icon or click to upload a post</span>
+            <span className=' text-center p-2'>Drag image to the icon or click to upload a post</span>
           </div>
         ) : (
           <div className="w-full h-full relative">

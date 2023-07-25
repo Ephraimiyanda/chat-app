@@ -8,7 +8,7 @@ import IconImg from "../../src/app/ui/images/81910ddd-d139-4abc-89a6-a71f64701a2
 
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
   const { setUser } = useContext(AppContext);
@@ -18,7 +18,7 @@ const Login = () => {
     try{
       const LoggedInUser={
         password,
-        heroName:email
+        heroName:userName
       }
       const LoggedInRes = await fetch("https://ephraim-iyanda.onrender.com/user/login",{
         method:"POST",
@@ -31,7 +31,6 @@ const Login = () => {
         // Handle successful signup
         const userData = await LoggedInRes.json();
         setUser(userData);
-        console.log(userData)
         Cookies.set('user', JSON.stringify(userData));
         router.push('/');
       }
@@ -54,14 +53,14 @@ const Login = () => {
       <form className='w-full sm:w-[400px] sm:m-auto flex flex-col gap-2 sm:mt-[10%] mt-[30%]'>
         <div className='flex w-fit m-auto'>
           <Image className='ml-auto mr-auto' src={IconImg} alt='icon' width={100} />
-          <h1 className='w-fit m-auto text-xl text-2xl font-bold'>Login</h1>
+          <h1 className='w-fit m-auto text-2xl font-bold'>Login</h1>
         </div>
         <input
           className='border border-black rounded-md bg-[#f0f5fa] w-full p-2'
-          type='email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder='Enter your email'
+          type='userName'
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          placeholder='Enter your userName'
         />
 
         <input

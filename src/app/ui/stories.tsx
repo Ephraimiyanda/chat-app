@@ -8,9 +8,14 @@ import like from "./images/like.png";
 import bookmark from "./images/bookmark.png";
 import ContactProps from "./contactProps";
 import Loader from "./loader";
-
+import useFetch from "../../../public/fetch/userfetch";
+import  useSWR  from "swr";
+import { Fetcher, mutate } from "swr/_internal";
+import { useSWRConfig } from "swr/_internal";
 interface Follower {
+  followers:any;
   timestamp: string | number | Date;
+  sortedData:object;
   heroName: string;
   id: string;
   avatar: string;
@@ -27,39 +32,46 @@ interface CurrentPostIndexes {
 }
 
 export default function Stories() {
-  const { user } = useContext(AppContext);
-  const [sortedFollowers, setSortedFollowers] = useState<Follower[]>([]);
   const [activeFollowerIndex, setActiveFollowerIndex] = useState<number>(-1);
   const [currentPostIndexes, setCurrentPostIndexes] =useState<CurrentPostIndexes>({});
   const [activePostIndex, setActivePostIndex] = useState<number>(0);
-
+ 
 //const imageLoader=({src,quality})=>{
  //return `${src}?q=${quality || 75}`
 //}
-  useEffect(() => {
-    if (user && user.followers) {
-      Promise.all(
-        user.followers.map((follower: Follower) =>
-          fetch(`http://localhost:5000/users/${follower.id}`).then((response) =>
-            response.json()
-          )
+
+
+const fetcher: Fetcher<Follower[]> = async (url: string) => {
+  const response = await fetch(url);
+  const user = await response.json();
+  if (user && user.followers) {
+    const followerData = await Promise.all(
+      user.followers.map((follower: Follower) =>
+        fetch(`http://localhost:5000/users/${follower.id}`).then((response) =>
+          response.json()
         )
       )
-        .then((followerData: Follower[]) => {
-          const sortedData = followerData.sort((a, b) => {
-            const timeA = new Date(a.posts[0].timestamp).getTime();
-            const timeB = new Date(b.posts[0].timestamp).getTime();
-            return timeA - timeB;
-          });
-          setSortedFollowers(sortedData);
-        })
-        .catch((error) => console.log(error));
-    }
-  }, [user]);
-
-  if (!sortedFollowers || sortedFollowers.length === 0) {
-    return <Loader/>;
+    );
+    const sortedData = followerData.sort((a, b) => {
+      const timeA = new Date(a.posts[0].timestamp).getTime();
+      const timeB = new Date(b.posts[0].timestamp).getTime();
+      return timeA - timeB;
+    });
+    return sortedData;
   }
+  return [];
+};
+
+const { data: sortedData, error: followersError, isLoading: isLoadingFollowers, mutate } = useSWR<Follower[]>(
+  "http://localhost:5000/users/0",
+  fetcher,
+  { refreshInterval: 1000, revalidateOnFocus: true, revalidateOnReconnect: true, revalidateIfStale: true }
+);
+
+
+if (isLoadingFollowers ) {
+  return <Loader />;
+}
 
   const handlePrevPost = (followerId: string, currentDate: string) => {
     setCurrentPostIndexes((prevState) => {
@@ -76,7 +88,7 @@ export default function Stories() {
   };
 
   const handleNextPost = (followerId: string, currentDate: string) => {
-    const follower = sortedFollowers.find(
+    const follower =sortedData && sortedData.find(
       (follower) => follower.id === followerId
     );
     if (follower) {
@@ -99,7 +111,7 @@ export default function Stories() {
 
   return (
     <div className="home overflow-y-auto flex flex-col gap-5 h-[89vh] ml-auto mr-auto md:pl-2 md:pr-2 pt-1 pb-14">
-      {sortedFollowers.map((follower: Follower, index: number) => {
+      {sortedData && sortedData.map((follower: Follower, index: number) => {
         const { id, heroName, posts, avatar } = follower;
         const sortedPosts = posts.sort((a, b) => {
           const timeA = new Date(a.timestamp).getTime();
@@ -189,10 +201,10 @@ export default function Stories() {
                   <Image
                   //  loader={imageLoader}
                     src={posts[currentPostIndex]?.content}
-                    className="rounded-lg  sm:h-[350px] h[300px] w-full"
+                    className="rounded-lg  sm:h-[350px] h-full w-full"
                     alt="story picture"
                     width={550}
-                    height={360}
+                    height={100}
                     
                   />
                   <div className=" bottom-0 left-0 w-full  pt-3 pb-3 flex items-center justify-between">
@@ -219,6 +231,9 @@ export default function Stories() {
           );
         });
       })}
+      <button className="bg-black text-white  text-center fixed bottom-4 p-3 rounded-[40%] right-1" onClick={()=>{
+        mutate();
+      }}>+</button>
     </div>
   );
 }

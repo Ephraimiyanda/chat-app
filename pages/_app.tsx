@@ -25,22 +25,23 @@ function MyApp({ Component, pageProps }: AppProps) {
     setTimeout(()=>{
     const handleRouteChange = (url: any, { shallow }:any) => {
       setIsLoaderVisible(true);
+
+      setTimeout(() => {
+      setIsLoaderVisible(false);
+    }, 2000);
+  
     };
 
-    const handleRouteComplete = (url:any, { shallow }:any) => {
-      setIsLoaderVisible(false);
-    };
+    
 
 // here we subscribe to router change start and complete events
     router.events.on("routeChangeStart", handleRouteChange);
-    router.events.on("routeChangeComplete", handleRouteComplete);
 
 // unsubscribing to router events when component unmounts to prevent memeory leaks
     return () => {
       router.events.off("routeChangeStart", handleRouteChange);
-      router.events.off("routeChangeComplete", handleRouteComplete);
-    };
-  })
+   } })
+
   }, []);
 
  
@@ -54,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     } else if (!userData && !isAccessPage) {
       router.push('/Access', undefined, { shallow: true });
     }
-  }, [user]);
+  }, [user,isAccessPage,router]);
   
 
   useEffect(() => {

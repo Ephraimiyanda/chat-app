@@ -4,18 +4,18 @@ import add from "./images/add.png";
 import video from "./images/videocall.png";
 import ProfilePic from "./images/profile-pic.png";
 import Icon from "./images/81910ddd-d139-4abc-89a6-a71f64701a26.svg";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../../../public/context/AppContext";
 import Link from "next/link";
 export default function Navbar() {
-  const{user,setShowCreatePost}=useContext(AppContext);
-
+  const{user,setShowCreatePost,showCreatePost}=useContext(AppContext);
+  
   const handleShowCreatePost=()=>{
-    setShowCreatePost(true)
+    setShowCreatePost(!showCreatePost)
   }
 
   return (
-    <div className="flex align-middle sm:pt-4 bg-white pb-4 pl-3 pr-3 ml-auto top-0 bottom-0 border-b border-b-stone-300 sm:h-fit h-[55px] pt-[4px]">
+    <div className="flex align-middle sm:pt-2 bg-white pb-2 pl-3 pr-3 ml-auto top-0 bottom-0 border-b border-b-stone-300 sm:h-fit h-[55px] pt-[4px]">
       <Image
         className="mr-auto block sm:h-auto h-[50px]"
         src={Icon}
@@ -31,7 +31,8 @@ export default function Navbar() {
           <SearchBar />
         </div>
         <div className="flex gap-3 ml-auto">
-          <button className="nav-button" onClick={handleShowCreatePost}>
+<Link href="/?createpost=true" className="h-fit m-auto">
+<button className="nav-button" >
             <Image
               className="ml-auto mr-auto"
               src={add}
@@ -41,6 +42,7 @@ export default function Navbar() {
               
             />
           </button>
+</Link>
           <button className="nav-button">
             <Image
               className="ml-auto mr-auto w-[20px] h-4"

@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-
-const VideoPlayer = () => {
+interface video{
+  src: string
+}
+const VideoPlayer = ({src}:video) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const rangeRef = useRef<HTMLInputElement | null>(null);
   const toggleButtonRef = useRef<HTMLButtonElement | null>(null);
   const playbackRateRangeRef = useRef<HTMLSelectElement | null>(null);
   const [controlsVisible, setControlsVisible] = useState(false);
-  const [playbackRateOptions] = useState([0.5, 1, 1.5, 2]);
-  const [lastInteractionTime, setLastInteractionTime] = useState<number>(0);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -41,7 +41,6 @@ const VideoPlayer = () => {
 
     video.addEventListener('click', ()=>{
       togglePlay();
-      handleMouseEnter();
     });
     video.addEventListener('play', updateButton);
     video.addEventListener('pause', updateButton);
@@ -63,64 +62,55 @@ const VideoPlayer = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      const currentTime = Date.now();
-      if (currentTime - lastInteractionTime > 3000) {
-        setControlsVisible(false);
-      }
-    }, 3000);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [lastInteractionTime]);
-
-  const handleMouseEnter = () => {
-    setControlsVisible(true);
-    setLastInteractionTime(Date.now());
-  };
-
-  const handleMouseLeave = () => {
-    setLastInteractionTime(Date.now());
-  };
 
   return (
-    <div className="player w-fit m-auto h-full relative">
+    <div className="player w-fit m-0 h-full z-[2] relative" onMouseEnter={()=>{
+      setControlsVisible(true);
+      setTimeout(()=>{
+        setControlsVisible(false)
+      },5000)
+    }} onMouseLeave={()=>{
+      setTimeout(()=>{
+        setControlsVisible(false)
+      },5000)
+    }}
+    onMouseMove={()=>{
+      setControlsVisible(true)
+      setTimeout(()=>{
+        setControlsVisible(false)
+      },5000)
+      }}
+      onClick={()=>{
+        setControlsVisible(!controlsVisible)
+      }}
+    >
       <video
+      className='w-full h-full  object-contain m-auto z-[2] relative'
         ref={videoRef}
-        src="/652333414.mp4"
+        src={src}
         autoPlay
         loop
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        
+       
       />
 
       <div
-        className={`relative bottom-0 left-0 w-full  -mt-16 ${
+        className={`left-0 w-full  -mt-16 absolute bottom-[25%]  z-10 ${
           controlsVisible ? 'opacity-100' : 'opacity-0'
         } transition-opacity duration-300 ease-in-out`}
-        
-        onMouseEnter={handleMouseEnter}
       >
-        <div className="flex justify-end mb-2 mr-2">
+        <div className=" justify-end mb-2 hidden">
           <div className="playback-rate -mt-16 mb-[70px]">
             <select
               className="bg-slate-800 text-white p-1 rounded-md "
               defaultValue="1"
               ref={playbackRateRangeRef}
             >
-              {playbackRateOptions.map((option) => (
-                <option key={option} value={option} className="text-white p-0 min-h-0">
-                  {option}x
-                </option>
-              ))}
+              
             </select>
           </div>
         </div>
 
-        <div className="flex">
+        <div className="flex ">
           <button
             ref={toggleButtonRef}
             className="w-[25px] text-white"
@@ -137,6 +127,7 @@ const VideoPlayer = () => {
             step="0.01"
             defaultValue="0"
             ref={rangeRef}
+            onFocus={()=>{setControlsVisible(true)}}
           />
         </div>
       </div>

@@ -9,16 +9,24 @@ import SideNavbar from '@/app/ui/sidebar';
 import { AppProps } from 'next/app';
 import "../src/app/globals.css";
 import Loader from '@/app/ui/loader';
-import CreatePost from '@/app/ui/createPost';
+import CreatePost from '@/app/ui/createpost';
+import { Modal } from 'react-aria-components';
+import { type } from 'os';
 interface User {
   id: number; 
+  
 }
-function MyApp({ Component, pageProps }: AppProps) {
+type props={
+  Component:any,
+   pageProps:any,
+   searchParams:Record<string, string>|null|undefined
+}
+function MyApp({ Component, pageProps,searchParams }: props) {
   const router = useRouter();
   const [user, setUser] = useState <User|null> (null);
   const isAccessPage = router.pathname === '/Access';
   const [isLoaderVisible, setIsLoaderVisible] = useState(false);
-  const [showCreatePost,setShowCreatePost]=useState(false);
+  const showCreatePost=router.query?.createpost;
 
 
   useEffect(() => {
@@ -86,17 +94,18 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <AppContext.Provider value={{ user ,setUser,setShowCreatePost}}>
+    <AppContext.Provider value={{ user ,setUser,showCreatePost}}>
       <div className='fixed w-full'>
         <Navbar />
         <div className="main-content flex">
           <SideNavbar />
-          <div className="page-content w-full h-screen">
-            {showCreatePost?<CreatePost/>:null}
-            {
-              isLoaderVisible ?<Loader/>:<Component {...pageProps} />
-            }
-             
+          <div className="page-content w-full h-screen ">
+           <Component {...pageProps} />
+            
+               {showCreatePost&&<Modal
+             isOpen>
+              <CreatePost/>
+             </Modal>}
           </div>
         </div>
       </div>

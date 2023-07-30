@@ -2,9 +2,10 @@ import React, { useContext, useState, useEffect } from "react";
 import Link from "next/link";
 import { AppContext } from "../../../public/context/AppContext";
 import ContactProps from "./contactProps";
+import useFetch from "../../../public/fetch/userfetch";
 
 interface chatProps {
-  heroName: string;
+  name: string;
   id: string;
   avatar: string;
 }
@@ -14,7 +15,7 @@ interface loaderprop {
 }
 
 function Contacts() {
-  const { user } = useContext(AppContext);
+  const { user} = useFetch("http://localhost:5000/users/0");
   const [chats, setChats] = useState<chatProps[]>([]);
   const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
 
@@ -61,7 +62,7 @@ function Contacts() {
             <ContactProps
               contactAvatar={chat.avatar}
               contactText={"About 20min ago"}
-              contactName={chat.heroName}
+              contactName={chat.name}
             />
           </Link>
         ))}

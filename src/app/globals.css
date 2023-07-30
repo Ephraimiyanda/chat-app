@@ -76,10 +76,7 @@ input {
 .h-89 {
   height: 100vh;
 }
-.message-input {
-  bottom: 0;
-  position: fixed;
-}
+
 .message-input input {
   height: 60px;
 }
@@ -157,7 +154,6 @@ opacity: 0;
   border: 1px solid #cccccc;
   border-radius: 5px;
   padding: 5px 15px;
-  margin: 5px;
   background: #dddddd;
   display: inline-block;
   background: black;
@@ -226,6 +222,9 @@ position: relative;
   border-radius: 50%;
   perspective: 800px;
 }
+.close{
+  border-top-right-radius:0.375rem ;
+}
 
 @keyframes rotate-one {
   0% {
@@ -274,7 +273,7 @@ position: relative;
     width: 100%;
     bottom: 0;
     left: 0;
-    z-index: 0;
+    z-index: 4;
     height: fit-content;
     padding-top: 10px;
     overflow: hidden;
@@ -304,8 +303,8 @@ position: relative;
   }
 
   .home section {
-    padding-right: 2px;
-    padding-left: 2px;
+    padding-right: 6px;
+    padding-left: 6px;
     padding-bottom: 20px;
     height: 100%;
   }
@@ -320,12 +319,6 @@ position: relative;
   height: 150px;
   
 }
-  .white-box {
-    top: 70%;
-  }
+  
 }
-@media (max-width: 400px) {
-  .white-box {
-    top: 62%;
-  }
-}
+

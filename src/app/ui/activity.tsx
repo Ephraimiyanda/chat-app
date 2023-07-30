@@ -3,7 +3,7 @@ import ProfilePic from "./images/profile-pic.png"
 import addFriend from "./images/addFriend.png"
 export default function SideCard(){
     return(
-        <div className="h-fit pb-8 p-2 pt-1 bg-white rounded-2xl flex flex-col box-shadow ">
+        <div className="h-[440px] pb-1 p-2 pt-1 bg-white rounded-2xl flex flex-col box-shadow ">
             <div className="flex justify-between mt-5 mb-5">
                 <h2 className="font-bold text-xl">Activity</h2>
                 <button className="text-light_grey">See all</button>

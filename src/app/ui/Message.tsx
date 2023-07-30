@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../../public/context/AppContext';
+import useFetch from '../../../public/fetch/userfetch';
+import Chat from '../../../pages/chat';
 
 interface ContactIdProps {
-  contactId: Number;
+  contactId: Number|string|any;
 }
 
 interface MessagesProps {
@@ -15,8 +17,23 @@ interface MessagesProps {
 }
 
 function Message({ contactId }: ContactIdProps) {
-  const { user } = useContext(AppContext);
+  const[user,setuser]=useState<any>()
+  const fetchUser=async()=>{
+    try{
+    const res =await fetch("http://localhost:5000/users/0");
+    const validres=await res.json()
+    if(validres){
+      setuser(validres)
+    }
+    }catch(error){
+      console.log(error);
+    }
+  }
 
+  useEffect(()=>{
+      fetchUser()
+    
+  },[])
   const filteredMessages = user && user.messages.filter(
     (message: MessagesProps) =>
       (message.sender === Number(contactId) && message.receiver === Number(user.id)) ||
@@ -32,12 +49,12 @@ function Message({ contactId }: ContactIdProps) {
   );
 
   return (
-    <div className="flex flex-col h-full">
-      <div>
+    <div className="flex flex-col h-full  ">
+      <div className='h-[82vh] overflow-y-auto block'>
         {sortedMessages && sortedMessages.length === 0 ? (
           <p>No messages</p>
         ) : (
-          <ul className='pl-3 pr-3'>
+          <ul className='pl-3 pr-3 '>
             {sortedMessages?.map((message: MessagesProps) => (
               <li key={message.id} className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit flex ${
                 message.sender === user.id ? 'bg-green-300 ml-auto' : 'bg-red-300'

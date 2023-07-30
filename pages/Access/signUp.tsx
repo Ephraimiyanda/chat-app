@@ -174,25 +174,27 @@ const handleFileUpload = (event: any) => {
           <h1 className="w-fit mt-auto mb-auto text-3xl font-bold">Sign Up</h1>
         </div>
         <div className="flex gap-2">
-         
+        <div
+          className="rounded-full border m-auto border-black overflow-hidden "
+          style={{ width: "100px", height: "100px" }}
+        >
           {!imagePreview ?  
-          <label className="label">
+        
+          <label className="label m-auto ml-[28.8%] mt-[25%]">
           <input
               name="photo"
-              className="p-2 bg-addPhoto bg-no-repeat"
+              className="p-2 bg-addPhoto bg-no-repeat "
               type="file"
               accept=".png, .jpg, .jpeg, .svg"
               onChange={handleFileUpload}
             />
           </label>
            :
-            <div
-              className="rounded-full border m-auto border-black overflow-hidden "
-              style={{ width: "100px", height: "100px" }}
-            >
+            
               <Image src={imagePreview} alt="preview" width={100} height={100} />
-            </div>
+            
           }
+          </div>
         </div>
         <input
           className="border border-black rounded-md bg-[#f0f5fa] w-full p-2"

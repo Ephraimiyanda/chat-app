@@ -21,7 +21,7 @@ export default function chats() {
   useEffect(() => {
     // Check if the screen size is smaller than 768px (small screen)
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 640);
+      setIsSmallScreen(window.innerWidth < 600);
     };
 
     handleResize(); // Set the initial screen size

@@ -7,9 +7,12 @@ import Icon from "./images/81910ddd-d139-4abc-89a6-a71f64701a26.svg";
 import { useContext, useState } from "react";
 import { AppContext } from "../../../public/context/AppContext";
 import Link from "next/link";
+import Cookies from "js-cookie";
 export default function Navbar() {
-  const{user,setShowCreatePost,showCreatePost}=useContext(AppContext);
+  const{setShowCreatePost,showCreatePost}=useContext(AppContext);
   
+  const user= JSON.parse(Cookies.get("user") as string)
+
   const handleShowCreatePost=()=>{
     setShowCreatePost(!showCreatePost)
   }

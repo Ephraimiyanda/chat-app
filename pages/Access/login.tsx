@@ -5,16 +5,18 @@ import { AppContext } from "../../public/context/AppContext";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import IconImg from "../../src/app/ui/images/81910ddd-d139-4abc-89a6-a71f64701a26.svg"
-
+import SpinningLoader from "@/app/ui/loaders/spinning-loader";
 
 const Login = () => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [loading,setLoading]=useState("idle");
+
   const router = useRouter();
   const { setUser } = useContext(AppContext);
  
   const handleLogin = async ()=>{
-
+    setLoading("loading");
     try{
       const LoggedInUser={
         password,
@@ -27,7 +29,9 @@ const Login = () => {
         },
         body: JSON.stringify(LoggedInUser),
       })
+     
       if (LoggedInRes.ok) {
+        setLoading("succesful")
         // Handle successful signup
         const userData = await LoggedInRes.json();
         setUser(userData);
@@ -36,6 +40,7 @@ const Login = () => {
       }
       else{
         console.log("login-up error:", await LoggedInRes.json())
+        setLoading("error")
       }
     }catch (error) {
       // Handle any other errors
@@ -71,12 +76,16 @@ const Login = () => {
           placeholder='Enter your password'
         />
 
-        <button className='text-white bg-black p-2 rounded-md' type='button' onClick={handleLogin}>
-          Login
+        <button className={`text-white bg-black p-1 h-10 rounded-md ${loading==="loading" && "cursor-none opacity-[85]"}`} type='button' onClick={handleLogin}>
+          {loading==="loading"?<SpinningLoader/>:loading==="succesfull"?"logged in":loading==="error"?"Retry":"Login"}
         </button>
+      
         <button className='bg-red-500' onClick={Logout}>
           Logout
         </button>
+        {loading=="error" &&
+          <p className="text-red-700">wrong email or password</p>
+        }
       </form>
     </div>
   );

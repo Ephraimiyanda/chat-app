@@ -13,46 +13,47 @@ import CreatePost from '@/app/ui/createpost';
 import { Modal } from 'react-aria-components';
 import { type } from 'os';
 interface User {
-  id: number; 
-  
+  id: number;
+
 }
-type props={
-  Component:any,
-   pageProps:any,
-   searchParams:Record<string, string>|null|undefined
+type props = {
+  Component: any,
+  pageProps: any,
+  searchParams: Record<string, string> | null | undefined
 }
-function MyApp({ Component, pageProps,searchParams }: props) {
+function MyApp({ Component, pageProps, searchParams }: props) {
   const router = useRouter();
-  const [user, setUser] = useState <User|null> (null);
+  const [user, setUser] = useState<User | null>(null);
   const isAccessPage = router.pathname === '/Access';
   const [isLoaderVisible, setIsLoaderVisible] = useState(false);
-  const showCreatePost=router.query?.createpost;
+  const showCreatePost = router.query?.createpost;
 
 
   useEffect(() => {
-    setTimeout(()=>{
-    const handleRouteChange = (url: any, { shallow }:any) => {
-      setIsLoaderVisible(true);
+    setTimeout(() => {
+      const handleRouteChange = (url: any, { shallow }: any) => {
+        setIsLoaderVisible(true);
 
-      setTimeout(() => {
-      setIsLoaderVisible(false);
-    }, 2000);
-  
-    };
+        setTimeout(() => {
+          setIsLoaderVisible(false);
+        }, 2000);
 
-    
+      };
 
-// here we subscribe to router change start and complete events
-    router.events.on("routeChangeStart", handleRouteChange);
 
-// unsubscribing to router events when component unmounts to prevent memeory leaks
-    return () => {
-      router.events.off("routeChangeStart", handleRouteChange);
-   } })
+
+      // here we subscribe to router change start and complete events
+      router.events.on("routeChangeStart", handleRouteChange);
+
+      // unsubscribing to router events when component unmounts to prevent memeory leaks
+      return () => {
+        router.events.off("routeChangeStart", handleRouteChange);
+      }
+    })
 
   }, []);
 
- 
+
 
   useEffect(() => {
     const userCookie = Cookies.get('user');
@@ -63,8 +64,8 @@ function MyApp({ Component, pageProps,searchParams }: props) {
     } else if (!userData && !isAccessPage) {
       router.push('/Access', undefined, { shallow: true });
     }
-  }, [user,isAccessPage,router]);
-  
+  }, [user, isAccessPage, router]);
+
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -83,29 +84,29 @@ function MyApp({ Component, pageProps,searchParams }: props) {
   }, [user]);
   if (isAccessPage) {
     return (
-      <AppContext.Provider value={{ user ,setUser}}>
+      <AppContext.Provider value={{ user, setUser }}>
         <Component {...pageProps} />
       </AppContext.Provider>
     );
   }
 
   if (!user) {
-    return null; 
+    return null;
   }
 
   return (
-    <AppContext.Provider value={{ user ,setUser,showCreatePost}}>
+    <AppContext.Provider value={{ user, setUser, showCreatePost }}>
       <div className='fixed w-full'>
         <Navbar />
         <div className="main-content flex">
           <SideNavbar />
           <div className="page-content w-full h-screen ">
-           <Component {...pageProps} />
-            
-               {showCreatePost&&<Modal
-             isOpen>
-              <CreatePost/>
-             </Modal>}
+            <Component {...pageProps} />
+
+            {showCreatePost && <Modal
+              isOpen>
+              <CreatePost />
+            </Modal>}
           </div>
         </div>
       </div>

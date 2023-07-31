@@ -165,9 +165,8 @@ export default function Stories() {
                         hour: "numeric",
                         minute: "2-digit",
                       })
-                      .toLocaleLowerCase()} on ${date} (${posts.length} post${
-                      posts.length > 1 ? "s" : ""
-                    })`}
+                      .toLocaleLowerCase()} on ${date} (${posts.length} post${posts.length > 1 ? "s" : ""
+                      })`}
                   />
                   <p className="pt-1 pb-1 max-w-[550px] border-b border-b-stone-300">
                     {posts[currentPostIndex]?.text}
@@ -178,18 +177,16 @@ export default function Stories() {
                     <button
                       onClick={() => handlePrevPost(id, date)}
                       disabled={isPrevPostDisabled}
-                      className={`absolute top-[45%]  sm:left-4 transform -translate-y-[70%] p-2 text-[30px] bg-black bg-opacity-60 text-white rounded-full z-[3] ${
-                        isPrevPostDisabled && "hidden"
-                      }`}
+                      className={`absolute top-[45%]  sm:left-4 transform -translate-y-[70%] p-2 text-[30px] bg-black bg-opacity-60 text-white rounded-full z-[3] ${isPrevPostDisabled && "hidden"
+                        }`}
                     >
                       ‹
                     </button>
                     <button
                       onClick={() => handleNextPost(id, date)}
                       disabled={isNextPostDisabled}
-                      className={`absolute top-[45%]  right-0 sm:right-4 transform -translate-y-[70%] p-2 text-[30px] bg-black bg-opacity-60 text-white rounded-full z-[3] ${
-                        isNextPostDisabled && "hidden"
-                      }`}
+                      className={`absolute top-[45%]  right-0 sm:right-4 transform -translate-y-[70%] p-2 text-[30px] bg-black bg-opacity-60 text-white rounded-full z-[3] ${isNextPostDisabled && "hidden"
+                        }`}
                     >
                       ›
                     </button>
@@ -199,31 +196,30 @@ export default function Stories() {
                         posts.map((post, index) => (
                           <div
                             key={index}
-                            className={` w-2 h-2 rounded-full mx-1 cursor-pointer ${
-                              currentPostIndex === index
+                            className={` w-2 h-2 rounded-full mx-1 cursor-pointer ${currentPostIndex === index
                                 ? "bg-white transition duration-500"
                                 : "bg-stone-400 opacity-90 "
-                            }`}
+                              }`}
                             onClick={() => setActivePostIndex(index)}
                           />
                         ))}
                     </div>
-                   <div className="  h-[350px]">
-                   {!regex.test(
-                      posts[currentPostIndex]?.content
-                    ) ? (
-                      <VideoPlayer src={posts[currentPostIndex]?.content} />
-                    ) : (
-                      <Image
-                        //  loader={imageLoader}
-                        src={posts[currentPostIndex]?.content}
-                        className="rounded-lg  sm:h-[350px] h-full w-full"
-                        alt="story picture"
-                        width={550}
-                        height={100}
-                      />
-                    )}
-                   </div>
+                    <div className="  h-[350px]">
+                      {!regex.test(
+                        posts[currentPostIndex]?.content
+                      ) ? (
+                        <VideoPlayer src={posts[currentPostIndex]?.content} />
+                      ) : (
+                        <Image
+                          //  loader={imageLoader}
+                          src={posts[currentPostIndex]?.content}
+                          className="rounded-lg  sm:h-[350px] h-full w-full"
+                          alt="story picture"
+                          width={550}
+                          height={100}
+                        />
+                      )}
+                    </div>
                     <div className=" bottom-0 left-0 w-full  pt-3 pb-3 flex items-center justify-between">
                       <div className="flex gap-4 flex-row-reverse">
                         <button>

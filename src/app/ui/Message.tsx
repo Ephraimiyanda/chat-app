@@ -69,7 +69,7 @@ function Message({ contactId }: ContactIdProps) {
           </ul>
         )}
       </div>
-      <div className="message-input w-full border-t border-stone-300">
+      <div className="message-input w-full border-t border-stone-300 fixed bottom-[0]">
         <input type="text" className="w-full px-4 py-2" />
       </div>
     </div>

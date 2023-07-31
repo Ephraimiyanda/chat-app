@@ -77,9 +77,6 @@ input {
   height: 100vh;
 }
 
-.message-input input {
-  height: 60px;
-}
 
 input {
   padding-left: 5px;
@@ -226,6 +223,30 @@ position: relative;
   border-top-right-radius:0.375rem ;
 }
 
+.spinningLoader{
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  vertical-align: -.125em;
+  border: .25em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation:spinner .75s linear infinite 
+}
+.active{
+  background: #000;
+  padding: 5px;
+}
+
+@keyframes spinner {
+  from {
+      transform: rotate(0turn);
+  }
+
+  to {
+      transform: rotate(1turn);
+  }
+}
 @keyframes rotate-one {
   0% {
     transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
@@ -266,6 +287,12 @@ position: relative;
 }
 
 @media (max-width: 640px) {
+  .message-input{
+    position: fixed;
+      bottom: 43px;
+      height: 60px;
+      z-index: 3;
+  }
   .home::-webkit-scrollbar {
     width: 0px;
   }

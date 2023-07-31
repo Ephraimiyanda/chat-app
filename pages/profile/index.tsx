@@ -3,9 +3,10 @@ import Link from "next/link";
 import ProfilePic from "../../src/app/ui/images/profile-pic.png";
 import { Key, useContext } from "react";
 import { AppContext } from "../../public/context/AppContext";
+import Cookies from "js-cookie";
 
 export default function Profile() {
-  const { user } = useContext(AppContext);
+  const user= JSON.parse(Cookies.get("user") as string)
   return (
     <div className=" bg-white h-screen">
       {user && (

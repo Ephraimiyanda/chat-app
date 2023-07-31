@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { AppContext } from "../../public/context/AppContext";
 import { useContext } from "react";
 import { useRouter } from "next/router"; // Update the import statement
+import SpinningLoader from "@/app/ui/loaders/spinning-loader";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -238,9 +239,12 @@ const handleFileUpload = (event: any) => {
           placeholder="Confirm your password"
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <button className="text-white bg-black p-2 rounded-md" type="submit"> 
-          {loading==="idle"? "Sign Up":loading==="loading"?"...signing up":loading==="failed"?"please try again":""}
+        <button className={`text-white bg-black  p-1 h-10 rounded-md ${loading==="loading" && "cursor-none opacity-[85]"}`} type="submit"> 
+          {loading==="idle"? "Sign Up":loading==="loading"?<SpinningLoader/>:loading==="failed"?"please try again":""}
         </button>
+        {loading=="error" &&
+          <p className="text-red-700">An error occured please try again or try to sign in if told account already exists</p>
+        }
       </form>
     </div>
   );

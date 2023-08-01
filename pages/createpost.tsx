@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AppContext } from "../../../public/context/AppContext";
+import { AppContext } from "../public/context/AppContext";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import VideoPlayer from "@/app/ui/videoPlayer";
 import { useRouter } from "next/router";
-import SpinningLoader from "./loaders/spinning-loader";
+import SpinningLoader from "../src/app/ui/loaders/spinning-loader";
 interface User {
   userModel: Object;
 }
@@ -187,17 +187,16 @@ export default function CreatePost() {
                 />
                 <button
                   type="submit"
-                  className={`bg-black text-white px-4 py-2 rounded-md ${
-                    loading === "idle" ? "cursor-none opacity-[85]" : "cursor-pointer"
-                  }`}
+                  className={`bg-black text-white px-4 py-2 rounded-md ${loading === "idle" ? "cursor-none opacity-[85]" : "cursor-pointer"
+                    }`}
                 >
                   {loading === "idle"
-                    ? <SpinningLoader/>
+                    ? <SpinningLoader />
                     : loading === "successful"
-                    ? "posted"
-                    : loading === "error"
-                    ? "retry"
-                    : "post"}
+                      ? "posted"
+                      : loading === "error"
+                        ? "retry"
+                        : "post"}
                 </button>
                 {loading === "error" && (
                   <p className="text-red-600">

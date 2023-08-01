@@ -9,7 +9,7 @@ import SideNavbar from '@/app/ui/sidebar';
 import { AppProps } from 'next/app';
 import "../src/app/globals.css";
 import Loader from '@/app/ui/loader';
-import CreatePost from '@/app/ui/createpost';
+import CreatePost from './createpost';
 import { Modal } from 'react-aria-components';
 import { type } from 'os';
 interface User {

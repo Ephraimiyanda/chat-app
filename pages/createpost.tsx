@@ -40,6 +40,7 @@ export default function CreatePost() {
       if (Pic.url) {
         setImageUrl(Pic.secure_url);
         setCloudinaryId(Pic.asset_id);
+        return Pic.secure_url
       }
       if (!uploadRes.ok) {
         setLoading("error");
@@ -56,7 +57,7 @@ export default function CreatePost() {
         sender: user._id,
         cloudinaryId: cloudinaryId,
         text: postContent,
-        content: imageUrl,
+        content: await handleImageUpload(),
       };
 
       const createPostRes = await fetch(
@@ -85,11 +86,6 @@ export default function CreatePost() {
     }
   };
 
-  useEffect(() => {
-    if (imageUrl) {
-      createPostWithImageUrl();
-    }
-  }, [imageUrl]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPostContent(event.target.value);
@@ -107,7 +103,7 @@ export default function CreatePost() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleImageUpload();
+    createPostWithImageUrl();
   };
 
   return (

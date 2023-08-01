@@ -149,7 +149,7 @@ const SignUp = () => {
     handleLogin()
   }
  
-},[loggedInUserData])
+})
 
 
 const handleFileUpload = (event: any) => {

@@ -92,7 +92,7 @@ export default function CreatePost() {
     if (imageUrl) {
       createPostWithImageUrl();
     }
-  }, []);
+  }, [imageUrl]);
 
   const handleInputChange = (event: any) => {
     setPostContent(event.target.value);

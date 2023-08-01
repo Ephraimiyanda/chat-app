@@ -204,7 +204,7 @@ export default function CreatePost() {
                 </button>
                 {loading === "error" && (
                   <p className="text-red-600">
-                    "an error occurred while uploading the post"
+                    an error occurred while uploading the post
                   </p>
                 )}
               </div>

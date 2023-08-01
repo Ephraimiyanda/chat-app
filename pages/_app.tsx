@@ -16,6 +16,7 @@ interface User {
   id: number;
 
 }
+
 type props = {
   Component: any,
   pageProps: any,

@@ -30,29 +30,7 @@ function MyApp({ Component, pageProps, searchParams }: props) {
   const showCreatePost = router.query?.createpost;
 
 
-  useEffect(() => {
-    setTimeout(() => {
-      const handleRouteChange = (url: any, { shallow }: any) => {
-        setIsLoaderVisible(true);
 
-        setTimeout(() => {
-          setIsLoaderVisible(false);
-        }, 2000);
-
-      };
-
-
-
-      // here we subscribe to router change start and complete events
-      router.events.on("routeChangeStart", handleRouteChange);
-
-      // unsubscribing to router events when component unmounts to prevent memeory leaks
-      return () => {
-        router.events.off("routeChangeStart", handleRouteChange);
-      }
-    })
-
-  }, []);
 
 
 

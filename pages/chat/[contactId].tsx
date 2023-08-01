@@ -13,7 +13,7 @@ interface ContactIdProps {
 
 
 
-export default function chats() {
+export default function Chats() {
   const router=useRouter();
   const{contactId}=router.query
   const [isSmallScreen, setIsSmallScreen] = useState(false);

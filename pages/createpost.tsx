@@ -17,7 +17,7 @@ export default function CreatePost() {
   const [cloudinaryId, setCloudinaryId] = useState("");
   const user = JSON.parse(userModel as string);
   const regex = new RegExp(/[^\s]+(.*?).(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/);
-  const isImagePreview = selectedImage && regex.test(selectedImage.type); // Fixed: Check for selectedImage existence
+  const isImagePreview = selectedImage && regex.test(selectedImage.type);
 
   const router = useRouter();
 
@@ -40,7 +40,7 @@ export default function CreatePost() {
       if (Pic.url) {
         setImageUrl(Pic.secure_url);
         setCloudinaryId(Pic.asset_id);
-        return Pic.secure_url
+        return Pic.secure_url;
       }
       if (!uploadRes.ok) {
         setLoading("error");
@@ -85,7 +85,6 @@ export default function CreatePost() {
       setLoading("error");
     }
   };
-
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPostContent(event.target.value);

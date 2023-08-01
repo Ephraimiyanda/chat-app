@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { AppContext } from '../../../public/context/AppContext';
-import useFetch from '../../../public/fetch/userfetch';
-import Chat from '../../../pages/chat';
-
+import Image from 'next/image';
+import Cookies from 'js-cookie';
 interface ContactIdProps {
   contactId: Number|string|any;
 }
@@ -34,6 +32,8 @@ function Message({ contactId }: ContactIdProps) {
       fetchUser()
     
   },[])
+const userData=JSON.parse(Cookies.get("user") as string)
+
   const filteredMessages = user && user.messages.filter(
     (message: MessagesProps) =>
       (message.sender === Number(contactId) && message.receiver === Number(user.id)) ||
@@ -50,6 +50,14 @@ function Message({ contactId }: ContactIdProps) {
 
   return (
     <div className="flex flex-col h-full  ">
+      <div>
+        <Image
+        src={userData.avatar}
+        alt="avatar"
+        width={100}
+        height={100}
+        />
+        {userData.name}</div>
       <div className='h-[82vh] overflow-y-auto block'>
         {sortedMessages && sortedMessages.length === 0 ? (
           <p>No messages</p>

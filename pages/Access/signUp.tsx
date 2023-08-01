@@ -67,6 +67,8 @@ const SignUp = () => {
  
       if(photo){
        imageUrl = await handleImageUpload();
+      }else{
+        imageUrl="https://th.bing.com/th/id/R.24b823241775b806d626d4a624f03dbf?rik=noe3cJUJEyhJjw&riu=http%3a%2f%2fwww.mrctemiscamingue.org%2fwp-content%2fuploads%2f2021%2f06%2fblank-profile-picture-973460_960_720-1-400x400.png&ehk=ITnmgofPuK7Ob7bTkCa7Vu3QKPrH21Ys2Rmrvtw%2bhPE%3d&risl=&pid=ImgRaw&r=0"
       }
 
       const newUser = {
@@ -203,12 +205,14 @@ const handleFileUpload = (event: any) => {
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
           placeholder="Enter hero name"
+          required
         />
         <input
           className="border border-black rounded-md bg-[#f0f5fa] w-full p-2 text-[#a09d9d]"
           type="date"
           value={birthdate}
           onChange={(e) => setBirthdate(e.target.value)}
+          required        
         />
         <input
           className="border border-black rounded-md bg-[#f0f5fa] w-full p-2"
@@ -216,6 +220,7 @@ const handleFileUpload = (event: any) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter your email"
+          required
         />
         <input
           className="border border-black rounded-md bg-[#f0f5fa] w-full p-2"
@@ -223,6 +228,7 @@ const handleFileUpload = (event: any) => {
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
           placeholder="Enter your phone number"
+          required
         />
         <input
           className="border border-black rounded-md bg-[#f0f5fa] w-full p-2"
@@ -230,6 +236,7 @@ const handleFileUpload = (event: any) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Enter your password"
+          required
         />
         {passwordError && <p className="text-red-500">{passwordError}</p>} {/* Display password error message */}
         <input
@@ -238,6 +245,7 @@ const handleFileUpload = (event: any) => {
           name="confirmPassword"
           placeholder="Confirm your password"
           onChange={(e) => setConfirmPassword(e.target.value)}
+          required
         />
         <button className={`text-white bg-black  p-1 h-10 rounded-md ${loading==="loading" && "cursor-none opacity-[85]"}`} type="submit"> 
           {loading==="idle"? "Sign Up":loading==="loading"?<SpinningLoader/>:loading==="failed"?"please try again":""}

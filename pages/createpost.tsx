@@ -4,7 +4,7 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import VideoPlayer from "@/app/ui/videoPlayer";
 import { useRouter } from "next/router";
-import SpinningLoader from "../src/app/ui/loaders/spinning-loader";
+import SpinningLoader from "@/app/ui/loaders/spinning-loader";
 
 interface User {
   userModel: Object;
@@ -12,27 +12,25 @@ interface User {
 
 export default function CreatePost() {
   const [postContent, setPostContent] = useState("");
-  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [selectedImage, setSelectedImage] = useState<any>("");
   const [imagePreview, setImagePreview] = useState("");
-  const { setShowCreatePost, showCreatePost } = useContext(AppContext);
+  const { showCreatePost } = useContext(AppContext);
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState("");
   const userModel = Cookies.get("user");
   const [cloudinaryId, setCloudinaryId] = useState("");
   const user = JSON.parse(userModel as string);
   const regex = new RegExp(/[^\s]+(.*?).(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/);
-
-  const isImagePreview = selectedImage && regex.test(selectedImage.type);
-
+  const isImagePreview = regex.test(selectedImage.type);
   const router = useRouter();
 
+  // Function to handle image upload to Cloudinary
   const handleImageUpload = async () => {
     try {
       const formData = new FormData();
       formData.append("file", selectedImage);
       formData.append("api_key", "743174149656362");
       formData.append("upload_preset", "j1d4ychj");
-
       const uploadRes = await fetch(
         "https://api.cloudinary.com/v1_1/dg0kdnwt1/auto/upload",
         {
@@ -41,52 +39,67 @@ export default function CreatePost() {
         }
       );
 
-      setLoading("idle");
       const Pic = await uploadRes.json();
       if (Pic.url) {
         setImageUrl(Pic.secure_url);
         setCloudinaryId(Pic.asset_id);
-      } else {
-        setLoading("error");
+      }
+
+      if (!uploadRes.ok) {
+        throw new Error("Image upload error");
       }
     } catch (error) {
       console.error("Image upload error:", error);
-      setLoading("error");
+      throw error;
     }
   };
 
-  const createPostWithImageUrl = async () => {
-    try {
-      const postToUpload = {
-        sender: user._id,
-        cloudinaryId: cloudinaryId,
-        text: postContent,
-        content: imageUrl,
-      };
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
 
-      const createPostRes = await fetch(
-        "https://ephraim-iyanda.onrender.com/user/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(postToUpload),
+    // Check if an image is selected before attempting to upload
+    if (selectedImage) {
+      setLoading("loading"); // Set loading state to indicate the start of image upload
+
+      try {
+        await handleImageUpload(); // Call the function to handle image upload to Cloudinary
+
+        // After successful image upload, you can now submit the post with the image URL
+        const postToUpload = {
+          sender: user._id,
+          cloudinaryId: cloudinaryId,
+          text: postContent,
+          content: imageUrl,
+        };
+
+        // Make a POST request to the backend to create the post with the image URL
+        const createPostRes = await fetch(
+          "https://ephraim-iyanda.onrender.com/user/create",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(postToUpload),
+          }
+        );
+
+        if (createPostRes.ok) {
+          setLoading("successful");
+          setSelectedImage(false)
+        } else {
+          setLoading("error"); // Set loading state to indicate error
         }
-      );
 
-      setLoading("idle");
-      if (createPostRes.ok) {
-        setShowCreatePost(!showCreatePost);
-        setLoading("successful");
-      } else {
-        setLoading("error");
+        console.log(await createPostRes.json());
+      } catch (error) {
+        // Handle any errors during the process
+        console.error("Image upload and post creation error:", error);
+        setLoading("error"); // Set loading state to indicate error
       }
-
-      console.log(await createPostRes.json());
-    } catch (error) {
-      console.error("Post creation error:", error);
-      setLoading("error");
+    } else {
+      // Handle the case when the user tries to submit without selecting an image
+      console.warn("Please select an image before posting.");
     }
   };
 
@@ -95,19 +108,13 @@ export default function CreatePost() {
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const imageFile = event.target.files && event.target.files[0];
-    setSelectedImage(imageFile);
-
-    // Create a preview URL for the selected image
+    const imageFile = event.target.files?.[0];
     if (imageFile) {
+      setSelectedImage(imageFile);
+      // Create a preview URL for the selected image
       const imageURL = URL.createObjectURL(imageFile);
       setImagePreview(imageURL);
     }
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    handleImageUpload();
   };
 
   return (
@@ -118,11 +125,8 @@ export default function CreatePost() {
       }}
     >
       <form
-        onSubmit={(event) => {
-          setLoading("idle");
-          handleSubmit(event);
-        }}
-        className="w-[94%]  sm:w-[550px] h-[70%] bg-white m-auto  bg white relative rounded-md"
+        onSubmit={handleSubmit}
+        className="w-[94%] sm:w-[550px] h-[70%] bg-white m-auto bg white relative rounded-md"
         onClick={(e) => {
           e.stopPropagation();
         }}
@@ -130,7 +134,7 @@ export default function CreatePost() {
         {!selectedImage ? (
           <div className="flex flex-col justify-center items-center h-full">
             <button
-              className="close p-2 w-10 bg-black text-white text-xl ml-auto absolute top-[0] right-[0] "
+              className="close p-2 w-10 bg-black text-white text-xl ml-auto absolute top-[0] right-[0]"
               onClick={() => {
                 router.back();
               }}
@@ -157,7 +161,7 @@ export default function CreatePost() {
               className="absolute z-[3] back-btn bg-black text-white px-4 py-2"
               onClick={() => {
                 setPostContent("");
-                setSelectedImage(null);
+                setSelectedImage("");
                 setImagePreview("");
               }}
             >
@@ -167,7 +171,7 @@ export default function CreatePost() {
               <Image
                 src={imagePreview}
                 alt="Preview"
-                className="object-cover max-w-full w-full h-full rounded-md"
+                className="object-contain max-w-full w-full h-full rounded-md"
                 width={100}
                 height={100}
               />
@@ -186,23 +190,21 @@ export default function CreatePost() {
                 />
                 <button
                   type="submit"
-                  className={`bg-black text-white px-4 py-2 rounded-md ${
-                    loading === "idle" ? "cursor-none opacity-[85]" : "cursor-pointer"
+                  className={`bg-black text-white h-10 px-4 py-1 rounded-md ${
+                    loading === "loading" ? "cursor-none" : "cursor-pointer"
                   }`}
                 >
-                  {loading === "idle" ? (
-                    <SpinningLoader />
-                  ) : loading === "successful" ? (
-                    "posted"
-                  ) : loading === "error" ? (
-                    "retry"
-                  ) : (
-                    "post"
-                  )}
+                  {loading === "loading"
+                    ? <SpinningLoader/>
+                    : loading === "successful"
+                    ? "posted"
+                    : loading === "error"
+                    ? "retry"
+                    : "post"}
                 </button>
                 {loading === "error" && (
                   <p className="text-red-600">
-                    an error occurred while uploading the post
+                    "an error occurred while uploading the post"
                   </p>
                 )}
               </div>

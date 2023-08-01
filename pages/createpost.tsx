@@ -5,25 +5,22 @@ import Cookies from "js-cookie";
 import VideoPlayer from "@/app/ui/videoPlayer";
 import { useRouter } from "next/router";
 import SpinningLoader from "../src/app/ui/loaders/spinning-loader";
-interface User {
-  userModel: Object;
-}
+
 export default function CreatePost() {
   const [postContent, setPostContent] = useState("");
   const [selectedImage, setSelectedImage] = useState<any>("");
   const [imagePreview, setImagePreview] = useState("");
   const { setShowCreatePost, showCreatePost } = useContext(AppContext);
   const [imageUrl, setImageUrl] = useState("");
-  const [loading, isLoading] = useState("");
+  const [loading, setLoading] = useState("");
   const userModel = Cookies.get("user");
   const [cloudinaryId, setCloudinaryId] = useState("");
   const user = JSON.parse(userModel as string);
   const regex = new RegExp(/[^\s]+(.*?).(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/);
-  const isImagePreview = regex.test(selectedImage.type);
+  const isImagePreview = selectedImage && regex.test(selectedImage.type); // Fixed: Check for selectedImage existence
+
   const router = useRouter();
 
-  // const user=JSON.parse(userModel)
-  // Function to handle image upload to Cloudinary
   const handleImageUpload = async () => {
     try {
       const formData = new FormData();
@@ -37,24 +34,24 @@ export default function CreatePost() {
           body: formData,
         }
       );
-      isLoading("idle");
+
+      setLoading("idle");
       const Pic = await uploadRes.json();
       if (Pic.url) {
         setImageUrl(Pic.secure_url);
         setCloudinaryId(Pic.asset_id);
       }
       if (!uploadRes.ok) {
-        isLoading("error");
+        setLoading("error");
       }
     } catch (error) {
       console.error("Image upload error:", error);
+      setLoading("error");
     }
   };
 
-  // Function to create the post after getting the image URL
   const createPostWithImageUrl = async () => {
     try {
-      // After successful image upload, you can now submit the post with the image URL
       const postToUpload = {
         sender: user._id,
         cloudinaryId: cloudinaryId,
@@ -62,7 +59,6 @@ export default function CreatePost() {
         content: imageUrl,
       };
 
-      // Make a POST request to the backend to create the post with the image URL
       const createPostRes = await fetch(
         "https://ephraim-iyanda.onrender.com/user/create",
         {
@@ -73,18 +69,19 @@ export default function CreatePost() {
           body: JSON.stringify(postToUpload),
         }
       );
-      isLoading("idle");
+
+      setLoading("idle");
       if (createPostRes.ok) {
         setShowCreatePost(!showCreatePost);
-        isLoading("successfull");
+        setLoading("successful");
       } else {
-        isLoading("error");
+        setLoading("error");
       }
 
       console.log(await createPostRes.json());
     } catch (error) {
-      // Handle any errors during post creation
       console.error("Post creation error:", error);
+      setLoading("error");
     }
   };
 
@@ -94,21 +91,23 @@ export default function CreatePost() {
     }
   }, [imageUrl]);
 
-  const handleInputChange = (event: any) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPostContent(event.target.value);
   };
 
-  const handleImageChange = (event: any) => {
-    const imageFile = event.target.files[0];
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const imageFile = event.target.files && event.target.files[0]; // Fixed: Check for selected files
     setSelectedImage(imageFile);
     // Create a preview URL for the selected image
-    const imageURL = URL.createObjectURL(imageFile);
-    setImagePreview(imageURL);
+    if (imageFile) {
+      const imageURL = URL.createObjectURL(imageFile);
+      setImagePreview(imageURL);
+    }
   };
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleImageUpload(); // Call the function to handle image upload to Cloudinary and post creation
+    handleImageUpload();
   };
 
   return (
@@ -119,11 +118,11 @@ export default function CreatePost() {
       }}
     >
       <form
-        onSubmit={(event: any) => {
-          isLoading("idle");
+        onSubmit={(event) => {
+          setLoading("idle");
           handleSubmit(event);
         }}
-        className="w-[94%]  sm:w-[550px] h-[70%] bg-white m-auto  bg white relative rounded-md"
+        className="w-[94%] sm:w-[550px] h-[70%] bg-white m-auto bg white relative rounded-md"
         onClick={(e) => {
           e.stopPropagation();
         }}
@@ -187,16 +186,19 @@ export default function CreatePost() {
                 />
                 <button
                   type="submit"
-                  className={`bg-black text-white px-4 py-2 rounded-md ${loading === "idle" ? "cursor-none opacity-[85]" : "cursor-pointer"
-                    }`}
+                  className={`bg-black text-white px-4 py-2 rounded-md ${
+                    loading === "idle" ? "cursor-none opacity-[85]" : "cursor-pointer"
+                  }`}
                 >
-                  {loading === "idle"
-                    ? <SpinningLoader />
-                    : loading === "successful"
-                      ? "posted"
-                      : loading === "error"
-                        ? "retry"
-                        : "post"}
+                  {loading === "idle" ? (
+                    <SpinningLoader />
+                  ) : loading === "successful" ? (
+                    "posted"
+                  ) : loading === "error" ? (
+                    "retry"
+                  ) : (
+                    "post"
+                  )}
                 </button>
                 {loading === "error" && (
                   <p className="text-red-600">

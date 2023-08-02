@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { AppContext } from "../../../public/context/AppContext";
 import share from "./images/share.png";
 import comment from "./images/comment.png";
@@ -13,6 +13,8 @@ import useSWR from "swr";
 import { Fetcher, mutate } from "swr/_internal";
 import { useSWRConfig } from "swr/_internal";
 import VideoPlayer from "./videoPlayer";
+import useLike from "../../../public/hooks/likeHook";
+import Cookies from "js-cookie";
 interface Follower {
   followers: any;
   timestamp: string | number | Date;
@@ -36,11 +38,15 @@ export default function Stories() {
   const [activeFollowerIndex, setActiveFollowerIndex] = useState(-1);
   const [currentPostIndexes, setCurrentPostIndexes] = useState<CurrentPostIndexes>({});
   const [activePostIndex, setActivePostIndex] = useState(0);
-  const regex = new RegExp(/[^\s]+(.*?).(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/);
-  //const imageLoader=({src,quality})=>{
-  //return `${src}?q=${quality || 75}`
-  //}
+  const regex = new RegExp(/[^\s]+(.*?).(jpg|jpeg|png|gif|svg\+xml|JPG|JPEG|SVG|svg|PNG|GIF)$/);
+  const video=useRef<HTMLVideoElement|null>(null)
+  const currentVideo=video.current;
 
+  function handleLike(post:any,){
+    const { likePost ,story} = useLike(post);
+  }
+
+  
   const fetcher: Fetcher<Follower[]> = async (url: string) => {
     const response = await fetch(url);
     const user = await response.json();
@@ -61,7 +67,7 @@ export default function Stories() {
     }
     return [];
   };
-
+  
   const {
     data: sortedData,
     error: followersError,
@@ -191,12 +197,12 @@ export default function Stories() {
                       ›
                     </button>
 
-                    <div className="flex justify-center mt-2 absolute top-[82%] bottom-[10%] left-[0] right-[0]  transform -translate-y-[70%]  ">
+                    <div className="flex z-[6] justify-center mt-2 absolute top-[81%] bottom-[10%] left-[0] right-[0]  transform -translate-y-[70%]  ">
                       {posts.length > 1 &&
                         posts.map((post, index) => (
                           <div
                             key={index}
-                            className={` w-2 h-2 rounded-full mx-1 cursor-pointer ${currentPostIndex === index
+                            className={` w-2 h-2 rounded-full  mx-1 cursor-pointer ${currentPostIndex === index
                                 ? "bg-white transition duration-500"
                                 : "bg-stone-400 opacity-90 "
                               }`}
@@ -208,7 +214,14 @@ export default function Stories() {
                       {!regex.test(
                         posts[currentPostIndex]?.content
                       ) ? (
-                        <VideoPlayer src={posts[currentPostIndex]?.content} />
+                        <video
+                        className=" h-full rounded-md object-cover"
+                        ref={video} 
+                        controls
+                        onFocus={()=>{
+                        currentVideo && currentVideo.play();
+                         }}
+                          src={posts[currentPostIndex]?.content}></video>
                       ) : (
                         <Image
                           //  loader={imageLoader}
@@ -228,7 +241,7 @@ export default function Stories() {
                         <button>
                           <Image src={comment} alt="Comment" width={20} />
                         </button>
-                        <button>
+                        <button onClick={() => handleLike()}>
                           <Image src={like} alt="Like" width={20} />
                         </button>
                       </div>

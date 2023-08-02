@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { AppContext } from "../public/context/AppContext";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import VideoPlayer from "@/app/ui/videoPlayer";
 import { useRouter } from "next/router";
 import SpinningLoader from "@/app/ui/loaders/spinning-loader";
+import { setAttribute } from "video.js/dist/types/utils/dom";
 
 interface User {
   userModel: Object;
@@ -20,10 +21,11 @@ export default function CreatePost() {
   const userModel = Cookies.get("user");
   const [cloudinaryId, setCloudinaryId] = useState("");
   const user = JSON.parse(userModel as string);
-  const regex = new RegExp(/[^\s]+(.*?).(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/);
+  const regex =new RegExp(/[\/.](jpg|jpeg|png|gif|svg\+xml|JPG|JPEG|SVG|svg|PNG|GIF)$/i);
   const isImagePreview = regex.test(selectedImage.type);
   const router = useRouter();
-
+const video=useRef<HTMLVideoElement |null>(null)
+const currentVideo=video.current
   // Function to handle image upload to Cloudinary
   const handleImageUpload = async () => {
     try {
@@ -56,7 +58,7 @@ export default function CreatePost() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+    
     // Check if an image is selected before attempting to upload
     if (selectedImage) {
       setLoading("loading"); // Set loading state to indicate the start of image upload
@@ -90,8 +92,6 @@ export default function CreatePost() {
         } else {
           setLoading("error"); // Set loading state to indicate error
         }
-
-        console.log(await createPostRes.json());
       } catch (error) {
         // Handle any errors during the process
         console.error("Image upload and post creation error:", error);
@@ -169,6 +169,7 @@ export default function CreatePost() {
             </button>
             {isImagePreview ? (
               <Image
+              
                 src={imagePreview}
                 alt="Preview"
                 className="object-contain max-w-full w-full h-full rounded-md"
@@ -176,25 +177,35 @@ export default function CreatePost() {
                 height={100}
               />
             ) : (
-              <VideoPlayer src={imagePreview} />
+              <video
+              className=" h-full rounded-md object-cover "
+              ref={video} 
+              controls
+              onFocus={()=>{
+              currentVideo && currentVideo.play();
+               }}
+                src={imagePreview}></video>
             )}
-            <div className="absolute z-[2] h-fit mt-auto inset-0 flex flex-col items-center justify-end p-6">
+            <div className="absolute z-[2] h-fit mt-[68%] inset-0 flex flex-col items-center justify-end p-6">
               <div>
-                <input
+<div className="flex gap-2">
+<input
                   id="postContent"
                   name="postContent"
                   value={postContent}
                   onChange={handleInputChange}
                   placeholder="What's the caption on your mind?"
                   className="border border-black rounded-md bg-[#f0f5fa] w-full p-2 mb-2"
+                  onKeyPress={(event)=>{
+                    event.key==="Enter" && handleSubmit(event);
+                  }}
                 />
                 <button
                   type="submit"
                   className={`bg-black text-white h-10 px-4 py-1 rounded-md ${
                     loading === "loading" ? "cursor-none" : "cursor-pointer"
                   }`}
-                >
-                  {loading === "loading"
+                > {loading === "loading"
                     ? <SpinningLoader/>
                     : loading === "successful"
                     ? "posted"
@@ -202,6 +213,8 @@ export default function CreatePost() {
                     ? "retry"
                     : "post"}
                 </button>
+</div>
+                 
                 {loading === "error" && (
                   <p className="text-red-600">
                     an error occurred while uploading the post

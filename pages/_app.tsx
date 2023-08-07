@@ -11,7 +11,7 @@ import "../src/app/globals.css";
 import Loader from '@/app/ui/loader';
 import CreatePost from './createpost';
 import { Modal } from 'react-aria-components';
-import { type } from 'os';
+
 interface User {
   id: number;
 

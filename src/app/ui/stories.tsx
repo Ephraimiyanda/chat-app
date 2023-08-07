@@ -14,7 +14,6 @@ import { Fetcher, mutate } from "swr/_internal";
 import { useSWRConfig } from "swr/_internal";
 import VideoPlayer from "./videoPlayer";
 import useLike from "../../../public/hooks/likeHook";
-import Cookies from "js-cookie";
 interface Follower {
   followers: any;
   timestamp: string | number | Date;
@@ -41,15 +40,17 @@ export default function Stories() {
   const regex = new RegExp(/[^\s]+(.*?).(jpg|jpeg|png|gif|svg\+xml|JPG|JPEG|SVG|svg|PNG|GIF)$/);
   const video=useRef<HTMLVideoElement|null>(null)
   const currentVideo=video.current;
+  const { loading, error, success, likePost } = useLike();
+  const [used,setUserD]=useState<any>()
 
-  function handleLike(post:any,){
-    const { likePost ,story} = useLike(post);
-  }
-
+  const handleLike = (postId: string) => {
+    likePost(`http://localhost:5000/users/${postId}`);
+  };
   
   const fetcher: Fetcher<Follower[]> = async (url: string) => {
     const response = await fetch(url);
     const user = await response.json();
+    setUserD(user)
     if (user && user.followers) {
       const followerData = await Promise.all(
         user.followers.map((follower: Follower) =>
@@ -74,7 +75,7 @@ export default function Stories() {
     isLoading: isLoadingFollowers,
     mutate,
   } = useSWR<Follower[]>("http://localhost:5000/users/0", fetcher, {
-    refreshInterval: 1000,
+   // refreshInterval: 1000,
     revalidateOnFocus: true,
     revalidateOnReconnect: true,
     revalidateIfStale: true,
@@ -241,7 +242,7 @@ export default function Stories() {
                         <button>
                           <Image src={comment} alt="Comment" width={20} />
                         </button>
-                        <button onClick={() => handleLike()}>
+                        <button onClick={() => handleLike(posts[currentPostIndex]?.id)}>
                           <Image src={like} alt="Like" width={20} />
                         </button>
                       </div>

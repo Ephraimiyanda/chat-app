@@ -15,16 +15,17 @@ export default function CreatePost() {
   const [postContent, setPostContent] = useState("");
   const [selectedImage, setSelectedImage] = useState<any>("");
   const [imagePreview, setImagePreview] = useState("");
-  const { showCreatePost } = useContext(AppContext);
   const [loading, setLoading] = useState("");
   const userModel = Cookies.get("user");
-  const [cloudinaryId, setCloudinaryId] = useState("");
   const user = JSON.parse(userModel as string);
-  const regex =new RegExp(/[\/.](jpg|jpeg|png|gif|svg\+xml|JPG|JPEG|SVG|svg|PNG|GIF)$/i);
+  const regex = new RegExp(
+    /[\/.](jpg|jpeg|png|gif|svg\+xml|JPG|JPEG|SVG|svg|PNG|GIF)$/i
+  );
   const isImagePreview = regex.test(selectedImage.type);
   const router = useRouter();
-const video=useRef<HTMLVideoElement |null>(null)
-const currentVideo=video.current
+  const video = useRef<HTMLVideoElement | null>(null);
+  const currentVideo = video.current;
+  
   // Function to handle image upload to Cloudinary
   const handleImageUpload = async () => {
     try {
@@ -42,8 +43,11 @@ const currentVideo=video.current
 
       const Pic = await uploadRes.json();
       if (Pic.url) {
-        return Pic.secure_url;
-        setCloudinaryId(Pic.asset_id);
+        const imageUrl=Pic.secure_url ;
+        const cloudinaryId=Pic.asset_id
+        
+        return{imageUrl,cloudinaryId}
+        
       }
 
       if (!uploadRes.ok) {
@@ -57,7 +61,7 @@ const currentVideo=video.current
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-   let imageUrl = await handleImageUpload();
+    const{ imageUrl,cloudinaryId}:any = await handleImageUpload();
     // Check if an image is selected before attempting to upload
     if (selectedImage) {
       setLoading("loading");
@@ -163,7 +167,6 @@ const currentVideo=video.current
             </button>
             {isImagePreview ? (
               <Image
-              
                 src={imagePreview}
                 alt="Preview"
                 className="object-contain max-w-full w-full h-full rounded-md"
@@ -172,43 +175,48 @@ const currentVideo=video.current
               />
             ) : (
               <video
-              className=" h-full rounded-md object-cover "
-              ref={video} 
-              controls
-              onFocus={()=>{
-              currentVideo && currentVideo.play();
-               }}
-                src={imagePreview}></video>
+                className=" h-full rounded-md object-cover "
+                ref={video}
+                controls
+                onFocus={() => {
+                  currentVideo && currentVideo.play();
+                }}
+                src={imagePreview}
+              ></video>
             )}
             <div className="absolute z-[2] h-fit mt-[68%] inset-0 flex flex-col items-center justify-end p-6">
               <div>
-<div className="flex gap-2">
-<input
-                  id="postContent"
-                  name="postContent"
-                  value={postContent}
-                  onChange={handleInputChange}
-                  placeholder="What's the caption on your mind?"
-                  className="border border-black rounded-md bg-[#f0f5fa] w-full p-2 mb-2"
-                  onKeyPress={(event)=>{
-                    event.key==="Enter" && handleSubmit(event);
-                  }}
-                />
-                <button
-                  type="submit"
-                  className={`bg-black text-white h-10 px-4 py-1 rounded-md ${
-                    loading === "loading" ? "cursor-none" : "cursor-pointer"
-                  }`}
-                > {loading === "loading"
-                    ? <SpinningLoader/>
-                    : loading === "successful"
-                    ? "posted"
-                    : loading === "error"
-                    ? "retry"
-                    : "post"}
-                </button>
-</div>
-                 
+                <div className="flex gap-2">
+                  <input
+                    id="postContent"
+                    name="postContent"
+                    value={postContent}
+                    onChange={handleInputChange}
+                    placeholder="What's the caption on your mind?"
+                    className="border border-black rounded-md bg-[#f0f5fa] w-full p-2 mb-2"
+                    onKeyPress={(event) => {
+                      event.key === "Enter" && handleSubmit(event);
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    className={`bg-black text-white h-10 px-4 py-1 rounded-md ${
+                      loading === "loading" ? "cursor-none" : "cursor-pointer"
+                    }`}
+                  >
+                    {" "}
+                    {loading === "loading" ? (
+                      <SpinningLoader />
+                    ) : loading === "successful" ? (
+                      "posted"
+                    ) : loading === "error" ? (
+                      "retry"
+                    ) : (
+                      "post"
+                    )}
+                  </button>
+                </div>
+
                 {loading === "error" && (
                   <p className="text-red-600">
                     an error occurred while uploading the post

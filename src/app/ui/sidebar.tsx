@@ -42,7 +42,7 @@ const SideNavbar = () => {
       <ul className="flex flex-col sm:gap-8 gap-[6%]">
         <NavItem {...router.pathname==="/"?{imgSrc: { src: HomeActive,alt:"home" }}:{imgSrc: { src: Home,alt:"home" }}} link='/'  />
         <NavItem {...router.pathname==="/profile"?{imgSrc: { src:UserActive,alt:"profile" }}:{imgSrc: { src: ProfileIcon,alt:"profile" }}}  link="/profile"  />
-        <NavItem {...router.pathname==="/chat"?{imgSrc: { src:MessageActive,alt:"chat" }}:{imgSrc: { src: MessageIcon,alt:"chat" }}} link="/chat" />
+        <NavItem {...router.pathname.includes("/chat")?{imgSrc: { src:MessageActive,alt:"chat" }}:{imgSrc: { src: MessageIcon,alt:"chat" }}} link="/chat" />
         <NavItem imgSrc={{src:VideoIcon,alt:"media"}}  link=""  />
         <NavItem imgSrc={{src:Explore,alt:"explore"}}  link=""  />
         <NavItem imgSrc={{src:NotificationIcon,alt:"notifications"}}  link=""  />

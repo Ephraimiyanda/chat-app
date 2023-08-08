@@ -11,7 +11,6 @@ import "../src/app/globals.css";
 import Loader from '@/app/ui/loader';
 import CreatePost from './createpost';
 import { Modal } from 'react-aria-components';
-
 interface User {
   id: number;
 
@@ -28,8 +27,24 @@ function MyApp({ Component, pageProps, searchParams }: props) {
   const isAccessPage = router.pathname === '/Access';
   const [isLoaderVisible, setIsLoaderVisible] = useState(false);
   const showCreatePost = router.query?.createpost;
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
+  useEffect(() => {
+    // Check if the screen size is smaller than 768px (small screen)
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 640);
+    };
 
+    handleResize(); // Set the initial screen size
+
+    // Listen for resize events to update the screen size state
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      // Clean up the resize event listener when the component unmounts
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
 
 

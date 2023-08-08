@@ -36,7 +36,6 @@ interface CurrentPostIndexes {
 export default function Stories() {
   const [activeFollowerIndex, setActiveFollowerIndex] = useState(-1);
   const [currentPostIndexes, setCurrentPostIndexes] = useState<CurrentPostIndexes>({});
-  const [activePostIndex, setActivePostIndex] = useState(0);
   const regex = new RegExp(/[^\s]+(.*?).(jpg|jpeg|png|gif|svg\+xml|JPG|JPEG|SVG|svg|PNG|GIF)$/);
   const video=useRef<HTMLVideoElement|null>(null)
   const currentVideo=video.current;
@@ -131,13 +130,6 @@ export default function Stories() {
             return timeA - timeB;
           });
 
-          const handleMouseEnter = () => {
-            setActiveFollowerIndex(index);
-          };
-
-          const handleMouseLeave = () => {
-            setActiveFollowerIndex(-1);
-          };
 
           const currentPostIndexesForFollower = currentPostIndexes[id] || {};
           const groupedPosts: { [date: string]: typeof sortedPosts } = {};
@@ -152,7 +144,7 @@ export default function Stories() {
           });
 
           return Object.entries(groupedPosts).map(([date, posts]) => {
-            const currentPostIndex = currentPostIndexesForFollower[date] || 0;
+            let currentPostIndex = currentPostIndexesForFollower[date] || 0;
             const isPrevPostDisabled = currentPostIndex === 0;
             const isNextPostDisabled = currentPostIndex === posts.length - 1;
 
@@ -203,11 +195,10 @@ export default function Stories() {
                         posts.map((post, index) => (
                           <div
                             key={index}
-                            className={` w-2 h-2 rounded-full  mx-1 cursor-pointer ${currentPostIndex === index
+                            className={` w-2 h-2 rounded-full  mx-1  ${currentPostIndex === index
                                 ? "bg-white transition duration-500"
                                 : "bg-stone-400 opacity-90 "
                               }`}
-                            onClick={() => setActivePostIndex(index)}
                           />
                         ))}
                     </div>

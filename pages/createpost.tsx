@@ -16,7 +16,6 @@ export default function CreatePost() {
   const [selectedImage, setSelectedImage] = useState<any>("");
   const [imagePreview, setImagePreview] = useState("");
   const { showCreatePost } = useContext(AppContext);
-  const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState("");
   const userModel = Cookies.get("user");
   const [cloudinaryId, setCloudinaryId] = useState("");
@@ -43,7 +42,7 @@ const currentVideo=video.current
 
       const Pic = await uploadRes.json();
       if (Pic.url) {
-        setImageUrl(Pic.secure_url);
+        return Pic.secure_url;
         setCloudinaryId(Pic.asset_id);
       }
 
@@ -58,15 +57,14 @@ const currentVideo=video.current
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+   let imageUrl = await handleImageUpload();
     // Check if an image is selected before attempting to upload
     if (selectedImage) {
-      setLoading("loading"); // Set loading state to indicate the start of image upload
+      setLoading("loading");
 
       try {
-        await handleImageUpload(); // Call the function to handle image upload to Cloudinary
+        await handleImageUpload();
 
-        // After successful image upload, you can now submit the post with the image URL
         const postToUpload = {
           sender: user._id,
           cloudinaryId: cloudinaryId,
@@ -74,7 +72,6 @@ const currentVideo=video.current
           content: imageUrl,
         };
 
-        // Make a POST request to the backend to create the post with the image URL
         const createPostRes = await fetch(
           "https://ephraim-iyanda.onrender.com/user/create",
           {
@@ -88,21 +85,18 @@ const currentVideo=video.current
 
         if (createPostRes.ok) {
           setLoading("successful");
-          setSelectedImage(false)
+          setSelectedImage(false);
         } else {
-          setLoading("error"); // Set loading state to indicate error
+          setLoading("error");
         }
       } catch (error) {
-        // Handle any errors during the process
         console.error("Image upload and post creation error:", error);
-        setLoading("error"); // Set loading state to indicate error
+        setLoading("error");
       }
     } else {
-      // Handle the case when the user tries to submit without selecting an image
       console.warn("Please select an image before posting.");
     }
   };
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPostContent(event.target.value);
   };

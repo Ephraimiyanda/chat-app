@@ -50,12 +50,8 @@ export default function CreatePost() {
         
       }
 
-      if (!uploadRes.ok) {
-        throw new Error("Image upload error");
-      }
     } catch (error) {
-      console.error("Image upload error:", error);
-      throw error;
+     
     }
   };
 

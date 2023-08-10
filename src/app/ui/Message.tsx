@@ -4,130 +4,113 @@ import Cookies from 'js-cookie';
 import io from 'socket.io-client';
 import useSWR, { mutate } from 'swr';
 
+// Interface declarations for TypeScript
 interface ContactIdProps {
-  contactId: number | string | any;
-}
-
-interface MessagesProps {
-  sender: number;
-  receiver: number;
-  id: string;
-  content: string;
-  timestamp: string;
   contactId: number;
 }
 
-interface Userprops {
+interface MessageProps {
+  id: string | null;
+  sender: number;
+  receiver: number | string;
+  content: string;
+  timestamp: string;
+}
+
+interface UserProps {
   avatar: string;
   name: string;
+  id: number;
 }
 
 function Message({ contactId }: ContactIdProps) {
-  const [follower, setFollower] = useState<Userprops | any>('');
+  // State to hold user information
+  const [follower, setFollower] = useState<UserProps | null>(null);
+  const [inputValue,setInputValue]=useState("")
+  // Get user data from Cookies
   const userData = JSON.parse(Cookies.get('user') as string);
-  const { avatar, name } = follower;
+  const { avatar, name, id: userId } = follower || {};
+  const socket=io("https://ephraim-iyanda.onrender.com/user");
+  // Initialize a Socket.io client
+  
+  // Fetch user data using SWR
+  const { data: userMessage } = useSWR(`https://ephraim-iyanda.onrender.com/user/messages/${userData._id}`);
 
-  // Establish a connection to the Socket.io server
-  const socket = io('http://localhost:5000'); // Change the URL to your Socket.io server URL
-
-  const { data: userMessage } = useSWR(`http://localhost:5000/messages/0`);
-
+  // Fetch follower data when component mounts
   useEffect(() => {
     fetchFollower();
-
-    socket.on('receiveMessage', (data:any) => {
-      console.log('Received message from server:', data);
-      // Update messages using SWR's mutate
-      mutate(`http://localhost:5000/messages/0`);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
+  
   }, []);
 
+  // Fetch follower data
   const fetchFollower = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/users/${contactId}`);
-      const validres = await res.json();
-      if (validres) {
-        setFollower(validres);
+      const res = await fetch(`https://ephraim-iyanda.onrender.com/user/64cfcd0aa7d7451982ca8445`);
+      const validRes = await res.json();
+      if (validRes && validRes.user) {
+        setFollower(validRes.user);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const sendMessage = (messageContent: string) => {
-    const messageData = {
-      sender: userMessage.id,
-      receiver: contactId,
-      content: messageContent,
-    };
-
-    socket.emit('sendMessage', messageData);
-
-    const newMessage: MessagesProps = {
-      id: 'new-message-' + Date.now(),
-      sender: messageData.sender,
-      receiver: messageData.receiver,
-      content: messageData.content,
-      timestamp: new Date().toISOString(),
-      contactId: contactId,
-    };
-
-    // Update messages using SWR's mutate
-    mutate(
-      `http://localhost:5000/messages/0`,
-      {
-        ...userMessage,
-        messages: [...userMessage.messages, newMessage],
-      },
-      false
-    );
+  // Send a message
+  const sendMessage = async (messageContent: string) => {
+  const messageData = {
+        senderId: userData._id, // Make sure this matches your user schema
+        receiverId: '64cfcd0aa7d7451982ca8445', // Replace with actual receiver ID
+        content: messageContent,
+      };
+    try {
+    
+      socket.emit('sendMessage', messageData);
+     
+    } catch (error) {
+      console.log('An error occurred while sending the message:', error);
+    }
   };
 
-  const filteredMessages =
-    userMessage &&
-    userMessage.messages.filter(
-      (message: MessagesProps) =>
-        (message.sender === Number(contactId) &&
-          message.receiver === Number(userMessage.id)) ||
-        (message.receiver === Number(contactId) &&
-          message.sender === Number(userMessage.id))
-    );
-
-  const sortedMessages = filteredMessages?.sort(
-    (a: MessagesProps, b: MessagesProps) => {
+  // Sort and display messages
+  const sortedMessages = userMessage?.messages
+    ?.filter(
+      (message: MessageProps) =>
+        (message.sender === Number(contactId) && message.receiver === Number(userId)) ||
+        (message.receiver === Number(contactId) && message.sender === Number(userId))
+    )
+    ?.sort((a: MessageProps, b: MessageProps) => {
       const timeA = new Date(a.timestamp).getTime();
       const timeB = new Date(b.timestamp).getTime();
       return timeA - timeB;
-    }
-  );
+    });
 
   return (
     <div className="flex flex-col h-full">
+      {/* Display user and avatar */}
       <div className="flex align-middle items-center gap-2 py-1 px-2 border-b border-b-stone-300">
-        <Image
-          className="rounded-[50%] w-[54px] h-[54px]"
-          src={avatar}
-          alt="avatar"
-          width={100}
-          height={100}
-          priority
-        />
+        {avatar && (
+          <Image
+            className="rounded-[50%] w-[54px] h-[54px]"
+            src={avatar}
+            alt="avatar"
+            width={100}
+            height={100}
+            priority
+          />
+        )}
         <p className="text-lg">{name}</p>
       </div>
-      <div className="h-[75.3vh] overflow-y-auto block">
+      {/* Display messages */}
+      <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block">
         {sortedMessages && sortedMessages.length === 0 ? (
           <p>No messages</p>
         ) : (
           <ul className="pl-3 pr-3">
-            {sortedMessages?.map((message: MessagesProps) => (
+            {sortedMessages?.map((message: MessageProps) => (
               <li
                 key={message.id}
                 className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit flex ${
-                  message.sender === userMessage.id ? 'bg-green-300 ml-auto' : 'bg-red-300'
+                  message.sender === userData._id ? 'bg-green-300 ml-auto' : 'bg-red-300'
                 }`}
               >
                 <p>{message.content}</p>
@@ -141,18 +124,28 @@ function Message({ contactId }: ContactIdProps) {
           </ul>
         )}
       </div>
-      <div className="message-input w-full border-t border-stone-300 fixed bottom-[0]">
+      {/* Message input */}
+      <form className="message-input w-full border-t items-center border-stone-300 fixed bottom-[0] flex" 
+      onSubmit={(e)=>{
+        e.preventDefault()
+        sendMessage(inputValue);
+        setInputValue("")
+      }}>
         <input
           type="text"
           className="w-full px-4 py-2"
+          value={inputValue}
+          onChange={(e)=>{setInputValue(e.target.value)}}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              sendMessage(e.currentTarget.value);
+              sendMessage(inputValue);
               e.currentTarget.value = '';
+              setInputValue("");
             }
           }}
         />
-      </div>
+        <button type='submit' className=' bg-black text-white w-10 p-1 rounded h-10 right-[20px] sticky'>→</button>
+      </form>
     </div>
   );
 }

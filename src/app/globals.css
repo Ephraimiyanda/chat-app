@@ -296,7 +296,7 @@ background-color: #000;
 @media (max-width: 640px) {
   .message-input{
     position: fixed;
-      bottom: 43px;
+      bottom: 52px;
       height: 60px;
       z-index: 3;
   }

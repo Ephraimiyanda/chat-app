@@ -19,13 +19,14 @@ export default function Navbar() {
 
   return (
     <div className="flex align-middle sm:pt-2 bg-white pb-2 pl-3 pr-3 ml-auto top-0 bottom-0 border-b border-b-stone-300 sm:h-fit h-[55px] pt-[4px]">
-      <Image
+<Link href="/">
+<Image
         className="mr-auto block sm:h-auto h-[50px]"
         src={Icon}
         alt="herosocial"
         width={60}
         height={20}
-      />
+      /></Link>
       <div className="flex max-w-[75rem] w-full mr-auto gap-[10%]">
         <h1 className="hidden xl:block text-3xl font-bold pt-3">
           Herosocial

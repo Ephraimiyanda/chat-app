@@ -30,7 +30,7 @@ function Message({ contactId }: ContactIdProps) {
   // Get user data from Cookies
   const userData = JSON.parse(Cookies.get('user') as string);
   const { avatar, name, id: userId } = follower || {};
-  const socket=io("https://ephraim-iyanda.onrender.com/user");
+  const socket=io("https://ephraim-iyanda.onrender.com");
   // Initialize a Socket.io client
   
   // Fetch user data using SWR

@@ -211,6 +211,7 @@ const handleFileUpload = (event: any) => {
           className="border border-black rounded-md bg-[#f0f5fa] w-full p-2 text-[#a09d9d]"
           type="date"
           value={birthdate}
+          placeholder="Entera your birthday"
           onChange={(e) => setBirthdate(e.target.value)}
           required        
         />

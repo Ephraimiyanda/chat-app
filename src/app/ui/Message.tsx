@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import Cookies from 'js-cookie';
 import io from 'socket.io-client';
 import useSWR, { mutate } from 'swr';
@@ -18,7 +18,7 @@ interface MessageProps {
 }
 
 interface UserProps {
-  avatar: string;
+  avatar: string ;
   name: string;
   id: number;
 }
@@ -27,14 +27,18 @@ function Message({ contactId }: ContactIdProps) {
   // State to hold user information
   const [follower, setFollower] = useState<UserProps | null>(null);
   const [inputValue,setInputValue]=useState("")
+  const [userMessage,setUserMessages]=useState<any>([])
   // Get user data from Cookies
   const userData = JSON.parse(Cookies.get('user') as string);
   const { avatar, name, id: userId } = follower || {};
   const socket=io("https://ephraim-iyanda.onrender.com");
-  // Initialize a Socket.io client
-  
+
+
   // Fetch user data using SWR
-  const { data: userMessage } = useSWR(`https://ephraim-iyanda.onrender.com/user/messages/${userData._id}`);
+ 
+  useEffect(() => {
+    socket.on('messageResponse', (data) => setUserMessages([...userMessage, data]));
+  }, [socket, userMessage]);
 
   // Fetch follower data when component mounts
   useEffect(() => {
@@ -88,7 +92,7 @@ function Message({ contactId }: ContactIdProps) {
     <div className="flex flex-col h-full">
       {/* Display user and avatar */}
       <div className="flex align-middle items-center gap-2 py-1 px-2 border-b border-b-stone-300">
-        {avatar && (
+       {  avatar&&(
           <Image
             className="rounded-[50%] w-[54px] h-[54px]"
             src={avatar}
@@ -96,8 +100,8 @@ function Message({ contactId }: ContactIdProps) {
             width={100}
             height={100}
             priority
-          />
-        )}
+          />)}
+      
         <p className="text-lg">{name}</p>
       </div>
       {/* Display messages */}
@@ -106,7 +110,7 @@ function Message({ contactId }: ContactIdProps) {
           <p>No messages</p>
         ) : (
           <ul className="pl-3 pr-3">
-            {sortedMessages?.map((message: MessageProps) => (
+            {sortedMessages && sortedMessages.map((message: MessageProps) => (
               <li
                 key={message.id}
                 className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit flex ${
@@ -133,6 +137,7 @@ function Message({ contactId }: ContactIdProps) {
       }}>
         <input
           type="text"
+          placeholder='Type a message...'
           className="w-full px-4 py-2"
           value={inputValue}
           onChange={(e)=>{setInputValue(e.target.value)}}

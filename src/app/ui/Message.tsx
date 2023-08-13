@@ -53,7 +53,7 @@ function Message({ contactId }: ContactIdProps) {
   const sendMessage = (messageContent: string) => {
     const messageData = {
       senderId: userData._id,
-      receiverId: '64cfcd0aa7d7451982ca8445', // Replace with actual receiver ID
+      receiverId:"64d90b7cf1cefce483e79244", // Replace with actual receiver ID
       content: messageContent,
     };
 

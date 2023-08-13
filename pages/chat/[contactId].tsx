@@ -43,7 +43,7 @@ return(
     ):(
      <div>
        {contactId ? (
-        <Message contactId={contactId as unknown as Number}/>
+        <Message contactId={contactId as unknown as number}/>
       ) : (
      <div className='m-auto  w-fit h-full flex-wrap flex  content-center'>
       <div className='flex flex-col -mt-24 pb-2'>

@@ -26,8 +26,8 @@ interface UserProps {
 function Message({ contactId }: ContactIdProps) {
   // State to hold user information
   const [follower, setFollower] = useState<UserProps | null>(null);
-  const [inputValue,setInputValue]=useState("")
-  const [userMessage,setUserMessages]=useState<any>([])
+  const [inputValue,setInputValue]=useState("");
+  const [userMessage,setUserMessages]=useState<any>([]);
   // Get user data from Cookies
   const userData = JSON.parse(Cookies.get('user') as string);
   const { avatar, name, id: userId } = follower || {};
@@ -42,8 +42,7 @@ function Message({ contactId }: ContactIdProps) {
 
   // Fetch follower data when component mounts
   useEffect(() => {
-    fetchFollower();
-  
+    fetchFollower();  
   }, []);
 
   // Fetch follower data
@@ -55,7 +54,7 @@ function Message({ contactId }: ContactIdProps) {
         setFollower(validRes.user);
       }
     } catch (error) {
-      console.log(error);
+      console.log('Error fetching follower data:', error);
     }
   };
 
@@ -67,7 +66,7 @@ function Message({ contactId }: ContactIdProps) {
         content: messageContent,
       };
     try {
-    
+      setUserMessages([...userMessage, messageContent])
       socket.emit('sendMessage', messageData);
      
     } catch (error) {
@@ -106,27 +105,7 @@ function Message({ contactId }: ContactIdProps) {
       </div>
       {/* Display messages */}
       <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block">
-        {sortedMessages && sortedMessages.length === 0 ? (
-          <p>No messages</p>
-        ) : (
-          <ul className="pl-3 pr-3">
-            {sortedMessages && sortedMessages.map((message: MessageProps) => (
-              <li
-                key={message.id}
-                className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit flex ${
-                  message.sender === userData._id ? 'bg-green-300 ml-auto' : 'bg-red-300'
-                }`}
-              >
-                <p>{message.content}</p>
-                <span className="text-xs ml-auto mt-auto pl-3">
-                  {new Date(message.timestamp)
-                    .toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
-                    .toLocaleLowerCase()}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
+        {userMessage}
       </div>
       {/* Message input */}
       <form className="message-input w-full border-t items-center border-stone-300 fixed bottom-[0] flex" 
@@ -137,7 +116,6 @@ function Message({ contactId }: ContactIdProps) {
       }}>
         <input
           type="text"
-          placeholder='Type a message...'
           className="w-full px-4 py-2"
           value={inputValue}
           onChange={(e)=>{setInputValue(e.target.value)}}

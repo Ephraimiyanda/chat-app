@@ -44,7 +44,7 @@ function Chat() {
       !isSmallScreen &&
       <div className="messages-container block  bg-white w-[100%] overflow-x-hidden">
       {contactId ? (
-        <Message contactId={contactId} />
+        <Message contactId={contactId as unknown as number} />
       ) : (
         <div className='m-auto  w-fit h-full flex-wrap flex  content-center'>
           <div className='flex flex-col -mt-24 pb-2'>

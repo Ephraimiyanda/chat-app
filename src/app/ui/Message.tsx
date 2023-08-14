@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Cookies from 'js-cookie';
 import io from 'socket.io-client';
 
-// Interface declarations for TypeScript
 interface ContactIdProps {
   contactId: number;
 }
@@ -11,55 +10,48 @@ interface ContactIdProps {
 interface UserProps {
   avatar: string;
   name: string;
-  id: number;
+  _id: number;
 }
 
 function Message({ contactId }: ContactIdProps) {
-  // State to hold user information
   const [follower, setFollower] = useState<UserProps | null>(null);
   const [inputValue, setInputValue] = useState('');
-  const [userMessages, setUserMessages] = useState<string[]>([]);
-  // Get user data from Cookies
+  const [userMessages, setUserMessages] = useState<any[]>([]); // Change the type to any[]
   const userData = JSON.parse(Cookies.get('user') as string);
-  const { avatar, name, id: userId } = follower || {};
+  const { avatar, name, _id } = follower || {};
   const socket = io("https://ephraim-iyanda.onrender.com");
 
-  // Fetch follower data when component mounts
   useEffect(() => {
     fetchFollower();
   }, []);
 
-  // Fetch follower data
   const fetchFollower = async () => {
     try {
       const res = await fetch(`https://ephraim-iyanda.onrender.com/user/64cfcd0aa7d7451982ca8445`);
       const validRes = await res.json();
       if (validRes && validRes.user) {
         setFollower(validRes.user);
-        console.log(validRes);
       }
     } catch (error) {
       console.log('Error fetching follower data:', error);
     }
   };
 
-  // Receive a message
   useEffect(() => {
     socket.on(`sender-${userData._id}`, (data: any) => {
-      setUserMessages(prevMessages => [...prevMessages, data.content]);
+      setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: true }]);
     });
   }, [socket, userData]);
 
-  // Send a message
   const sendMessage = (messageContent: string) => {
     const messageData = {
       senderId: userData._id,
-      receiverId:"64d90b7cf1cefce483e79244", // Replace with actual receiver ID
+      receiverId: "64c822dd49065021d3a30e4f", // Replace with actual receiver ID
       content: messageContent,
     };
 
     try {
-      setUserMessages(prevMessages => [...prevMessages, messageContent]);
+      setUserMessages((prevMessages) => [...prevMessages, { content: messageContent, fromSelf: true }]);
       socket.emit('sendMessage', messageData);
     } catch (error) {
       console.log('An error occurred while sending the message:', error);
@@ -68,7 +60,6 @@ function Message({ contactId }: ContactIdProps) {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Display user and avatar */}
       <div className="flex align-middle items-center gap-2 py-1 px-2 border-b border-b-stone-300">
         {avatar && (
           <Image
@@ -83,20 +74,18 @@ function Message({ contactId }: ContactIdProps) {
 
         <p className="text-lg">{name}</p>
       </div>
-      {/* Display messages */}
       <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block">
         {userMessages.map((message, index) => (
           <div
             key={index}
             className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit ${
-              userId === contactId ? 'bg-green-300 ml-auto' : 'bg-red-300'
+              message.fromSelf ? 'bg-green-300 ml-auto' : 'bg-red-300'
             }`}
           >
-            <p>{message}</p>
+            <p>{message.content}</p>
           </div>
         ))}
       </div>
-      {/* Message input */}
       <form
         className="message-input w-full border-t items-center border-stone-300 fixed bottom-[0] flex"
         onSubmit={(e) => {

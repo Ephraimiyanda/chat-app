@@ -38,7 +38,7 @@ function Message({ contactId }: ContactIdProps) {
   };
 
   useEffect(() => {
-    socket.on(`sender-${userData._id}`, (data: any) => {
+    socket.on(`sender-64c822dd49065021d3a30e4f`, (data: any) => {
       setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: false }]);
     });
   }, [socket, userData]);

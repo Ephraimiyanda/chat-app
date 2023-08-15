@@ -16,7 +16,7 @@ interface UserProps {
 function Message({ contactId }: ContactIdProps) {
   const [follower, setFollower] = useState<UserProps | null>(null);
   const [inputValue, setInputValue] = useState('');
-  const [userMessages, setUserMessages] = useState<any[]>([]); // Change the type to any[]
+  const [userMessages, setUserMessages] = useState<any[]>([]);
   const userData = JSON.parse(Cookies.get('user') as string);
   const { avatar, name, _id } = follower || {};
   const socket = io("https://ephraim-iyanda.onrender.com");
@@ -39,14 +39,14 @@ function Message({ contactId }: ContactIdProps) {
 
   useEffect(() => {
     socket.on(`sender-${userData._id}`, (data: any) => {
-      setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: true }]);
+      setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: false }]);
     });
   }, [socket, userData]);
 
   const sendMessage = (messageContent: string) => {
     const messageData = {
       senderId: userData._id,
-      receiverId: "64c822dd49065021d3a30e4f", // Replace with actual receiver ID
+      receiverId: "64d90b7cf1cefce483e79244", // Replace with actual receiver ID
       content: messageContent,
     };
 
@@ -78,9 +78,8 @@ function Message({ contactId }: ContactIdProps) {
         {userMessages.map((message, index) => (
           <div
             key={index}
-            className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit ${
-              message.fromSelf ? 'bg-green-300 ml-auto' : 'bg-red-300'
-            }`}
+            className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit ${message.fromSelf ? 'bg-green-300 ml-auto' : 'bg-red-300'
+              }`}
           >
             <p>{message.content}</p>
           </div>

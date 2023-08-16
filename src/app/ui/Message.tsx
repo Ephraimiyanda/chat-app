@@ -36,10 +36,10 @@ function Message({ contactId }: ContactIdProps) {
       console.log('Error fetching follower data:', error);
     }
   };
-  //console.log(userData._id);
+
   useEffect(() => {
     socket.on(`receiver-${userData._id}`, (data: any) => {
-      
+    
       setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: true }]);
     });
   }, [socket, userData]);

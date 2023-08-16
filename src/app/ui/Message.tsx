@@ -38,10 +38,10 @@ function Message({ contactId }: ContactIdProps) {
   };
 
   useEffect(() => {
-    socket.on(`sender-${userData._id}`, (data: any) => {
-      setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: false }]);
+    socket.on('receiveMessage', (message: any) => {
+      setUserMessages((prevMessages) => [...prevMessages, { content: message.content, fromSelf: false }]);
     });
-  }, [socket, userData]);
+  }, [socket]);
 
   const sendMessage = (messageContent: string) => {
     const messageData = {

@@ -43,8 +43,7 @@ function Message({ contactId }: ContactIdProps) {
     });
     
     socket.on(`receiver-${userData._id}`, (data: any) => {
-      setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: true }]);
-      
+      setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: false }]);
     });
   }, [socket, userData]);
 

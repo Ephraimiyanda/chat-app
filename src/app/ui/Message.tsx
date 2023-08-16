@@ -56,7 +56,7 @@ function Message({ contactId }: ContactIdProps) {
     };
 
     try {
-      setUserMessages((prevMessages) => [...prevMessages, { content: messageContent, fromSelf: true }]);
+     
       socket.emit('sendMessage', messageData);
     } catch (error) {
       console.log('An error occurred while sending the message:', error);

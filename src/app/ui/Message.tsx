@@ -38,10 +38,10 @@ function Message({ contactId }: ContactIdProps) {
   };
 
   useEffect(() => {
-    socket.on('receiveMessage', (message: any) => {
-      setUserMessages((prevMessages) => [...prevMessages, { content: message.content, fromSelf: false }]);
+    socket.on(`sender-64c822dd49065021d3a30e4f`, (data: any) => {
+      setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: true }]);
     });
-  }, [socket]);
+  }, [socket, userData]);
 
   const sendMessage = (messageContent: string) => {
     const messageData = {
@@ -52,7 +52,7 @@ function Message({ contactId }: ContactIdProps) {
 
     try {
       setUserMessages((prevMessages) => [...prevMessages, { content: messageContent, fromSelf: true }]);
-      socket.emit('sendMessage', messageData);
+      socket.emit('sender-64c822dd49065021d3a30e4f', messageData);
     } catch (error) {
       console.log('An error occurred while sending the message:', error);
     }

@@ -38,7 +38,7 @@ function Message({ contactId }: ContactIdProps) {
   };
 
   useEffect(() => {
-    socket.on(`sender-64c822dd49065021d3a30e4f`, (data: any) => {
+    socket.on(`sender-${userData._id}`, (data: any) => {
       setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: true }]);
     });
   }, [socket, userData]);
@@ -46,13 +46,13 @@ function Message({ contactId }: ContactIdProps) {
   const sendMessage = (messageContent: string) => {
     const messageData = {
       senderId: userData._id,
-      receiverId: "64c822dd49065021d3a30e4f", // Replace with actual receiver ID
+      receiverId: "64d90b7cf1cefce483e79244", // Replace with actual receiver ID
       content: messageContent,
     };
 
     try {
       setUserMessages((prevMessages) => [...prevMessages, { content: messageContent, fromSelf: true }]);
-      socket.emit('sender-64c822dd49065021d3a30e4f', messageData);
+      socket.emit('sendMessage', messageData);
     } catch (error) {
       console.log('An error occurred while sending the message:', error);
     }

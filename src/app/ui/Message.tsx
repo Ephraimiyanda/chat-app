@@ -41,6 +41,11 @@ function Message({ contactId }: ContactIdProps) {
     socket.on(`sender-${userData._id}`, (data: any) => {
       setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: true }]);
     });
+    
+    socket.on(`receiver-${userData._id}`, (data: any) => {
+      setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: true }]);
+      
+    });
   }, [socket, userData]);
 
   const sendMessage = (messageContent: string) => {

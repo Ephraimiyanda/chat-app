@@ -39,7 +39,7 @@ function Message({ contactId }: ContactIdProps) {
 
   useEffect(() => {
 
-    socket.on(`receive-${userData._id}`, (data: any) => {
+    socket.on(`receive`, (data: any) => {
       setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: false }]);
     });
 

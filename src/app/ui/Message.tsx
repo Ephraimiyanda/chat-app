@@ -3,22 +3,28 @@ import Image from 'next/image';
 import Cookies from 'js-cookie';
 import io from 'socket.io-client';
 
-interface ContactIdProps {
-  contactId: number;
-}
-
 interface UserProps {
   avatar: string;
   name: string;
   _id: number;
 }
 
+interface MessageProps {
+  content: string;
+  fromSelf: boolean;
+}
+
+interface ContactIdProps {
+  contactId: number;
+}
+
 function Message({ contactId }: ContactIdProps) {
   const [follower, setFollower] = useState<UserProps | null>(null);
   const [inputValue, setInputValue] = useState('');
-  const [userMessages, setUserMessages] = useState<any[]>([]);
+  const [userMessages, setUserMessages] = useState<MessageProps[]>([]);
+  const [sentMessages, setSentMessages] = useState<MessageProps[]>([]); // New state for sent messages
   const userData = JSON.parse(Cookies.get('user') as string);
-  const { avatar, name, _id } = follower || {};
+  const { avatar, name } = follower || {};
   const socket = io("https://ephraim-iyanda.onrender.com");
 
   useEffect(() => {
@@ -29,7 +35,7 @@ function Message({ contactId }: ContactIdProps) {
     try {
       const res = await fetch(`https://ephraim-iyanda.onrender.com/user/64cfcd0aa7d7451982ca8445`);
       const validRes = await res.json();
-      if (validRes && validRes.user) {
+      if (validRes?.user) {
         setFollower(validRes.user);
       }
     } catch (error) {
@@ -38,30 +44,43 @@ function Message({ contactId }: ContactIdProps) {
   };
 
   useEffect(() => {
-    socket.on(`sender-${userData._id}`, (data: any) => {
-      setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: true }]);
-    });
+    const handleSenderMessage = (data: any) => {
+      setUserMessages(prevMessages => [...prevMessages, { content: data.content, fromSelf: false }]);
+    };
 
+    const handleReceiverMessage = (data: any) => {
+      setUserMessages(prevMessages => [...prevMessages, { content: data.content, fromSelf: true }]);
+    };
+
+    socket.on(`sender-${userData._id}`, handleSenderMessage);
+    socket.on(`receive-${userData._id}`, handleReceiverMessage);
+
+    return () => {
+      socket.off(`sender-${userData._id}`, handleSenderMessage);
+      socket.off(`receive-${userData._id}`, handleReceiverMessage);
+    };
   }, [socket, userData]);
 
-  useEffect(() => {
-    socket.on(`receive-${userData._id}`, (data: any) => {
-      setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: false }]);
-    });
-
-  }, [socket, userData]);
   const sendMessage = () => {
     const messageData = {
       senderId: userData._id,
-      receiverId: "64c822dd49065021d3a30e4f", 
+      receiverId: "64d90b7cf1cefce483e79244", // Replace with actual receiver ID
       content: inputValue,
     };
-    //64c822dd49065021d3a30e4f
-    try {
 
+    try {
+      setSentMessages(prevMessages => [...prevMessages, { content: inputValue, fromSelf: true }]);
       socket.emit('sendMessage', messageData);
+      setInputValue('');
     } catch (error) {
       console.log('An error occurred while sending the message:', error);
+    }
+  };
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      sendMessage();
     }
   };
 
@@ -82,11 +101,12 @@ function Message({ contactId }: ContactIdProps) {
         <p className="text-lg">{name}</p>
       </div>
       <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block">
-        {userMessages.map((message, index) => (
+        {userMessages.concat(sentMessages).map((message, index) => (
           <div
             key={index}
-            className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit ${message.fromSelf ? 'bg-green-300 ml-auto' : 'bg-red-300'
-              }`}
+            className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit ${
+              message.fromSelf ? 'bg-green-300 ml-auto' : 'bg-red-300'
+            }`}
           >
             <p>{message.content}</p>
           </div>
@@ -97,7 +117,6 @@ function Message({ contactId }: ContactIdProps) {
         onSubmit={(e) => {
           e.preventDefault();
           sendMessage();
-          setInputValue('');
         }}
       >
         <input
@@ -105,15 +124,8 @@ function Message({ contactId }: ContactIdProps) {
           className="w-full px-4 py-2"
           placeholder="Type a message..."
           value={inputValue}
-          onChange={(e) => {
-            setInputValue(e.target.value);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              sendMessage();
-              setInputValue('');
-            }
-          }}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleInputKeyDown}
         />
         <button
           type="submit"

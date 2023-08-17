@@ -38,13 +38,15 @@ function Message({ contactId }: ContactIdProps) {
   };
 
   useEffect(() => {
-    socket.on(`sender-${userData._id}`, (data: any) => {
-      setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: true }]);
-    });
 
     socket.on(`receiver-${userData._id}`, (data: any) => {
       setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: false }]);
     });
+
+    socket.on(`sender-${userData._id}`, (data: any) => {
+      setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: true }]);
+    });
+
   }, [socket, userData]);
 
   const sendMessage = (messageContent: string) => {
@@ -53,7 +55,7 @@ function Message({ contactId }: ContactIdProps) {
       receiverId: "64c822dd49065021d3a30e4f", // Replace with actual receiver ID
       content: messageContent,
     };
-
+//64c822dd49065021d3a30e4f
     try {
 
       socket.emit('sendMessage', messageData);

@@ -38,17 +38,19 @@ function Message({ contactId }: ContactIdProps) {
   };
 
   useEffect(() => {
-
-    socket.on(`receive`, (data: any) => {
-      setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: false }]);
-    });
-
     socket.on(`sender-${userData._id}`, (data: any) => {
       setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: true }]);
     });
 
   }, [socket, userData]);
 
+  useEffect(() => {
+
+    socket.on(`receive`, (data: any) => {
+      setUserMessages((prevMessages) => [...prevMessages, { content: data.content, fromSelf: false }]);
+    });
+
+  }, [socket, userData]);
   const sendMessage = () => {
     const messageData = {
       senderId: userData._id,

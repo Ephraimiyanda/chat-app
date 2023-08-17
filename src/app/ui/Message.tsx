@@ -53,10 +53,10 @@ function Message({ contactId }: ContactIdProps) {
   const sendMessage = () => {
     const messageData = {
       senderId: userData._id,
-      receiverId: "64d90b7cf1cefce483e79244", // Replace with actual receiver ID
+      receiverId: "64c822dd49065021d3a30e4f", 
       content: inputValue,
     };
-//64c822dd49065021d3a30e4f
+    //64c822dd49065021d3a30e4f
     try {
 
       socket.emit('sendMessage', messageData);

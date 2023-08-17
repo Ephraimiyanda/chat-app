@@ -44,32 +44,25 @@ function Message({ contactId }: ContactIdProps) {
   };
 
   useEffect(() => {
-    const handleSenderMessage = (data: any) => {
-      setUserMessages(prevMessages => [...prevMessages, { content: data.content, fromSelf: false }]);
-    };
 
-    const handleReceiverMessage = (data: any) => {
+    socket.on(`sender-${userData._id}`,  (data: any) => {
       setUserMessages(prevMessages => [...prevMessages, { content: data.content, fromSelf: true }]);
-    };
+    });
 
-    socket.on(`sender-${userData._id}`, handleSenderMessage);
-    socket.on(`receive-${userData._id}`, handleReceiverMessage);
-
-    return () => {
-      socket.off(`sender-${userData._id}`, handleSenderMessage);
-      socket.off(`receive-${userData._id}`, handleReceiverMessage);
-    };
+    socket.on(`receive-${userData._id}`,(data: any) => {
+      setUserMessages(prevMessages => [...prevMessages, { content: data.content, fromSelf: false }]);
+    });
+   
   }, [socket, userData]);
 
   const sendMessage = () => {
     const messageData = {
       senderId: userData._id,
-      receiverId: "64d90b7cf1cefce483e79244", // Replace with actual receiver ID
+      receiverId: "64c822dd49065021d3a30e4f", // Replace with actual receiver ID
       content: inputValue,
     };
 
     try {
-      setSentMessages(prevMessages => [...prevMessages, { content: inputValue, fromSelf: true }]);
       socket.emit('sendMessage', messageData);
       setInputValue('');
     } catch (error) {

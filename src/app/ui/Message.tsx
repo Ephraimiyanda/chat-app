@@ -49,11 +49,14 @@ function Message({ contactId }: ContactIdProps) {
       setUserMessages(prevMessages => [...prevMessages, { content: data.content, fromSelf: true }]);
     });
 
-    socket.on(`receive-${userData._id}`,(data: any) => {
-      setUserMessages(prevMessages => [...prevMessages, { content: data.content, fromSelf: false }]);
-    });
-   
   }, [socket, userData]);
+
+useEffect(()=>{
+
+  socket.on(`receive-${userData._id}`,(data: any) => {
+    setUserMessages(prevMessages => [...prevMessages, { content: data.content, fromSelf: false }]);
+  });
+},[])
 
   const sendMessage = () => {
     const messageData = {
@@ -61,7 +64,7 @@ function Message({ contactId }: ContactIdProps) {
       receiverId: "64c822dd49065021d3a30e4f", // Replace with actual receiver ID
       content: inputValue,
     };
-
+//64c822dd49065021d3a30e4f
     try {
       socket.emit('sendMessage', messageData);
       setInputValue('');

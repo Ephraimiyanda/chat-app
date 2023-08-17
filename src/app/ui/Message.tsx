@@ -49,11 +49,11 @@ function Message({ contactId }: ContactIdProps) {
 
   }, [socket, userData]);
 
-  const sendMessage = (messageContent: string) => {
+  const sendMessage = () => {
     const messageData = {
       senderId: userData._id,
       receiverId: "64c822dd49065021d3a30e4f", // Replace with actual receiver ID
-      content: messageContent,
+      content: inputValue,
     };
 //64c822dd49065021d3a30e4f
     try {
@@ -95,7 +95,7 @@ function Message({ contactId }: ContactIdProps) {
         className="message-input w-full border-t items-center border-stone-300 fixed bottom-[0] flex"
         onSubmit={(e) => {
           e.preventDefault();
-          sendMessage(inputValue);
+          sendMessage();
           setInputValue('');
         }}
       >
@@ -109,7 +109,7 @@ function Message({ contactId }: ContactIdProps) {
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              sendMessage(inputValue);
+              sendMessage();
               setInputValue('');
             }
           }}

@@ -56,7 +56,7 @@ useEffect(()=>{
   socket.on(`receive-${userData._id}`,(data: any) => {
     setUserMessages(prevMessages => [...prevMessages, { content: data.content, fromSelf: false }]);
   });
-},[userData._id])
+},[])
 
   const sendMessage = () => {
     const messageData = {
@@ -97,15 +97,17 @@ useEffect(()=>{
         <p className="text-lg">{name}</p>
       </div>
       <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block ">
+        <div className='px-2'>
         {userMessages.concat(sentMessages).map((message, index) => (
-          <div className='px-2'>
+          
             <p  
              key={index}
              className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit max-w-[200px] h-fit ${
                message.fromSelf ? 'bg-green-300 ml-auto' : 'bg-red-300'
              }`}>{message.content}</p>
-          </div>
+          
         ))}
+      </div>
       </div>
       <form
         className="message-input w-full border-t items-center border-stone-300 fixed bottom-[0] flex"

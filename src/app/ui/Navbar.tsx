@@ -27,7 +27,7 @@ export default function Navbar() {
         width={60}
         height={20}
       /></Link>
-      <div className="flex max-w-[75rem] w-full mr-auto gap-[10%]">
+      <div className="flex max-w-[75rem] w-full m-auto gap-[10%]">
         <h1 className="hidden xl:block text-3xl font-bold pt-3">
           Herosocial
         </h1>

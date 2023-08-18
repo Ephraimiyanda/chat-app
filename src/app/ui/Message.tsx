@@ -61,10 +61,10 @@ useEffect(()=>{
   const sendMessage = () => {
     const messageData = {
       senderId: userData._id,
-      receiverId: "64c822dd49065021d3a30e4f", // Replace with actual receiver ID
+      receiverId: "64c822dd49065021d3a30e4f", 
       content: inputValue,
     };
-//64c822dd49065021d3a30e4f
+//
     try {
       socket.emit('sendMessage', messageData);
       setInputValue('');
@@ -96,15 +96,14 @@ useEffect(()=>{
 
         <p className="text-lg">{name}</p>
       </div>
-      <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block">
+      <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block ">
         {userMessages.concat(sentMessages).map((message, index) => (
-          <div
-            key={index}
-            className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit ${
-              message.fromSelf ? 'bg-green-300 ml-auto' : 'bg-red-300'
-            }`}
-          >
-            <p>{message.content}</p>
+          <div className='px-2'>
+            <p  
+             key={index}
+             className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit max-w-[200px] h-fit ${
+               message.fromSelf ? 'bg-green-300 ml-auto' : 'bg-red-300'
+             }`}>{message.content}</p>
           </div>
         ))}
       </div>

@@ -34,7 +34,7 @@ function Message({ contactId }: ContactIdProps) {
 
   const fetchFollower = async () => {
     try {
-      const res = await fetch(`https://ephraim-iyanda.onrender.com/user/${contactId}`);
+      const res = await fetch(`https://ephraim-iyanda.onrender.com/user/64cfcd0aa7d7451982ca8445`);
       const validRes = await res.json();
       if (validRes?.user) {
         setFollower(validRes.user);
@@ -62,7 +62,7 @@ useEffect(()=>{
   const sendMessage = () => {
     const messageData = {
       senderId: userData._id,
-      receiverId: contactId, 
+      receiverId: "64d90b7cf1cefce483e79244", 
       content: inputValue,
     };
 //64c822dd49065021d3a30e4f

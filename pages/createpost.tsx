@@ -57,12 +57,13 @@ export default function CreatePost() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const{ imageUrl,cloudinaryId}:any = await handleImageUpload();
+    
     // Check if an image is selected before attempting to upload
     if (selectedImage) {
       setLoading("loading");
 
       try {
+        const{ imageUrl,cloudinaryId}:any = await handleImageUpload();
         await handleImageUpload();
 
         const postToUpload = {

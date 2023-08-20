@@ -12,6 +12,7 @@ interface UserProps {
 interface MessageProps {
   content: string;
   fromSelf: boolean;
+  timestamp:string
 }
 
 interface ContactIdProps {
@@ -33,7 +34,7 @@ function Message({ contactId }: ContactIdProps) {
 
   const fetchFollower = async () => {
     try {
-      const res = await fetch(`https://ephraim-iyanda.onrender.com/user/64cfcd0aa7d7451982ca8445`);
+      const res = await fetch(`https://ephraim-iyanda.onrender.com/user/${contactId}`);
       const validRes = await res.json();
       if (validRes?.user) {
         setFollower(validRes.user);
@@ -46,7 +47,7 @@ function Message({ contactId }: ContactIdProps) {
   useEffect(() => {
 
     socket.on(`sender-${userData._id}`,  (data: any) => {
-      setUserMessages(prevMessages => [...prevMessages, { content: data.content, fromSelf: true }]);
+      setUserMessages(prevMessages => [...prevMessages, { content: data.content,timestamp:data.timestamp, fromSelf: true }]);
     });
 
   }, [socket, userData]);
@@ -54,14 +55,14 @@ function Message({ contactId }: ContactIdProps) {
 useEffect(()=>{
 
   socket.on(`receive-${userData._id}`,(data: any) => {
-    setUserMessages(prevMessages => [...prevMessages, { content: data.content, fromSelf: false }]);
+    setUserMessages(prevMessages => [...prevMessages, { content: data.content,timestamp:data.timestamp, fromSelf: false }]);
   });
 },[])
 
   const sendMessage = () => {
     const messageData = {
       senderId: userData._id,
-      receiverId: "64d90b7cf1cefce483e79244", 
+      receiverId: contactId, 
       content: inputValue,
     };
 //64c822dd49065021d3a30e4f
@@ -100,11 +101,18 @@ useEffect(()=>{
         <div className='px-2'>
         {userMessages.concat(sentMessages).map((message, index) => (
           
-            <p  
+            <div 
              key={index}
-             className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit max-w-[200px] h-fit ${
+             className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit flex flex-col max-w-[50%] sm:max-w-[200px] h-fit ${
                message.fromSelf ? 'bg-green-300 ml-auto' : 'bg-red-300'
-             }`}>{message.content}</p>
+             }`}> <p className=' overflow-auto break-words'> {message.content} </p>
+             <span className=' text-[9px]'>{new Date(
+              message.timestamp
+            )
+              .toLocaleTimeString([], {
+                hour: "numeric",
+                minute: "2-digit",
+              })}</span></div>
           
         ))}
       </div>

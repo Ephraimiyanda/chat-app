@@ -22,8 +22,7 @@ interface ContactIdProps {
 function Message({ contactId }: ContactIdProps) {
   const [follower, setFollower] = useState<UserProps | null>(null);
   const [inputValue, setInputValue] = useState('');
-  const [userMessages, setUserMessages] = useState<MessageProps[]>([]);
-  const [sentMessages, setSentMessages] = useState<MessageProps[]>([]); // New state for sent messages
+  const [userMessages, setUserMessages] = useState<MessageProps[]>([]); // New state for sent messages
   const userData = JSON.parse(Cookies.get('user') as string);
   const { avatar, name } = follower || {};
   const socket = io("https://ephraim-iyanda.onrender.com");
@@ -99,14 +98,14 @@ useEffect(()=>{
       </div>
       <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block ">
         <div className='px-2'>
-        {userMessages.concat(sentMessages).map((message, index) => (
+        {userMessages.map((message, index) => (
           
             <div 
              key={index}
              className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit flex flex-col max-w-[50%] sm:max-w-[200px] h-fit ${
                message.fromSelf ? 'bg-green-300 ml-auto' : 'bg-red-300'
              }`}> <p className=' overflow-auto break-words'> {message.content} </p>
-             <span className=' text-[9px]'>{new Date(
+             <span className='w-full text-right text-[9px]'>{new Date(
               message.timestamp
             )
               .toLocaleTimeString([], {

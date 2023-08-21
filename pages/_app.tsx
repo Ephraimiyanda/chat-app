@@ -11,16 +11,25 @@ import "../src/app/globals.css";
 import Loader from '@/app/ui/loader';
 import CreatePost from './createpost';
 import { Modal } from 'react-aria-components';
+import io from 'socket.io-client';
 interface User {
   id: number;
 
 }
 
-type props = {
+interface MessageProps {
+  content: string;
+  fromSelf: boolean;
+  timestamp:string
+}
+
+interface props {
   Component: any,
   pageProps: any,
   searchParams: Record<string, string> | null | undefined
 }
+
+
 function MyApp({ Component, pageProps, searchParams }: props) {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
@@ -28,7 +37,9 @@ function MyApp({ Component, pageProps, searchParams }: props) {
   const [isLoaderVisible, setIsLoaderVisible] = useState(false);
   const showCreatePost = router.query?.createpost;
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-
+  const [userMessages, setUserMessages] = useState<MessageProps[]>([]);
+  const socket = io("https://ephraim-iyanda.onrender.com");
+  
   useEffect(() => {
     // Check if the screen size is smaller than 768px (small screen)
     const handleResize = () => {
@@ -46,7 +57,13 @@ function MyApp({ Component, pageProps, searchParams }: props) {
     };
   }, []);
 
+  useEffect(()=>{
 
+    const userData = JSON.parse(Cookies.get('user') as string);
+    socket.on(`receive-${userData._id}`,(data: any) => {
+      setUserMessages(prevMessages => [...prevMessages, { content: data.content,timestamp:data.timestamp, fromSelf: false }]);
+    });
+  },[])
 
 
   useEffect(() => {
@@ -61,21 +78,8 @@ function MyApp({ Component, pageProps, searchParams }: props) {
   }, [user, isAccessPage, router]);
 
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (user && user.id) {
-        try {
-          const response = await fetch(`http://localhost:5000/users/${user.id}`);
-          const userData = await response.json();
-          setUser(prevUser => ({ ...prevUser, ...userData }));
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        }
-      }
-    };
 
-    fetchUser();
-  }, [user]);
+
   if (isAccessPage) {
     return (
       <AppContext.Provider value={{ user, setUser }}>
@@ -89,7 +93,7 @@ function MyApp({ Component, pageProps, searchParams }: props) {
   }
 
   return (
-    <AppContext.Provider value={{ user, setUser, showCreatePost }}>
+    <AppContext.Provider value={{ user, setUser, showCreatePost ,userMessages, setUserMessages}}>
       <div className='fixed w-full'>
         <Navbar />
         <div className="main-content flex">

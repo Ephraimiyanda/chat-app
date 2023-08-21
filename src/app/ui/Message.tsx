@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Cookies from 'js-cookie';
 import io from 'socket.io-client';
-
+import { AppContext } from "../../../public/context/AppContext";
+import { useContext } from 'react';
 interface UserProps {
   avatar: string;
   name: string;
@@ -12,7 +13,8 @@ interface UserProps {
 interface MessageProps {
   content: string;
   fromSelf: boolean;
-  timestamp:string
+  timestamp:string;
+  
 }
 
 interface ContactIdProps {
@@ -22,7 +24,7 @@ interface ContactIdProps {
 function Message({ contactId }: ContactIdProps) {
   const [follower, setFollower] = useState<UserProps | null>(null);
   const [inputValue, setInputValue] = useState('');
-  const [userMessages, setUserMessages] = useState<MessageProps[]>([]); // New state for sent messages
+  const {userMessages, setUserMessages} = useContext(AppContext); // New state for sent messages
   const userData = JSON.parse(Cookies.get('user') as string);
   const { avatar, name } = follower || {};
   const socket = io("https://ephraim-iyanda.onrender.com");
@@ -46,22 +48,17 @@ function Message({ contactId }: ContactIdProps) {
   useEffect(() => {
 
     socket.on(`sender-${userData._id}`,  (data: any) => {
-      setUserMessages(prevMessages => [...prevMessages, { content: data.content,timestamp:data.timestamp, fromSelf: true }]);
+      setUserMessages((prevMessages: any) => [...prevMessages, { content: data.content,timestamp:data.timestamp, fromSelf: true }]);
     });
 
   }, [socket, userData]);
 
-useEffect(()=>{
 
-  socket.on(`receive-${userData._id}`,(data: any) => {
-    setUserMessages(prevMessages => [...prevMessages, { content: data.content,timestamp:data.timestamp, fromSelf: false }]);
-  });
-},[])
 
   const sendMessage = () => {
     const messageData = {
       senderId: userData._id,
-      receiverId: "64d90b7cf1cefce483e79244", 
+      receiverId: "64c822dd49065021d3a30e4f", 
       content: inputValue,
     };
 //64c822dd49065021d3a30e4f
@@ -98,7 +95,7 @@ useEffect(()=>{
       </div>
       <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block ">
         <div className='px-2'>
-        {userMessages.map((message, index) => (
+        {userMessages.map((message:MessageProps, index:any) => (
           
             <div 
              key={index}

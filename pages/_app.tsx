@@ -39,6 +39,7 @@ function MyApp({ Component, pageProps, searchParams }: props) {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [userMessages, setUserMessages] = useState<MessageProps[]>([]);
   const socket = io("https://ephraim-iyanda.onrender.com");
+  const userData = JSON.parse(Cookies.get('user') as string);
   
   useEffect(() => {
     // Check if the screen size is smaller than 768px (small screen)
@@ -65,6 +66,14 @@ function MyApp({ Component, pageProps, searchParams }: props) {
     });
   },[])
 
+
+  useEffect(() => {
+
+    socket.on(`sender-${userData._id}`,  (data: any) => {
+      setUserMessages((prevMessages: any) => [...prevMessages, { content: data.content,timestamp:data.timestamp, fromSelf: true }]);
+    });
+
+  }, [socket, userData]);
 
   useEffect(() => {
     const userCookie = Cookies.get('user');

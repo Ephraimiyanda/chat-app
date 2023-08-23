@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import io from 'socket.io-client';
 import { AppContext } from "../../../public/context/AppContext";
 import { useContext } from 'react';
+import useFetch from '../../../public/fetch/userfetch';
 interface UserProps {
   avatar: string;
   name: string;
@@ -28,6 +29,19 @@ function Message({ contactId }: ContactIdProps) {
   const userData = JSON.parse(Cookies.get('user') as string);
   const { avatar, name } = follower || {};
   const socket = io("https://ephraim-iyanda.onrender.com");
+
+  useEffect(()=>{
+    const fetchMessages = async()=> {
+      try{
+        const messageJson=await fetch(`https://ephraim-iyanda.onrender.com/user/messages/64c822dd49065021d3a30e4f/64d90b7cf1cefce483e79244`)
+        const message = await messageJson.json();
+        console.log(message);
+      }
+      catch(error){
+        console.log(error);
+      }
+    }
+  },[userData])
 
   useEffect(() => {
     fetchFollower();
@@ -95,7 +109,7 @@ function Message({ contactId }: ContactIdProps) {
       </div>
       <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block ">
         <div className='px-2'>
-        {userMessages.map((message:MessageProps, index:any) => (
+        {userMessages.map((message:MessageProps, index:number) => (
           
             <div 
              key={index}

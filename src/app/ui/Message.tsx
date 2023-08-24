@@ -30,23 +30,24 @@ function Message({ contactId }: ContactIdProps) {
   const { avatar, name } = follower || {};
   const socket = io("https://ephraim-iyanda.onrender.com");
 
-  useEffect(()=>{
-    const fetchMessages = async()=> {
-      try{
-        const messageJson=await fetch(`https://ephraim-iyanda.onrender.com/user/messages/64c822dd49065021d3a30e4f/64d90b7cf1cefce483e79244`)
-        const message = await messageJson.json();
-        console.log(message);
-      }
-      catch(error){
-        console.log(error);
-      }
-    }
-  },[userData])
 
   useEffect(() => {
     fetchFollower();
+    fetchMessages();
   }, []);
 
+
+  const fetchMessages = async()=> {
+    try{
+      const messageJson=await fetch(`https://ephraim-iyanda.onrender.com/user/messages/${userData._id}/64d90b7cf1cefce483e79244`)
+      const message = await messageJson.json();
+      console.log(message);
+      message && Cookies.set(`userMessage-${contactId}`,message);
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
   const fetchFollower = async () => {
     try {
       const res = await fetch(`https://ephraim-iyanda.onrender.com/user/64cfcd0aa7d7451982ca8445`);
@@ -72,7 +73,7 @@ function Message({ contactId }: ContactIdProps) {
   const sendMessage = () => {
     const messageData = {
       senderId: userData._id,
-      receiverId: "64c822dd49065021d3a30e4f", 
+      receiverId: "64d90b7cf1cefce483e79244", 
       content: inputValue,
     };
 //64c822dd49065021d3a30e4f

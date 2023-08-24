@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 import { AppContext } from "../../../public/context/AppContext";
 import { useContext } from 'react';
 import useFetch from '../../../public/fetch/userfetch';
+
 interface UserProps {
   avatar: string;
   name: string;
@@ -15,7 +16,7 @@ interface MessageProps {
   content: string;
   fromSelf: boolean;
   timestamp:string;
-  
+  senderId:boolean
 }
 
 interface ContactIdProps {
@@ -41,13 +42,22 @@ function Message({ contactId }: ContactIdProps) {
     try{
       const messageJson=await fetch(`https://ephraim-iyanda.onrender.com/user/messages/${userData._id}/64d90b7cf1cefce483e79244`)
       const message = await messageJson.json();
-      console.log(message);
-      message && Cookies.set(`userMessage-${contactId}`,message);
-    }
+       // Save messages as a cookie
+       Cookies.set(`userMessages-64d90b7cf1cefce483e79244`, JSON.stringify(message));
+    
+       // Get messages from the cookie and update userMessages state
+       const cookieMessages = Cookies.get(`userMessages-64d90b7cf1cefce483e79244`) ;
+       const gotMessage= cookieMessages &&  JSON.parse(cookieMessages)
+       gotMessage.messages.map((messages:MessageProps)=>{
+        setUserMessages((prevMessages: any) => [...prevMessages, { content: messages.content,timestamp:messages.timestamp, fromSelf:userData._id===messages.senderId?false:true}]);
+       })
+     
+        }
     catch(error){
       console.log(error);
     }
   }
+
   const fetchFollower = async () => {
     try {
       const res = await fetch(`https://ephraim-iyanda.onrender.com/user/64cfcd0aa7d7451982ca8445`);
@@ -73,10 +83,10 @@ function Message({ contactId }: ContactIdProps) {
   const sendMessage = () => {
     const messageData = {
       senderId: userData._id,
-      receiverId: "64d90b7cf1cefce483e79244", 
+      receiverId: "64c822dd49065021d3a30e4f", 
       content: inputValue,
     };
-//64c822dd49065021d3a30e4f
+//
     try {
       socket.emit('sendMessage', messageData);
       setInputValue('');

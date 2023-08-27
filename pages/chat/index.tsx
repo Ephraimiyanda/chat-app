@@ -33,7 +33,7 @@ function Chat() {
   }, []);
   return (
     <div className="chat-container ml-auto flex h-screen w-full">
-      <div className={`contacts-container bg-white flex flex-col w-96 ${isSmallScreen&& "w-full"}  border-r border-r-stone-300`}>
+      <div className={`contacts-container bg-white flex flex-col w-[22rem] ${isSmallScreen&& "w-full"}  border-r border-r-stone-300`}>
         <div className="sticky top-[0] h-32 w-full border-b border-b-stone-300 pl-2 pr-1 pb-5">
           <h2 className="text-[40px]">Chats</h2>
           <input className="rounded-xl h-8 w-full" type="text" placeholder="search for message or content.." />

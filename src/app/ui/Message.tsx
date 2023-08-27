@@ -131,12 +131,12 @@ function Message({ contactId }: ContactIdProps) {
 
         <p className="text-lg">{name}</p>
       </div>
-      <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block pb-12">
-        <div className="px-2">
+      <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block pb-12 px-2">
+        <div >
           {userMessages.map((message: MessageProps, index: number) => (
             <div
               key={index}
-              className={`p-1 pl-2 pr-2 rounded-lg mt-2 w-fit flex flex-col max-w-[50%] sm:max-w-[200px] h-fit ${
+              className={`p-1 px-2 rounded-lg mt-2 w-fit flex flex-col max-w-[50%] sm:max-w-[200px] h-fit ${
                 message.fromSelf ? "bg-green-300 ml-auto" : "bg-red-300"
               }`}
             >

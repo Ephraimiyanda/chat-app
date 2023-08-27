@@ -26,7 +26,7 @@ const NavItem: React.FC<NavItemProps> = ({imgSrc, link }) => {
         width={27}
         height={27}
         {...imgSrc}
-        className="mr-auto ml-auto"
+        className="mr-auto ml-auto  max-w-[unset]"
         alt='sidebar elements'
       />
     </li>
@@ -38,7 +38,7 @@ const SideNavbar = () => {
   const router =useRouter()
   return (
     <div
-      className=" bg-white  p-4 w-fit overflow-y-hidden h-full overflow-hidden sidebar pt-16 border-r border-b-stone-300 " >
+      className=" bg-white  p-4 w-fit overflow-y-hidden h-full overflow-hidden sidebar pt-16 border-r border-b-stone-300 z-10 " >
       <ul className="flex flex-col sm:gap-8 gap-[6%]">
         <NavItem {...router.pathname==="/"?{imgSrc: { src: HomeActive,alt:"home" }}:{imgSrc: { src: Home,alt:"home" }}} link='/'  />
         <NavItem {...router.pathname==="/profile"?{imgSrc: { src:UserActive,alt:"profile" }}:{imgSrc: { src: ProfileIcon,alt:"profile" }}}  link="/profile"  />

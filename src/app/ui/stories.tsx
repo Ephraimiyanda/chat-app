@@ -190,7 +190,7 @@ export default function Stories() {
                       ›
                     </button>
 
-                    <div className="flex z-[6] justify-center mt-2 absolute top-[81%] bottom-[10%] left-[0] right-[0]  transform -translate-y-[70%]  ">
+                    <div className="flex z-[2] justify-center mt-2 absolute top-[81%] bottom-[10%] left-[0] right-[0]  transform -translate-y-[70%]  ">
                       {posts.length > 1 &&
                         posts.map((post, index) => (
                           <div

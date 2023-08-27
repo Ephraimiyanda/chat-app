@@ -102,19 +102,24 @@ input:focus {
 
 .home::-webkit-scrollbar,
 .activity::-webkit-scrollbar,
-.i-post::-webkit-scrollbar {
+.i-post::-webkit-scrollbar,.followerBar::-webkit-scrollbar{
   width: 4px;
   background: #f3f4f6;
   border: none;
   padding: 0;
   margin: 0;
 }
+.followerBar::-webkit-scrollbar{
+  height: 2px;
+}
 .i-post::-webkit-scrollbar-track {
   background: white;
 }
 .activity:hover::-webkit-scrollbar-thumb,
 .home:hover ::-webkit-scrollbar-thumb,
-.i-post:hover::-webkit-scrollbar-thumb {
+.i-post:hover::-webkit-scrollbar-thumb,
+.followerBar::-webkit-scrollbar-thumb
+ {
   background-color: #888;
   border-radius: 5px;
 }
@@ -264,6 +269,11 @@ background-color: #000;
 @media (max-width: 1280px) {
   .search-div {
     width: 100%;
+  }
+}
+@media (max-width:880px) {
+  .activity{
+    display: none;
   }
 }
 @media (max-width: 769px) {

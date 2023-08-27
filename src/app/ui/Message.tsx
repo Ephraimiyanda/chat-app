@@ -33,50 +33,8 @@ function Message({ contactId }: ContactIdProps) {
 
   useEffect(() => {
     fetchFollower();
-    fetchMessages();
-
-    // Clean up the socket event listener when component unmounts
-    return () => {
-      socket.off(`sender-${userData._id}`);
-    };
+    fetchMessagesFromAPI(); // Fetch messages from the API initially
   }, []);
-
-  const fetchMessages = async () => {
-    try {
-      const messageJson = await fetch(
-        `https://ephraim-iyanda.onrender.com/user/messages/${userData._id}/64d90b7cf1cefce483e79244`
-      );
-      const message = await messageJson.json();
-
-      // Save messages as a cookie
-      Cookies.set(
-        `userMessages-64d90b7cf1cefce483e79244`,
-        JSON.stringify(message)
-      );
-
-      // Clear the existing userMessages before adding new messages
-      setUserMessages([]);
-
-      // Add new messages from cookies to the userMessages state
-      const cookieMessages = Cookies.get(
-        `userMessages-64d90b7cf1cefce483e79244`
-      );
-     
-      if (cookieMessages) {
-        const gotMessage = JSON.parse(cookieMessages);
-        if (gotMessage.messages) {
-          const updatedMessages = gotMessage.messages.map((message: MessageProps) => ({
-            content: message.content,
-            timestamp: message.timestamp,
-            fromSelf: userData._id === message.sender,
-          }));
-          setUserMessages(updatedMessages);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const fetchFollower = async () => {
     try {
@@ -92,6 +50,31 @@ function Message({ contactId }: ContactIdProps) {
     }
   };
 
+  const fetchMessagesFromAPI = async () => {
+    try {
+      const messageJson = await fetch(
+        `https://ephraim-iyanda.onrender.com/user/messages/${userData._id}/64d90b7cf1cefce483e79244`
+      );
+      const message = await messageJson.json();
+
+      // Save messages as a cookie
+      Cookies.set(
+        `userMessages-64d90b7cf1cefce483e79244`,
+        JSON.stringify(message)
+      );
+
+      // Update userMessages state from the fetched messages
+      const updatedMessages = message.messages.map((msg: MessageProps) => ({
+        content: msg.content,
+        timestamp: msg.timestamp,
+        fromSelf: userData._id === msg.sender,
+      }));
+      setUserMessages(updatedMessages);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const sendMessage = () => {
     const messageData = {
       senderId: userData._id,
@@ -100,18 +83,23 @@ function Message({ contactId }: ContactIdProps) {
     };
 
     try {
-      // Update userMessages with the sent message
-      setUserMessages((prevMessages: any) => [
-        ...prevMessages,
-        {
-          content: inputValue,
-          timestamp: new Date().toISOString(),
-          fromSelf: true,
-        },
-      ]);
-
       // Emit the message to the server
       socket.emit("sendMessage", messageData);
+
+      // Update userMessages with the sent message
+      const newMessage = {
+        content: inputValue,
+        timestamp: new Date().toISOString(),
+        fromSelf: true,
+      };
+      setUserMessages((prevMessages: any) => [...prevMessages, newMessage]);
+
+      // Update the userMessages cookie
+      const updatedMessages = [...userMessages, newMessage];
+      Cookies.set(
+        `userMessages-64d90b7cf1cefce483e79244`,
+        JSON.stringify({ messages: updatedMessages })
+      );
 
       // Clear the input value
       setInputValue("");
@@ -143,7 +131,7 @@ function Message({ contactId }: ContactIdProps) {
 
         <p className="text-lg">{name}</p>
       </div>
-      <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block ">
+      <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block pb-12">
         <div className="px-2">
           {userMessages.map((message: MessageProps, index: number) => (
             <div
@@ -152,7 +140,6 @@ function Message({ contactId }: ContactIdProps) {
                 message.fromSelf ? "bg-green-300 ml-auto" : "bg-red-300"
               }`}
             >
-              {" "}
               <p className=" overflow-auto break-words"> {message.content} </p>
               <span className="w-full text-right text-[9px]">
                 {new Date(message.timestamp).toLocaleTimeString([], {

@@ -63,7 +63,9 @@ function MyApp({ Component, pageProps, searchParams }: props) {
   useEffect(()=>{
     socket.on(`receive-${userData?._id}`,(data: any) => {
       setUserMessages(prevMessages => [...prevMessages, { content: data.content,timestamp:data.timestamp, fromSelf: false }]);
+   
     });
+
   },[])
 
 

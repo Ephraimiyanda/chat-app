@@ -37,7 +37,6 @@ export default function Messages() {
         <button className="text-light_grey">See all</button>
       </div>
       <div>
-        <SearchBar />
       </div>
       <div className=" flex justify-between  font-bold border-b border-b-slate-200 mt-4 mb-3 flex-wrap ">
         <p className="border-b-2 border-b-white hover:border-b-2 hover:border-b-black cursor-pointer">

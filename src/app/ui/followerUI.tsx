@@ -12,14 +12,20 @@ interface followerUiProp{
 export default function FollowerUi({src,name,following,_id}:followerUiProp){
     const userCookie = Cookies.get('user');
     const userData = userCookie && JSON.parse(userCookie) ;
+
   const followUser =async()=>{
+const follow={
+     followerId :userData._id,
+     userId :_id 
+}
     try{
-        const res = await fetch(`https://ephraim-iyanda.onrender.com/user/${userData._id}/${_id}`,
+        const res = await fetch(`https://ephraim-iyanda.onrender.com/user/${_id}/${userData._id}`,
         {
             method:"POST",
             headers: {
                 'Content-Type': 'application/json'
-              }
+              },
+            body: JSON.stringify(follow)
         })
     }
     catch(error){

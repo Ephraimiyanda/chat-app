@@ -54,7 +54,7 @@ const unFollowUser =async()=>{
     }
     return(
         <div
-         className="flex flex-col gap-1 align-middle  text-center bg-white py-2 px-[20px] rounded-md">
+         className="flex flex-col gap-1 align-middle  text-center bg-white py-2 px-[20px] rounded-md ">
             <Image
             className=" rounded-[50%]"
             src={src}

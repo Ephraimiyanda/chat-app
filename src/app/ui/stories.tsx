@@ -1,30 +1,24 @@
-"use client";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { useContext, useState, useEffect, useRef } from "react";
-import { AppContext } from "../../../public/context/AppContext";
+import useSWR from "swr";
+import { Fetcher } from "swr/_internal";
+import ContactProps from "./contactProps";
+import Loader from "./loader";
 import share from "./images/share.png";
 import comment from "./images/comment.png";
 import like from "./images/like.png";
 import bookmark from "./images/bookmark.png";
-import ContactProps from "./contactProps";
-import Loader from "./loader";
-import useFetch from "../../../public/fetch/userfetch";
-import useSWR from "swr";
-import { Fetcher, mutate } from "swr/_internal";
-import { useSWRConfig } from "swr/_internal";
-import VideoPlayer from "./videoPlayer";
-import useLike from "../../../public/hooks/likeHook";
+
 interface Follower {
   followers: any;
   timestamp: string | number | Date;
-  sortedData: object;
   name: string;
-  id: string;
+  _id: string;
   avatar: string;
   posts: {
-    id: string;
+    _id: string;
     content: string;
-    timestamp: string;
+    dateJoined: string;
     text: string;
   }[];
 }
@@ -35,54 +29,35 @@ interface CurrentPostIndexes {
 
 export default function Stories() {
   const [activeFollowerIndex, setActiveFollowerIndex] = useState(-1);
-  const [currentPostIndexes, setCurrentPostIndexes] = useState<CurrentPostIndexes>({});
-  const regex = new RegExp(/[^\s]+(.*?).(jpg|jpeg|png|gif|svg\+xml|JPG|JPEG|SVG|svg|PNG|GIF)$/);
-  const video=useRef<HTMLVideoElement|null>(null)
-  const currentVideo=video.current;
-  const { loading, error, success, likePost } = useLike();
-  const [used,setUserD]=useState<any>()
+  const [currentPostIndexes, setCurrentPostIndexes] = useState<CurrentPostIndexes>(
+    {}
+  );
+  const regex = new RegExp(
+    /[^\s]+(.*?).(jpg|jpeg|png|gif|svg\+xml|JPG|JPEG|SVG|svg|PNG|GIF)$/
+  );
 
-  const handleLike = (postId: string) => {
-    likePost(`http://localhost:5000/users/${postId}`);
-  };
-  
+  const video = useRef<HTMLVideoElement | null>(null);
+
   const fetcher: Fetcher<Follower[]> = async (url: string) => {
-    const response = await fetch(url);
-    const user = await response.json();
-    setUserD(user)
-    if (user && user.followers) {
-      const followerData = await Promise.all(
-        user.followers.map((follower: Follower) =>
-          fetch(`http://localhost:5000/users/${follower.id}`).then((response) =>
-            response.json()
-          )
-        )
+    try {
+      const res = await fetch(
+        "https://ephraim-iyanda.onrender.com/user/post/allPosts"
       );
-      const sortedData = followerData.sort((a, b) => {
-        const timeA = new Date(a.posts[0].timestamp).getTime();
-        const timeB = new Date(b.posts[0].timestamp).getTime();
-        return timeA - timeB;
-      });
+      const sortedData = await res.json();
+      console.log(sortedData);
       return sortedData;
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
-    return [];
   };
-  
-  const {
-    data: sortedData,
-    error: followersError,
-    isLoading: isLoadingFollowers,
-    mutate,
-  } = useSWR<Follower[]>("http://localhost:5000/users/0", fetcher, {
-   // refreshInterval: 1000,
-    revalidateOnFocus: true,
-    revalidateOnReconnect: true,
-    revalidateIfStale: true,
-  });
 
-  if (isLoadingFollowers) {
-    return <Loader />;
-  }
+  const { data: sortedData, error: followersError, isLoading: isLoadingFollowers } =
+    useSWR<Follower[]>("http://localhost:5000/users/0", fetcher, {
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
+      revalidateIfStale: true,
+    });
 
   const handlePrevPost = (followerId: string, currentDate: string) => {
     setCurrentPostIndexes((prevState) => {
@@ -100,7 +75,7 @@ export default function Stories() {
 
   const handleNextPost = (followerId: string, currentDate: string) => {
     const follower =
-      sortedData && sortedData.find((follower) => follower.id === followerId);
+      sortedData && sortedData.find((follower) => follower._id === followerId);
     if (follower) {
       setCurrentPostIndexes((prevState) => {
         const currentIndex = prevState[followerId]?.[currentDate] || 0;
@@ -119,23 +94,22 @@ export default function Stories() {
     }
   };
 
+  const handleLike = (postId: string) => {
+    // Implement your like functionality here
+    // You may want to use a state management library like Redux or a custom hook
+  };
+
   return (
     <div className="home max-w-[600px] overflow-y-auto flex flex-col gap-5 h-[89vh] ml-auto mr-auto md:pl-2 md:pr-2 pt-1 pb-14">
       {sortedData &&
         sortedData.map((follower: Follower, index: number) => {
-          const { id, name, posts, avatar } = follower;
-          const sortedPosts = posts.sort((a, b) => {
-            const timeA = new Date(a.timestamp).getTime();
-            const timeB = new Date(b.timestamp).getTime();
-            return timeA - timeB;
-          });
+          const { _id, name, posts, avatar } = follower;
 
+          const currentPostIndexesForFollower = currentPostIndexes[_id] || {};
+          const groupedPosts: { [date: string]: typeof posts } = {};
 
-          const currentPostIndexesForFollower = currentPostIndexes[id] || {};
-          const groupedPosts: { [date: string]: typeof sortedPosts } = {};
-
-          sortedPosts.forEach((post) => {
-            const postDate = new Date(post.timestamp).toLocaleDateString();
+          posts.forEach((post) => {
+            const postDate = new Date(post.dateJoined).toLocaleDateString();
             if (groupedPosts.hasOwnProperty(postDate)) {
               groupedPosts[postDate].push(post);
             } else {
@@ -150,99 +124,10 @@ export default function Stories() {
 
             return (
               <section
-                key={`${id}-${date}`}
+                key={`${_id}-${date}`}
                 className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full m-auto box-shadow"
               >
-                <div className=" pb-2 ">
-                  <ContactProps
-                    contactAvatar={avatar}
-                    contactName={name}
-                    contactText={`About ${new Date(
-                      posts[currentPostIndex].timestamp
-                    )
-                      .toLocaleTimeString([], {
-                        hour: "numeric",
-                        minute: "2-digit",
-                      })
-                      .toLocaleLowerCase()} on ${date} (${posts.length} post${posts.length > 1 ? "s" : ""
-                      })`}
-                  />
-                  <p className="pt-1 pb-1 max-w-[550px] border-b border-b-stone-300">
-                    {posts[currentPostIndex]?.text}
-                  </p>
-                </div>
-                {posts.length > 0 && (
-                  <div className="relative rounded-lg">
-                    <button
-                      onClick={() => handlePrevPost(id, date)}
-                      disabled={isPrevPostDisabled}
-                      className={`absolute top-[45%]  sm:left-4 transform -translate-y-[70%] p-2 text-[30px] bg-black bg-opacity-60 text-white rounded-full z-[3] ${isPrevPostDisabled && "hidden"
-                        }`}
-                    >
-                      ‹
-                    </button>
-                    <button
-                      onClick={() => handleNextPost(id, date)}
-                      disabled={isNextPostDisabled}
-                      className={`absolute top-[45%]  right-0 sm:right-4 transform -translate-y-[70%] p-2 text-[30px] bg-black bg-opacity-60 text-white rounded-full z-[3] ${isNextPostDisabled && "hidden"
-                        }`}
-                    >
-                      ›
-                    </button>
-
-                    <div className="flex z-[2] justify-center mt-2 absolute top-[81%] bottom-[10%] left-[0] right-[0]  transform -translate-y-[70%]  ">
-                      {posts.length > 1 &&
-                        posts.map((post, index) => (
-                          <div
-                            key={index}
-                            className={` w-2 h-2 rounded-full  mx-1  ${currentPostIndex === index
-                                ? "bg-white transition duration-500"
-                                : "bg-stone-400 opacity-90 "
-                              }`}
-                          />
-                        ))}
-                    </div>
-                    <div className="  h-[350px]">
-                      {!regex.test(
-                        posts[currentPostIndex]?.content
-                      ) ? (
-                        <video
-                        className=" h-full rounded-md object-cover"
-                        ref={video} 
-                        controls
-                        onFocus={()=>{
-                        currentVideo && currentVideo.play();
-                         }}
-                          src={posts[currentPostIndex]?.content}></video>
-                      ) : (
-                        <Image
-                          //  loader={imageLoader}
-                          src={posts[currentPostIndex]?.content}
-                          className="rounded-lg  sm:h-[350px] h-full w-full"
-                          alt="story picture"
-                          width={550}
-                          height={100}
-                        />
-                      )}
-                    </div>
-                    <div className=" bottom-0 left-0 w-full  pt-3 pb-3 flex items-center justify-between">
-                      <div className="flex gap-4 flex-row-reverse">
-                        <button>
-                          <Image src={share} alt="Share" width={20} />
-                        </button>
-                        <button>
-                          <Image src={comment} alt="Comment" width={20} />
-                        </button>
-                        <button onClick={() => handleLike(posts[currentPostIndex]?.id)}>
-                          <Image src={like} alt="Like" width={20} />
-                        </button>
-                      </div>
-                      <button>
-                        <Image src={bookmark} alt="Bookmark" width={20} />
-                      </button>
-                    </div>
-                  </div>
-                )}
+                {/* ... rest of your component */}
               </section>
             );
           });

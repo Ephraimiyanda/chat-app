@@ -152,7 +152,7 @@ function Message({ contactId }: ContactIdProps) {
         </div>
       </div>
       <form
-        className=" border-stone-300 bg-white py-2 px-1 gap-2 sticky bottom-[70px] flex"
+        className=" border-stone-300 bg-white py-2 px-1 gap-2 z-[4] bottom-[46px] fixed w-full flex"
         onSubmit={(e) => {
           e.preventDefault();
           sendMessage();

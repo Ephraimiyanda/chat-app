@@ -17,7 +17,6 @@ export default function Homepage() {
   const userCookie = Cookies.get("user");
   const userData = userCookie && JSON.parse(userCookie);
   const [allUsers, setAllUsers] = useState<followerUiProp[]>([]);
-  const [follow, following] = useState(false);
   const [followerArray, setFollowerArray] =useState<string[]>([])
  
 
@@ -28,7 +27,6 @@ export default function Homepage() {
       );
       const Users = await res.json();
       setAllUsers(Users);
-      console.log(Users);
     } catch (error) {
       console.error(error);
     }
@@ -41,7 +39,6 @@ export default function Homepage() {
       );
       const followerRes = await res.json();
       setFollowerArray(followerRes.followers); // Set the follower IDs to the followerArray state
-      console.log(followerRes);
     } catch (error) {
       console.error(error);
     }

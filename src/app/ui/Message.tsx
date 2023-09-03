@@ -5,7 +5,7 @@ import io from "socket.io-client";
 import { AppContext } from "../../../public/context/AppContext";
 import { useContext } from "react";
 import useFetch from "../../../public/fetch/userfetch";
-
+import sendArrow from "./images/forward-message-arrow-right-svgrepo-com.svg"
 interface UserProps {
   avatar: string;
   name: string;
@@ -39,7 +39,7 @@ function Message({ contactId }: ContactIdProps) {
   const fetchFollower = async () => {
     try {
       const res = await fetch(
-        `https://ephraim-iyanda.onrender.com/user/64cfcd0aa7d7451982ca8445`
+        `https://ephraim-iyanda.onrender.com/user/${contactId}`
       );
       const validRes = await res.json();
       if (validRes?.user) {
@@ -53,13 +53,13 @@ function Message({ contactId }: ContactIdProps) {
   const fetchMessagesFromAPI = async () => {
     try {
       const messageJson = await fetch(
-        `https://ephraim-iyanda.onrender.com/user/messages/${userData._id}/64d90b7cf1cefce483e79244`
+        `https://ephraim-iyanda.onrender.com/user/messages/${userData._id}/${contactId}`
       );
       const message = await messageJson.json();
 
       // Save messages as a cookie
       Cookies.set(
-        `userMessages-64d90b7cf1cefce483e79244`,
+        `userMessages-${contactId}`,
         JSON.stringify(message)
       );
 
@@ -78,7 +78,7 @@ function Message({ contactId }: ContactIdProps) {
   const sendMessage = () => {
     const messageData = {
       senderId: userData._id,
-      receiverId: "64d90b7cf1cefce483e79244",
+      receiverId: `${contactId}`,
       content: inputValue,
     };
 
@@ -97,7 +97,7 @@ function Message({ contactId }: ContactIdProps) {
       // Update the userMessages cookie
       const updatedMessages = [...userMessages, newMessage];
       Cookies.set(
-        `userMessages-64d90b7cf1cefce483e79244`,
+        `userMessages-${contactId}`,
         JSON.stringify({ messages: updatedMessages })
       );
 
@@ -131,8 +131,8 @@ function Message({ contactId }: ContactIdProps) {
 
         <p className="text-lg">{name}</p>
       </div>
-      <div className="h-[75.3vh] sm:h-[78vh] overflow-y-auto block pb-12 px-2">
-        <div >
+      <div className=" overflow-y-auto block pb-12 px-2">
+        <div className="pb-12 sm:h-full h-[75.5vh] overflow-y-auto" >
           {userMessages.map((message: MessageProps, index: number) => (
             <div
               key={index}
@@ -152,7 +152,7 @@ function Message({ contactId }: ContactIdProps) {
         </div>
       </div>
       <form
-        className="message-input w-full border-t items-center border-stone-300 fixed bottom-[0] flex"
+        className=" border-stone-300 bg-white py-2 px-1 gap-2 sticky bottom-[70px] flex"
         onSubmit={(e) => {
           e.preventDefault();
           sendMessage();
@@ -160,7 +160,7 @@ function Message({ contactId }: ContactIdProps) {
       >
         <input
           type="text"
-          className="w-full px-4 py-2"
+          className="w-full px-4 py-2 rounded-[18px]"
           placeholder="Type a message..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
@@ -168,9 +168,15 @@ function Message({ contactId }: ContactIdProps) {
         />
         <button
           type="submit"
-          className="bg-black text-white w-10 p-1 rounded h-10 right-[20px] sticky"
+          className=" text-white w-10 p-1 h-10  sticky rounded-[40%] "
         >
-          →
+          <Image
+          src={sendArrow}
+          className="w-1[100px]"
+          alt="send"
+          width={100}
+          height={100}
+          />
         </button>
       </form>
     </div>

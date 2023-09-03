@@ -40,11 +40,11 @@ body {
   height: 37px;
   border-radius: 17px;
 }
-body,
+ body,
 .searchbar,
 input {
-  background: #f3f4f6;
-}
+  background: #f5f5f5;
+} 
 
 .activity-text,
 .activity-time-text {

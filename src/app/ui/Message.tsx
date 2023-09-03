@@ -34,7 +34,7 @@ function Message({ contactId }: ContactIdProps) {
   useEffect(() => {
     fetchFollower();
     fetchMessagesFromAPI(); // Fetch messages from the API initially
-  }, []);
+  }, [contactId]);
 
   const fetchFollower = async () => {
     try {

@@ -10,38 +10,33 @@ import like from "./images/like.png";
 import bookmark from "./images/bookmark.png";
 
 interface Follower {
-  followers: any;
-  timestamp: string | number | Date;
-  name: string;
-  _id: string;
-  avatar: string;
-  posts: {
+ sender:string
+  }
+
+ interface posts {
+    text:string;
+    sender:string
     _id: string;
     content: string;
     dateJoined: string;
-    text: string;
-  }[];
-}
-
+    avatar:string;
+ }
 interface CurrentPostIndexes {
   [followerId: string]: { [currentDate: string]: number };
 }
 
 export default function Stories() {
   const [activeFollowerIndex, setActiveFollowerIndex] = useState(-1);
-  const [currentPostIndexes, setCurrentPostIndexes] = useState<CurrentPostIndexes>(
-    {}
-  );
+  const [currentPostIndexes, setCurrentPostIndexes] = useState<CurrentPostIndexes>({});
   const regex = new RegExp(
     /[^\s]+(.*?).(jpg|jpeg|png|gif|svg\+xml|JPG|JPEG|SVG|svg|PNG|GIF)$/
   );
-
   const video = useRef<HTMLVideoElement | null>(null);
-
-  const fetcher: Fetcher<Follower[]> = async (url: string) => {
+  const[follower,setFollower]=useState([])
+  const fetcher: Fetcher<posts[]> = async (url: string) => {
     try {
       const res = await fetch(
-        "https://ephraim-iyanda.onrender.com/user/post/allPosts"
+       url
       );
       const sortedData = await res.json();
       console.log(sortedData);
@@ -53,46 +48,63 @@ export default function Stories() {
   };
 
   const { data: sortedData, error: followersError, isLoading: isLoadingFollowers } =
-    useSWR<Follower[]>("http://localhost:5000/users/0", fetcher, {
+    useSWR<posts[]>( "https://ephraim-iyanda.onrender.com/user/post/allPosts", fetcher, {
       revalidateOnFocus: true,
       revalidateOnReconnect: true,
       revalidateIfStale: true,
     });
 
-  const handlePrevPost = (followerId: string, currentDate: string) => {
-    setCurrentPostIndexes((prevState) => {
-      const currentIndex = prevState[followerId]?.[currentDate] || 0;
-      const updatedIndexes: CurrentPostIndexes = {
-        ...prevState,
-        [followerId]: {
-          ...prevState[followerId],
-          [currentDate]: Math.max(currentIndex - 1, 0),
-        },
-      };
-      return updatedIndexes;
-    });
-  };
+useEffect(()=>{
+if(sortedData){
+  Promise.all(
+    sortedData.map((followerId: Follower) => {
+      return fetch(`https://ephraim-iyanda.onrender.com/user/${followerId.sender}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setFollower((prevFollowers) => [...prevFollowers, data.user]);
+          
+        })
+        .catch((error) => {
+          console.error("Error fetching follower data:", error);
+        });
+    })
+  );
+}
+},[sortedData])
+  // const handlePrevPost = (followerId: string, currentDate: string) => {
+  //   setCurrentPostIndexes((prevState) => {
+  //     const currentIndex = prevState[followerId]?.[currentDate] || 0;
+  //     const updatedIndexes: CurrentPostIndexes = {
+  //       ...prevState,
+  //       [followerId]: {
+  //         ...prevState[followerId],
+  //         [currentDate]: Math.max(currentIndex - 1, 0),
+  //       },
+  //     };
+  //     return updatedIndexes;
+  //   });
+  // };
 
-  const handleNextPost = (followerId: string, currentDate: string) => {
-    const follower =
-      sortedData && sortedData.find((follower) => follower._id === followerId);
-    if (follower) {
-      setCurrentPostIndexes((prevState) => {
-        const currentIndex = prevState[followerId]?.[currentDate] || 0;
-        const updatedIndexes: CurrentPostIndexes = {
-          ...prevState,
-          [followerId]: {
-            ...prevState[followerId],
-            [currentDate]: Math.min(
-              currentIndex + 1,
-              follower.posts.length - 1
-            ),
-          },
-        };
-        return updatedIndexes;
-      });
-    }
-  };
+  // const handleNextPost = (followerId: string, currentDate: string) => {
+  //   const follower =
+  //     sortedData && sortedData.find((follower) => follower._id === followerId);
+  //   if (follower) {
+  //     setCurrentPostIndexes((prevState) => {
+  //       const currentIndex = prevState[followerId]?.[currentDate] || 0;
+  //       const updatedIndexes: CurrentPostIndexes = {
+  //         ...prevState,
+  //         [followerId]: {
+  //           ...prevState[followerId],
+  //           [currentDate]: Math.min(
+  //             currentIndex + 1,
+  //             follower.posts.length - 1
+  //           ),
+  //         },
+  //       };
+  //       return updatedIndexes;
+  //     });
+  //   }
+  // };
 
   const handleLike = (postId: string) => {
     // Implement your like functionality here
@@ -100,38 +112,79 @@ export default function Stories() {
   };
 
   return (
-    <div className="home max-w-[600px] overflow-y-auto flex flex-col gap-5 h-[89vh] ml-auto mr-auto md:pl-2 md:pr-2 pt-1 pb-14">
+    <div className="home max-w-[600px] flex flex-col gap-5  ml-auto mr-auto md:pl-2 md:pr-2 pt-1 pb-3">
       {sortedData &&
-        sortedData.map((follower: Follower, index: number) => {
-          const { _id, name, posts, avatar } = follower;
-
-          const currentPostIndexesForFollower = currentPostIndexes[_id] || {};
-          const groupedPosts: { [date: string]: typeof posts } = {};
-
-          posts.forEach((post) => {
-            const postDate = new Date(post.dateJoined).toLocaleDateString();
-            if (groupedPosts.hasOwnProperty(postDate)) {
-              groupedPosts[postDate].push(post);
-            } else {
-              groupedPosts[postDate] = [post];
-            }
-          });
-
-          return Object.entries(groupedPosts).map(([date, posts]) => {
-            let currentPostIndex = currentPostIndexesForFollower[date] || 0;
-            const isPrevPostDisabled = currentPostIndex === 0;
-            const isNextPostDisabled = currentPostIndex === posts.length - 1;
-
-            return (
+        sortedData.map((posts: posts, index: number) => {
+          const { _id, sender,dateJoined, content,text} = posts;
+        return (
               <section
-                key={`${_id}-${date}`}
-                className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full m-auto box-shadow"
-              >
-                {/* ... rest of your component */}
-              </section>
+              key={`${_id}-${dateJoined}`}
+              className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full m-auto box-shadow"
+            >
+              <div className=" pb-2 ">
+                {/* <ContactProps
+                  contactAvatar={avatar}
+                  contactName={name}
+                  contactText={`About ${new Date(
+                    posts.dateJoined
+                  )
+                    .toLocaleTimeString([], {
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })
+                    .toLocaleLowerCase()} on ${date} (${posts.length} post${posts.length > 1 ? "s" : ""
+                    })`}
+                /> */}
+                <p className="pt-1 pb-1 max-w-[550px] border-b border-b-stone-300">
+                  {posts.text}
+                </p>
+              </div>
+                <div className="relative rounded-lg">
+
+
+                  <div className=" h-fit">
+                    {!regex.test(
+                      posts?.content
+                    ) ? (
+                      <video
+                      className=" h-full rounded-md object-cover"
+                      ref={video} 
+                      controls
+                        src={posts?.content}></video>
+                    ) : (
+                      <Image
+                        //  loader={imageLoader}
+                        src={posts?.content}
+                        className="rounded-lg   h-auto w-full"
+                        alt="story picture"
+                        width={550}
+                        height={100}
+                      />
+                    )}
+                  </div>
+                  <div className=" bottom-0 left-0 w-full  pt-3 pb-3 flex items-center justify-between">
+                    <div className="flex gap-4 flex-row-reverse">
+                      <button>
+                        <Image src={share} alt="Share" width={20} />
+                      </button>
+                      <button>
+                        <Image src={comment} alt="Comment" width={20} />
+                      </button>
+                      <button>
+                        <Image src={like} alt="Like" width={20} />
+                      </button>
+                    </div>
+                    <button>
+                      <Image src={bookmark} alt="Bookmark" width={20} />
+                    </button>
+                  </div>
+                </div>
+            </section>
             );
-          });
-        })}
+          })
+}
+        
+        
     </div>
   );
 }

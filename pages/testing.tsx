@@ -10,7 +10,7 @@ interface ActionType {
     payload: string;
 }
 
-export default function () {
+export default function Testing() {
   //     const[form,setForm]=useState({
   //         name:"Ephraim",
   //         password:"Ee1f2i3"

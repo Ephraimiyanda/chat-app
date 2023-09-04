@@ -11,6 +11,14 @@ import bookmark from "./images/bookmark.png";
 
 interface Follower {
  sender:string
+ avatar:string;
+ name:string;
+ dateJoined:string;
+ user:{
+  avatar:string;
+  name:string;
+  dateJoined:string;
+ }
   }
 
  interface posts {
@@ -28,18 +36,21 @@ interface CurrentPostIndexes {
 export default function Stories() {
   const [activeFollowerIndex, setActiveFollowerIndex] = useState(-1);
   const [currentPostIndexes, setCurrentPostIndexes] = useState<CurrentPostIndexes>({});
+  const video = useRef<HTMLVideoElement | null>(null);
+  const[follower,setFollower]=useState<Follower[]>([])
+
   const regex = new RegExp(
     /[^\s]+(.*?).(jpg|jpeg|png|gif|svg\+xml|JPG|JPEG|SVG|svg|PNG|GIF)$/
   );
-  const video = useRef<HTMLVideoElement | null>(null);
-  const[follower,setFollower]=useState([])
+
+
+
   const fetcher: Fetcher<posts[]> = async (url: string) => {
     try {
       const res = await fetch(
        url
       );
       const sortedData = await res.json();
-      console.log(sortedData);
       return sortedData;
     } catch (error) {
       console.log(error);
@@ -49,6 +60,7 @@ export default function Stories() {
 
   const { data: sortedData, error: followersError, isLoading: isLoadingFollowers } =
     useSWR<posts[]>( "https://ephraim-iyanda.onrender.com/user/post/allPosts", fetcher, {
+      refreshInterval:10000,
       revalidateOnFocus: true,
       revalidateOnReconnect: true,
       revalidateIfStale: true,
@@ -57,12 +69,11 @@ export default function Stories() {
 useEffect(()=>{
 if(sortedData){
   Promise.all(
-    sortedData.map((followerId: Follower) => {
+    sortedData.map((followerId: any) => {
       return fetch(`https://ephraim-iyanda.onrender.com/user/${followerId.sender}`)
         .then((res) => res.json())
         .then((data) => {
-          setFollower((prevFollowers) => [...prevFollowers, data.user]);
-          
+          setFollower((followers:any) => [...followers,data]);
         })
         .catch((error) => {
           console.error("Error fetching follower data:", error);
@@ -71,6 +82,33 @@ if(sortedData){
   );
 }
 },[sortedData])
+
+const renderFollowerInfo = (sender: string) => {
+  const followerInfo = follower.find((f:any) => f.user._id === sender);
+
+  if (followerInfo) {
+    const { avatar, name, dateJoined } = followerInfo.user;
+
+    return (
+      <div>
+                  <ContactProps
+                    contactAvatar={avatar}
+                    contactName={name}
+                    contactText={`About ${new Date(
+                     dateJoined
+                    )
+                      .toLocaleTimeString([], {
+                        hour: "numeric",
+                        minute: "2-digit",
+                      })
+                      .toLocaleLowerCase()} on ${new Date(dateJoined).toDateString()}`}
+                  />
+      </div>
+    );
+  }
+
+  return null; // Return null if follower information is not available
+};
   // const handlePrevPost = (followerId: string, currentDate: string) => {
   //   setCurrentPostIndexes((prevState) => {
   //     const currentIndex = prevState[followerId]?.[currentDate] || 0;
@@ -116,25 +154,14 @@ if(sortedData){
       {sortedData &&
         sortedData.map((posts: posts, index: number) => {
           const { _id, sender,dateJoined, content,text} = posts;
+
         return (
               <section
               key={`${_id}-${dateJoined}`}
               className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full m-auto box-shadow"
             >
               <div className=" pb-2 ">
-                {/* <ContactProps
-                  contactAvatar={avatar}
-                  contactName={name}
-                  contactText={`About ${new Date(
-                    posts.dateJoined
-                  )
-                    .toLocaleTimeString([], {
-                      hour: "numeric",
-                      minute: "2-digit",
-                    })
-                    .toLocaleLowerCase()} on ${date} (${posts.length} post${posts.length > 1 ? "s" : ""
-                    })`}
-                /> */}
+              {renderFollowerInfo(sender)}
                 <p className="pt-1 pb-1 max-w-[550px] border-b border-b-stone-300">
                   {posts.text}
                 </p>

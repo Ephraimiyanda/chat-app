@@ -131,7 +131,7 @@ function Message({ contactId }: ContactIdProps) {
 
         <p className="text-lg">{name}</p>
       </div>
-      <div className=" overflow-y-auto block pb-12 px-2">
+      <div className=" overflow-y-auto block pb-12 px-2 h-[109.5vh]">
         <div className="pb-12 sm:h-full h-[75.5vh] overflow-y-auto" >
           {userMessages.map((message: MessageProps, index: number) => (
             <div
@@ -152,7 +152,7 @@ function Message({ contactId }: ContactIdProps) {
         </div>
       </div>
       <form
-        className=" border-stone-300 bg-white py-2 px-1 gap-2 z-[4] bottom-[46px] fixed w-full flex"
+        className=" border-stone-300 bg-white py-2 px-1 gap-2 z-[3]  sm:sticky fixed  sm:bottom-[75px] w-full flex"
         onSubmit={(e) => {
           e.preventDefault();
           sendMessage();

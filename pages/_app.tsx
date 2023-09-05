@@ -41,9 +41,22 @@ function MyApp({ Component, pageProps, searchParams }: props) {
   const socket = io("https://ephraim-iyanda.onrender.com");
   const userCookie = Cookies.get('user');
   const userData = userCookie && JSON.parse(userCookie) ;
+  const [followerArray, setFollowerArray] =useState<string[]>([])
 
- 
+   const fetchFollowers = async () => {
+    try {
+      const res = await fetch(
+        `https://ephraim-iyanda.onrender.com/user/followers/${userData._id}`
+      );
+      const followerRes = await res.json();
+      setFollowerArray(followerRes.followers); // Set the follower IDs to the followerArray state
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
+    fetchFollowers();
     // Check if the screen size is smaller than 768px (small screen)
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 640);
@@ -93,7 +106,7 @@ function MyApp({ Component, pageProps, searchParams }: props) {
   }
 
   return (
-    <AppContext.Provider value={{ user, setUser, showCreatePost ,userMessages, setUserMessages}}>
+    <AppContext.Provider value={{ user, setUser, showCreatePost ,userMessages, setUserMessages,followerArray}}>
       <div className='fixed w-full'>
         <Navbar />
         <div className="main-content flex">

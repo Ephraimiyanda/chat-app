@@ -34,11 +34,8 @@ interface CurrentPostIndexes {
 }
 
 export default function Stories() {
-  const [activeFollowerIndex, setActiveFollowerIndex] = useState(-1);
-  const [currentPostIndexes, setCurrentPostIndexes] = useState<CurrentPostIndexes>({});
   const video = useRef<HTMLVideoElement | null>(null);
   const[follower,setFollower]=useState<Follower[]>([])
-
   const regex = new RegExp(
     /[^\s]+(.*?).(jpg|jpeg|png|gif|svg\+xml|JPG|JPEG|SVG|svg|PNG|GIF)$/
   );

@@ -3,9 +3,9 @@ import SideCard from "../src/app/ui/activity";
 import Stories from "../src/app/ui/stories";
 import Messages from "../src/app/ui/messages";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useContext} from "react";
 import FollowerUi from "@/app/ui/followerUI";
-
+import { AppContext } from "../public/context/AppContext";
 interface followerUiProp {
   avatar: any;
   src: string;
@@ -17,7 +17,7 @@ export default function Homepage() {
   const userCookie = Cookies.get("user");
   const userData = userCookie && JSON.parse(userCookie);
   const [allUsers, setAllUsers] = useState<followerUiProp[]>([]);
-  const [followerArray, setFollowerArray] =useState<string[]>([])
+  const {followerArray}=useContext(AppContext)
  
 
   const fetchAllusers = async () => {
@@ -32,20 +32,8 @@ export default function Homepage() {
     }
   };
 
-  const fetchFollowers = async () => {
-    try {
-      const res = await fetch(
-        `https://ephraim-iyanda.onrender.com/user/followers/${userData._id}`
-      );
-      const followerRes = await res.json();
-      setFollowerArray(followerRes.followers); // Set the follower IDs to the followerArray state
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
-    fetchFollowers();
     fetchAllusers();
   }, []);
 
@@ -57,7 +45,7 @@ export default function Homepage() {
       </aside>
       <main className="stories flex flex-col gap-2 home w-full max-w-[600px] pr-1 h-fit">
 
-        <div className=" followerBar w-full flex overflow-x-auto gap-2 pb-2  max-w-[580px] h-[200px] m-auto">
+        <div className=" followerBar w-full flex overflow-x-auto gap-2 pb-2  max-w-[580px] h-[180px] m-auto">
           {allUsers &&
             allUsers.map((users: followerUiProp, index) => (
               <FollowerUi

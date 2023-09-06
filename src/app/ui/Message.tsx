@@ -6,6 +6,8 @@ import { AppContext } from "../../../public/context/AppContext";
 import { useContext } from "react";
 import useFetch from "../../../public/fetch/userfetch";
 import sendArrow from "./images/forward-message-arrow-right-svgrepo-com.svg"
+import Link from "next/link";
+
 interface UserProps {
   avatar: string;
   name: string;
@@ -28,7 +30,7 @@ function Message({ contactId }: ContactIdProps) {
   const [inputValue, setInputValue] = useState("");
   const { userMessages, setUserMessages } = useContext(AppContext); // New state for sent messages
   const userData = JSON.parse(Cookies.get("user") as string);
-  const { avatar, name } = follower || {};
+  const { avatar, name ,_id} = follower || {};
   const socket = io("https://ephraim-iyanda.onrender.com");
 
   useEffect(() => {
@@ -117,6 +119,8 @@ function Message({ contactId }: ContactIdProps) {
 
   return (
     <div className="flex flex-col h-full">
+
+
       <div className="flex align-middle items-center gap-2 py-1 px-2 border-b border-b-stone-300">
         {avatar && (
           <Image
@@ -129,7 +133,7 @@ function Message({ contactId }: ContactIdProps) {
           />
         )}
 
-        <p className="text-lg">{name}</p>
+     <Link href={`/Accounts/${_id}`}> <p className="text-lg">{name}</p></Link>
       </div>
       <div className=" overflow-y-auto block pb-12 px-2 h-[109.5vh]">
         <div className="pb-12 sm:h-full h-[75.5vh] overflow-y-auto" >

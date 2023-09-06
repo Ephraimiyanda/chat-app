@@ -47,14 +47,14 @@ export default function FollowUnfollowBtn({following,_id}:followerUiProp){
             }
         }
         return(
-            <>
-            {isFollowing? <button className=" px-2 py-1 bg-blue-600 text-white rounded-sm" onClick={()=>{
+            <div className="">
+            {isFollowing? <button className=" px-2 py-1 bg-blue-600 text-white rounded-sm w-[70px]" onClick={()=>{
                 followUser();
                 setIsFollowing(false);
-               }}>follow</button>: <button className="rounded-sm px-2 py-1 bg-white text-black border-[1px] " onClick={()=>{
+               }}>follow</button>: <button className="rounded-sm px-2 py-[2px] bg-white text-black border-[1px] w-[70px]" onClick={()=>{
                 unFollowUser();
                 setIsFollowing(true);
                }}>following</button>}
-               </>
+               </div>
         )
 }

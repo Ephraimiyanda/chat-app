@@ -16,7 +16,7 @@ interface FollowerFollowingProp{
 export default function FollowFollowingUi({src,name,followerNo,followingNo,postNo,_id}:FollowerFollowingProp){
     const { followerArray } = useContext(AppContext);
     return (
-        <div className="flex gap-1 align-middle items-center px-2 m-auto max-w-[380px] border-b border-stone-300 py-2">
+        <div className="flex  gap-1 align-middle items-center px-2 m-auto max-w-[380px] border-b border-stone-300 py-2">
             <Image
             src={src}
             alt="profile picture"
@@ -26,7 +26,7 @@ export default function FollowFollowingUi({src,name,followerNo,followingNo,postN
             />
           <div className="flex flex-col">
           <Link href={`/Accounts/${_id}`}><h4>{name}</h4></Link> 
-           <div className="flex gap-2">
+           <div className="flex flex-wrap gap-2">
            <p><span className="font-semibold">{followerNo}</span> followers</p>
             <p><span className="font-semibold">{followingNo} </span>following</p>
             <p><span className="font-semibold">{postNo}</span> posts</p>

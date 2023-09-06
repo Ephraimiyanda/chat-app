@@ -47,7 +47,7 @@ export default function FollowUnfollowBtn({following,_id}:followerUiProp){
             }
         }
         return(
-            <div className="">
+            <div className=" self-center">
             {isFollowing? <button className=" px-2 py-1 bg-blue-600 text-white rounded-sm w-[70px]" onClick={()=>{
                 followUser();
                 setIsFollowing(false);

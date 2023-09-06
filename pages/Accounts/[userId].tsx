@@ -13,7 +13,7 @@ import FollowerUi from "@/app/ui/AccountUi/followerUI";
 import { AppContext } from "../../public/context/AppContext";
 import { useContext } from "react";
 import FollowUnfollowBtn from "@/app/ui/buttons/followButtons";
-
+import ContactProps from "@/app/ui/contactProps";
 interface posts {
   text: string;
   sender: string;
@@ -29,11 +29,18 @@ interface user {
     _id: string;
   };
 }
+interface Stats {
+    postCount: string;
+    followersCount: string;
+    followingCount: string;
+  }
+  
 export default function Account() {
   const [sortedData, setSortedData] = useState([]);
+  const [user, setUser] = useState<user>();
+  const [statistics, setStatistics] = useState<Stats>();
   const router = useRouter();
   const { userId } = router.query;
-  const [user, setUser] = useState<user>();
   const userCookie = Cookies.get("user");
   const userData = userCookie && JSON.parse(userCookie);
   const { followerArray } = useContext(AppContext);
@@ -58,7 +65,19 @@ export default function Account() {
         `https://ephraim-iyanda.onrender.com/user/post/user/${userId}`
       );
       const sortedData = await res.json();
-      setSortedData(sortedData);
+      setSortedData(sortedData.posts);
+      console.log(sortedData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchStatistics = async () => {
+    try {
+      const res = await fetch(
+        `https://ephraim-iyanda.onrender.com/user/statistics/${userId}`
+      );
+      const stats = await res.json();
+      setStatistics(stats);
     } catch (error) {
       console.log(error);
     }
@@ -68,11 +87,15 @@ export default function Account() {
     if (router.isReady) {
       fetchUser();
       fetchPosts();
+      fetchStatistics();
     }
   }, [userId, router.isReady]);
 
+  if (!userId ||!user) {
+    return <Loader />;
+  }
   return (
-    <div className=" bg-white h-screen">
+    <div className="bg-white h-screen overflow-auto pb-20">
       {user && (
         <div className="w-[100%] sm:w-[80%] pt-6 ml-auto mr-auto ">
           <div className="w-[90%] sm:w-[80%] ml-auto mr-auto flex flex-col gap-4 pb-[20px] border-b border-b-stone-300 ">
@@ -98,17 +121,17 @@ export default function Account() {
                 </div>
                 <div className="flex gap-4 mr-auto w-fit flex-wrap justify-center pb-[20px] ">
                   <p>
-                    <span className=" font-semibold">1 </span>
-                    <Link href={`/Accounts/posts/${user.user._id}`}>post</Link>
+                    <span className=" font-semibold">{statistics?.postCount} </span>{" "}
+                   post
                   </p>
                   <p>
-                    <span className=" font-semibold">23</span>
+                    <span className=" font-semibold">{statistics?.followersCount}</span>{" "}
                     <Link href={`/Accounts/followers/${user.user._id}`}>
                       Followers
                     </Link>
                   </p>
                   <p>
-                    <span className=" font-semibold">34</span>{" "}
+                    <span className=" font-semibold">{statistics?.followingCount}</span>{" "}
                     <Link href={`/Accounts/following/${user.user._id}`}>
                       Following
                     </Link>{" "}
@@ -118,8 +141,8 @@ export default function Account() {
             </div>
           </div>
           <div>
-            <div className="home max-w-[600px] flex flex-col gap-5  ml-auto mr-auto md:pl-2 md:pr-2 pt-1 pb-3">
-              {sortedData.length > 0 ? (
+            <div className="home max-w-[600px] flex flex-col gap-5  ml-auto mr-auto md:pl-2 md:pr-2 pt-3 pb-3">
+              {sortedData && sortedData.length > 0 ? (
                 sortedData.map((posts: posts, index: number) => {
                   const { _id, sender, dateJoined, content, text } = posts;
 
@@ -129,17 +152,21 @@ export default function Account() {
                       className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full m-auto box-shadow"
                     >
                       <div className=" pb-2 ">
-                        <FollowerUi
-                          src={user.user.avatar}
-                          name={user.user.name}
-                          _id={user.user._id}
-                          following={
-                            followerArray &&
-                            followerArray.includes(userId as string)
-                              ? false
-                              : true
-                          }
-                        />
+                      <div>
+
+                  <ContactProps
+                    contactAvatar={user.user.avatar}
+                    contactName={user.user.name}
+                    contactText={`About ${new Date(
+                     dateJoined
+                    )
+                      .toLocaleTimeString([], {
+                        hour: "numeric",
+                        minute: "2-digit",
+                      })
+                      .toLocaleLowerCase()} on ${new Date(dateJoined).toDateString()}`}
+                  />
+                     </div>
                         <p className="pt-1 pb-1 max-w-[550px] border-b border-b-stone-300">
                           {posts.text}
                         </p>

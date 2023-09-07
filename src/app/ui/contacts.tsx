@@ -68,7 +68,7 @@ function Contacts() {
           >
             <ContactProps
               contactAvatar={chat.avatar}
-              contactText={"About 20min ago"}
+              contactText={"Might have a new message"}
               contactName={chat.name}
             />
           </Link>

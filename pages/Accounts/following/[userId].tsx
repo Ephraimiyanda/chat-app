@@ -78,9 +78,9 @@ export default function UserFollowing() {
               key={_id}
               src={avatar}
               name={name}
-              followerNo={followerStats.followersCount || ""}
-              followingNo={followerStats.followingCount || ""}
-              postNo={followerStats.postCount || ""}
+              followerNo={followerStats.followersCount || "0"}
+              followingNo={followerStats.followingCount || "0"}
+              postNo={followerStats.postCount || "0"}
               _id={_id}
             />
           </div>

@@ -12,6 +12,7 @@ import Loader from '@/app/ui/loader';
 import CreatePost from './createpost';
 import { Modal } from 'react-aria-components';
 import io from 'socket.io-client';
+import {NextUIProvider} from "@nextui-org/react";
 interface User {
   id: number;
 
@@ -106,6 +107,7 @@ function MyApp({ Component, pageProps, searchParams }: props) {
   }
 
   return (
+    <NextUIProvider>
     <AppContext.Provider value={{ user, setUser, showCreatePost ,userMessages, setUserMessages,followerArray}}>
       <div className='fixed w-full'>
         <Navbar />
@@ -122,6 +124,7 @@ function MyApp({ Component, pageProps, searchParams }: props) {
         </div>
       </div>
     </AppContext.Provider>
+    </NextUIProvider>
   );
 }
 

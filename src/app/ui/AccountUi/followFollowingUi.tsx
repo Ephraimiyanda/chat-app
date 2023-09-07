@@ -27,8 +27,8 @@ export default function FollowFollowingUi({src,name,followerNo,followingNo,postN
           <div className="flex flex-col">
           <Link href={`/Accounts/${_id}`}><h4>{name}</h4></Link> 
            <div className="flex flex-wrap gap-2">
-           <p><span className="font-semibold">{followerNo}</span> followers</p>
-            <p><span className="font-semibold">{followingNo} </span>following</p>
+           <p><span className="font-semibold">{followerNo}</span> <Link href={`/Accounts/followers/${_id}`}> followers</Link></p>
+            <p><span className="font-semibold">{followingNo} </span> <Link href={`/Accounts/following/${_id}`}>following</Link></p>
             <p><span className="font-semibold">{postNo}</span> posts</p>
            </div>              
           </div>

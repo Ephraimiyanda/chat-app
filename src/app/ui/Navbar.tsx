@@ -55,7 +55,7 @@ export default function Navbar() {
             />
           </button>
           <button className="w-12">
-            <Link href="/profile">
+            
             <Image
               className="w-12 h-12 rounded-3xl"
               src={user.avatar}
@@ -63,7 +63,6 @@ export default function Navbar() {
               width={100}
               height={100}
             />
-            </Link>
             
           </button>
         </div>

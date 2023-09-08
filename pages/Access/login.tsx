@@ -49,9 +49,7 @@ const Login = () => {
     }
 
 
-  const Logout = () => {
-    Cookies.remove('user');
-  };
+
 
   return (
     <div className='w-[85%] m-auto h-[50%] p-4 flex'>
@@ -79,10 +77,7 @@ const Login = () => {
         <button className={`text-white bg-black p-1 h-10 rounded-md ${loading==="loading" && "cursor-none opacity-[85]"}`} type='button' onClick={handleLogin}>
           {loading==="loading"?<SpinningLoader/>:loading==="succesfull"?"logged in":loading==="error"?"Retry":"Login"}
         </button>
-      
-        <button className='bg-red-500' onClick={Logout}>
-          Logout
-        </button>
+     
         {loading=="error" &&
           <p className="text-red-700">wrong email or password</p>
         }

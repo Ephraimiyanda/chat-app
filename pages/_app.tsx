@@ -111,9 +111,9 @@ function MyApp({ Component, pageProps, searchParams }: props) {
     <AppContext.Provider value={{ user, setUser, showCreatePost ,userMessages, setUserMessages,followerArray}}>
       <div className='fixed w-full'>
         <Navbar />
-        <div className="main-content flex">
-          <SideNavbar />
-          <div className="page-content w-full h-screen ">
+        <div className="main-content fixed w-full flex">
+          <div className=' z-[10]'><SideNavbar /></div>
+          <div className="page-content w-full m-auto h-screen ">
             <Component {...pageProps} />
 
             {showCreatePost && <Modal

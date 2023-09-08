@@ -38,7 +38,7 @@ const SideNavbar = () => {
   const router =useRouter()
   return (
     <div
-      className=" bg-white  p-4 w-fit overflow-y-hidden h-full overflow-hidden sidebar pt-16 border-r border-b-stone-300 z-10 " >
+      className=" bg-white  p-4  overflow-y-hidden h-full overflow-hidden sidebar pt-16 border-r border-b-stone-300 z-10 w-[60px] " >
       <ul className="flex flex-col sm:gap-8 gap-[6%]">
         <NavItem {...router.pathname==="/"?{imgSrc: { src: HomeActive,alt:"home" }}:{imgSrc: { src: Home,alt:"home" }}} link='/'  />
         <NavItem {...router.pathname==="/profile"?{imgSrc: { src:UserActive,alt:"profile" }}:{imgSrc: { src: ProfileIcon,alt:"profile" }}}  link="/profile"  />

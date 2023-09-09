@@ -5,8 +5,9 @@ interface ContactPropProps{
     contactAvatar:string;
     contactName:string;
     contactText:string;
+    _id:string|number;
 }
-export default function ContactProps({contactAvatar,contactName,contactText}:ContactPropProps){
+export default function ContactProps({contactAvatar,contactName,contactText,_id}:ContactPropProps){
     return(
         <div className="flex gap-2">
         <Image
@@ -17,7 +18,7 @@ export default function ContactProps({contactAvatar,contactName,contactText}:Con
         height={27}
         />
         <div>
-        <h2 className=" font-semibold  ">{contactName}</h2>
+       <Link href={`/Accounts/${_id}`}> <h2 className=" font-semibold  ">{contactName}</h2></Link>
         <div className="flex">  <p className="activity-time-text  ">{contactText} </p></div>
         </div>
     </div>

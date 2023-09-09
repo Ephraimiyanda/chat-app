@@ -14,10 +14,12 @@ interface Follower {
  avatar:string;
  name:string;
  dateJoined:string;
+ 
  user:{
   avatar:string;
   name:string;
   dateJoined:string;
+  _id:string|number;
  }
   }
 
@@ -84,11 +86,12 @@ const renderFollowerInfo = (sender: string) => {
   const followerInfo = follower.find((f:any) => f.user._id === sender);
 
   if (followerInfo) {
-    const { avatar, name, dateJoined } = followerInfo.user;
+    const { avatar, name, dateJoined,_id } = followerInfo.user;
 
     return (
       <div>
                   <ContactProps
+                   _id={_id}
                     contactAvatar={avatar}
                     contactName={name}
                     contactText={`About ${new Date(

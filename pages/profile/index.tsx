@@ -78,7 +78,7 @@ useEffect(()=>{
     return <Loader />;
   }
   return (
-    <div className="bg-white h-screen overflow-auto pb-20">
+    <div className=" h-screen overflow-auto pb-20">
       {user && (
         <div className="w-[100%] sm:w-[80%] pt-6 ml-auto mr-auto ">
           <div className="w-[90%] sm:w-[80%] ml-auto mr-auto flex flex-col gap-4 pb-[20px] border-b border-b-stone-300 ">
@@ -133,6 +133,7 @@ useEffect(()=>{
                       <div>
 
                   <ContactProps
+                  _id={user._id}
                     contactAvatar={user.avatar}
                     contactName={user.name}
                     contactText={`About ${new Date(

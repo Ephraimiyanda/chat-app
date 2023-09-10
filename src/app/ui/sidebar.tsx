@@ -12,6 +12,7 @@ import HomeActive from "./images/home-active.svg"
 import UserActive from "./images/userActive.svg"
 import MessageActive from "./images/MessageActive.svg"
 import { useRouter } from 'next/router';
+import videojs from 'video.js';
 
 interface NavItemProps {
   link:string;
@@ -43,7 +44,7 @@ const SideNavbar = () => {
         <NavItem {...router.pathname==="/"?{imgSrc: { src: HomeActive,alt:"home" }}:{imgSrc: { src: Home,alt:"home" }}} link='/'  />
         <NavItem {...router.pathname==="/profile"?{imgSrc: { src:UserActive,alt:"profile" }}:{imgSrc: { src: ProfileIcon,alt:"profile" }}}  link="/profile"  />
         <NavItem {...router.pathname.includes("/chat")?{imgSrc: { src:MessageActive,alt:"chat" }}:{imgSrc: { src: MessageIcon,alt:"chat" }}} link="/chat" />
-        <NavItem imgSrc={{src:VideoIcon,alt:"media"}}  link=""  />
+        <NavItem {...router.pathname.includes("/Gallery")?{imgSrc: { src:VideoIcon,alt:"Gallery" }}:{imgSrc: { src: VideoIcon,alt:"Gallery" }}} link="/Gallery" />
         <NavItem imgSrc={{src:Explore,alt:"explore"}}  link=""  />
         <NavItem imgSrc={{src:NotificationIcon,alt:"notifications"}}  link=""  />
         <NavItem imgSrc={{src:SettingsIcon,alt:"settings"}}  link=""  />

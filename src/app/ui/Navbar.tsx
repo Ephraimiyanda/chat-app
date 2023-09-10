@@ -9,8 +9,8 @@ import { useRouter } from "next/router";
 import { AppContext } from "../../../public/context/AppContext";
 import Link from "next/link";
 import Cookies from "js-cookie";
-import { NavbarContent,DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar} from "@nextui-org/react";
-export default function Navbar() {
+import {Navbar, NavbarContent,DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar} from "@nextui-org/react";
+export default function Nav() {
   const{setShowCreatePost,showCreatePost}=useContext(AppContext);
   const user= JSON.parse(Cookies.get("user") as string)
   const router=useRouter()
@@ -22,7 +22,9 @@ export default function Navbar() {
     router.push("/Access/")
   };
   return (
-    <div className="flex align-middle sm:pt-2 bg-white pb-2 pl-3 pr-3 ml-auto top-0 bottom-0 border-b border-b-stone-300 sm:h-fit h-[55px] pt-[4px]">
+    <Navbar
+    shouldHideOnScroll
+     className="flex align-middle sm:pt-2 bg-white pb-2 pl-3 pr-3 ml-auto top-0 bottom-0 border-b border-b-stone-300 sm:h-fit h-[55px] pt-[4px]">
 <Link href="/">
 <Image
         className="mr-auto block sm:h-auto h-[50px]"
@@ -89,6 +91,6 @@ export default function Navbar() {
         </Dropdown>
         </div>
       </div>
-    </div>
+    </Navbar>
   );
 }

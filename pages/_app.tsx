@@ -4,7 +4,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { AppContext } from '../public/context/AppContext';
-import Navbar from '@/app/ui/Navbar';
+import Nav from '@/app/ui/Navbar';
 import SideNavbar from '@/app/ui/sidebar';
 import { AppProps } from 'next/app';
 import "../src/app/globals.css";
@@ -110,7 +110,7 @@ function MyApp({ Component, pageProps, searchParams }: props) {
     <NextUIProvider>
     <AppContext.Provider value={{ user, setUser, showCreatePost ,userMessages, setUserMessages,followerArray}}>
       <div className='fixed w-full'>
-        <Navbar />
+        <Nav/>
         <div className="main-content fixed w-full flex">
           <div className=' z-[10]'><SideNavbar /></div>
           <div className="page-content w-full m-auto h-screen ">

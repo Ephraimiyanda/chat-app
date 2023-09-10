@@ -93,7 +93,7 @@ useEffect(()=>{
               <div className="w-[80%] flex flex-col gap-4 h-fit m-auto">
                 <div className="flex gap-2">
                   <h2 className="text-center w-fit p-3">{user.name}</h2>
-                  <button className="bg-[#F3F4F6] p-3 rounded-lg">
+                  <button className="bg-white p-3 rounded-lg">
                       Edit profile
                     </button>
                 </div>

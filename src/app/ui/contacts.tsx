@@ -67,6 +67,7 @@ function Contacts() {
             onClick={() => handleClick(index)}
           >
             <ContactProps
+            _id={chat._id}
               contactAvatar={chat.avatar}
               contactText={"Might have a new message"}
               contactName={chat.name}

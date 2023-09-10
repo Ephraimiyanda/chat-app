@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ReactElement } from "react";
 import Image from "next/image";
+import Loader from "@/app/ui/loader";
 
 interface Post {
   _id: string;
@@ -25,27 +26,33 @@ export default function Gallery(): ReactElement {
     fetchPosts();
   }, []);
 
-  return (
-    <div className="container mx-auto px-1 py-2 lg:px-32 lg:pt-4 overflow-y-auto h-[100vh] bg-white pb-20">
-      <div className="-m-1 flex flex-wrap md:-m-2">
-      <div className="flex w-full flex-wrap">
-    {posts && posts.map((post:Post)=>(
+  const chunkArray = (array: Post[], chunkSize: number) => {
+    const chunkedArray: Post[][] = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      chunkedArray.push(array.slice(i, i + chunkSize));
+    }
+    return chunkedArray;
+  };
 
-        <div
-         className="w-[50%] p-1 md:p-2"
-         key={post._id}>
-          <Image
-           
-            src={post.content}
-            width={100}
-            height={100}
-            alt="post"
-            className="block h-full w-[100%]  rounded-lg object-cover object-center"
-            />
+  const postsChunks = chunkArray(posts, 3); // Split posts into groups of 5
+
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 h-screen overflow-auto pb-20 p-2">
+      {postsChunks? postsChunks.map((chunk, index) => (
+        <div key={index} className="grid gap-4">
+          {chunk.map((post: Post) => (
+            <div key={post._id}>
+              <Image
+                src={post.content}
+                width={100}
+                height={100}
+                alt="post"
+                className="h-auto w-full  rounded-lg"
+              />
+            </div>
+          ))}
         </div>
-        ))}
-      </div>
-    </div>
+      )): <Loader/>}
     </div>
   );
 }

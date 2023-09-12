@@ -56,6 +56,7 @@ export default function Messages() {
             <div className="flex gap-2">
               <Link href={`/chat/${follower.id}`}>
                 <ContactProps
+                _id={follower.id}
                   contactAvatar={follower.avatar}
                   contactText={"About 20min ago"}
                   contactName={follower.heroName}

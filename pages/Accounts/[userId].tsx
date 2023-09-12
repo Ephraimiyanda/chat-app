@@ -155,6 +155,7 @@ export default function Account() {
                       <div>
 
                   <ContactProps
+                  _id={user.user._id}
                     contactAvatar={user.user.avatar}
                     contactName={user.user.name}
                     contactText={`About ${new Date(

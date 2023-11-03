@@ -2,7 +2,6 @@ import React, { useContext, useRef, useState } from "react";
 import { AppContext } from "../public/context/AppContext";
 import Image from "next/image";
 import Cookies from "js-cookie";
-import VideoPlayer from "@/app/ui/videoPlayer";
 import { useRouter } from "next/router";
 import SpinningLoader from "@/app/ui/loaders/spinning-loader";
 import { setAttribute } from "video.js/dist/types/utils/dom";

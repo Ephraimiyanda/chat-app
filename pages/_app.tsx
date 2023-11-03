@@ -8,7 +8,7 @@ import CreatePost from './createpost';
 import { Modal } from 'react-aria-components';
 import io from 'socket.io-client';
 import { NextUIProvider } from '@nextui-org/react';
-
+import "../app/globals.css";
 interface User {
   id: number;
 }

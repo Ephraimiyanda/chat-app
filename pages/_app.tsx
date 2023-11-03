@@ -1,100 +1,116 @@
-// MyApp.tsx
-
-import React, { Suspense, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import React, { useEffect, useRef, useState } from 'react';
+import { NextRouter, useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { AppContext } from '../public/context/AppContext';
 import Navbar from '@/app/ui/Navbar';
 import SideNavbar from '@/app/ui/sidebar';
-import { AppProps } from 'next/app';
-import "../src/app/globals.css";
-import Loader from '@/app/ui/loader';
 import CreatePost from './createpost';
 import { Modal } from 'react-aria-components';
 import io from 'socket.io-client';
-import {NextUIProvider} from "@nextui-org/react";
+import { NextUIProvider } from '@nextui-org/react';
+
 interface User {
   id: number;
-
-}
-
-interface MessageProps {
-  content: string;
-  fromSelf: boolean;
-  timestamp:string
 }
 
 interface props {
-  Component: any,
-  pageProps: any,
-  searchParams: Record<string, string> | null | undefined
+  Component: React.ComponentType<any>;
+  pageProps: Record<string, any>;
 }
 
+function saveScrollPosition(
+  url: string,
+  element: HTMLElement,
+  savePosition: (url: string, pos: number) => void
+) {
+  if (element) {
+    savePosition(url, element.scrollTop);
+  }
+}
 
-function MyApp({ Component, pageProps, searchParams }: props) {
-  const router = useRouter();
+function restoreScrollPosition(
+  url: string,
+  element: HTMLElement,
+  positions: React.MutableRefObject<{ [key: string]: number }>
+) {
+  const position = positions.current[url];
+
+  if (position) {
+    element.scrollTo({ top: position });
+  }
+}
+
+function MyApp({ Component, pageProps }: props) {
+  const router: NextRouter = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const isAccessPage = router.pathname === '/Access';
-  const [isLoaderVisible, setIsLoaderVisible] = useState(false);
-  const showCreatePost = router.query?.createpost;
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [userMessages, setUserMessages] = useState<MessageProps[]>([]);
-  const socket = io("https://ephraim-iyanda.onrender.com");
   const userCookie = Cookies.get('user');
-  const userData = userCookie && JSON.parse(userCookie) ;
-  const [followerArray, setFollowerArray] =useState<string[]>([])
+  const userData = userCookie ? JSON.parse(userCookie) : null;
+  const socket = io('https://ephraim-iyanda.onrender.com');
+  const positions = React.useRef<{ [key: string]: number }>({});
 
-   const fetchFollowers = async () => {
-    try {
-      const res = await fetch(
-        `https://ephraim-iyanda.onrender.com/user/followers/${userData._id}`
-      );
-      const followerRes = await res.json();
-      setFollowerArray(followerRes.followers); // Set the follower IDs to the followerArray state
-    } catch (error) {
-      console.error(error);
-    }
+  const updatePosition = (url: string, pos: number) => {
+    positions.current = {
+      ...positions.current,
+      [url]: pos,
+    };
   };
+  const mainRef = useRef<any>(null);
 
   useEffect(() => {
-    fetchFollowers();
-    // Check if the screen size is smaller than 768px (small screen)
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 640);
-    };
+    if ('scrollRestoration' in window.history) {
+      let shouldScrollRestore = false;
+      window.history.scrollRestoration = 'manual';
 
-    handleResize(); // Set the initial screen size
+      const element = mainRef.current;
 
-    // Listen for resize events to update the screen size state
-    window.addEventListener('resize', handleResize);
+      const onBeforeUnload = (event: BeforeUnloadEvent) => {
+        saveScrollPosition(router.asPath, element, updatePosition);
+        delete event['returnValue'];
+      };
 
-    return () => {
-      // Clean up the resize event listener when the component unmounts
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+      const onRouteChangeStart = (url: string) => {
+        saveScrollPosition(url, element, updatePosition);
+      };
 
-  useEffect(()=>{
-    socket.on(`receive-${userData?._id}`,(data: any) => {
-      setUserMessages(prevMessages => [...prevMessages, { content: data.content,timestamp:data.timestamp, fromSelf: false }]);
-   
+      const onRouteChangeComplete = (url: string) => {
+        if (shouldScrollRestore) {
+          shouldScrollRestore = false;
+          restoreScrollPosition(url, element, positions);
+        }
+      };
+
+      window.addEventListener('beforeunload', onBeforeUnload);
+      router.events.on('routeChangeStart', onRouteChangeStart);
+      router.events.on('routeChangeComplete', onRouteChangeComplete);
+      router.beforePopState(() => {
+        shouldScrollRestore = true;
+        return true;
+      });
+
+      return () => {
+        window.removeEventListener('beforeunload', onBeforeUnload);
+        router.events.off('routeChangeStart', onRouteChangeStart);
+        router.events.off('routeChangeComplete', onRouteChangeComplete);
+        router.beforePopState(() => true);
+      };
+    }
+  }, [router]);
+
+  useEffect(() => {
+    socket.on(`receive-${userData?._id}`, (data: any) => {
+      // Handle incoming messages
     });
-
-  },[])
-
+  }, [userData, socket]);
 
   useEffect(() => {
     if (!user && userData) {
       setUser(userData);
-    } else if (!userData && !isAccessPage) {
+    } else if (!userData && !router.pathname.includes('/Access')) {
       router.push('/Access', undefined, { shallow: true });
     }
-  }, [user, isAccessPage, router]);
+  }, [user, router, userData]);
 
-
-
-
-  if (isAccessPage) {
+  if (router.pathname.includes('/Access')) {
     return (
       <AppContext.Provider value={{ user, setUser }}>
         <Component {...pageProps} />
@@ -108,22 +124,20 @@ function MyApp({ Component, pageProps, searchParams }: props) {
 
   return (
     <NextUIProvider>
-    <AppContext.Provider value={{ user, setUser, showCreatePost ,userMessages, setUserMessages,followerArray}}>
-      <div className='fixed w-full'>
-        <Navbar/>
-        <div className="main-content fixed w-full flex">
-          <div className=' z-[10]'><SideNavbar /></div>
-          <div className="page-content w-full m-auto h-screen ">
-            <Component {...pageProps} />
-
-            {showCreatePost && <Modal
-              isOpen>
-              <CreatePost />
-            </Modal>}
+      <AppContext.Provider value={{ user, setUser }}>
+        <div className="fixed w-full">
+          <Navbar />
+          <div className="main-content fixed w-full flex" >
+            <div className="z-[10]">
+              <SideNavbar />
+            </div>
+            <div id="main-content" className="page-content w-full m-auto h-screen" >
+              <Component {...pageProps} ref={mainRef}/>
+              {/* Add your Modal component here */}
+            </div>
           </div>
         </div>
-      </div>
-    </AppContext.Provider>
+      </AppContext.Provider>
     </NextUIProvider>
   );
 }

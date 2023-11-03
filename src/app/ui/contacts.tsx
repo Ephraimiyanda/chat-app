@@ -1,15 +1,17 @@
+"use client"
 import React, { useContext, useState, useEffect } from "react";
 import Link from "next/link";
 import { AppContext } from "../../../public/context/AppContext";
-import ContactProps from "./contactProps";
+import ContactProps from "@/app/ui/contactProps";
 import useFetch from "../../../public/fetch/userfetch";
 import Cookies from "js-cookie";
-
+import { useRouter } from "next/router";
+import Image from "next/image";
 interface chatProps {
   name: string;
-  _id: string;
+  _id:any;
   avatar: string;
-  user:any
+  user: any;
 }
 
 interface loaderprop {
@@ -17,22 +19,17 @@ interface loaderprop {
 }
 
 function Contacts() {
-  const userCookie = Cookies.get('user');
-  const userData = userCookie && JSON.parse(userCookie) ;
-  const { user } = useFetch(`https://ephraim-iyanda.onrender.com/user/followers/${userData._id}`);
   const [chats, setChats] = useState<chatProps[]>([]);
-  const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
-  const handleClick = (index: number) => {
-    setActiveIndex(index);
-    localStorage.setItem("activeIndex", index.toString());
-  };
+  const router = useRouter()
+  const contactId=router.query;
+  console.log(router.query);
+  const userCookie = Cookies.get("user");
+  const userData = userCookie && JSON.parse(userCookie);
+  const { user } = useFetch(
+    `https://ephraim-iyanda.onrender.com/user/followers/${userData._id}`
+  );
+ 
 
-  useEffect(() => {
-    const storedIndex = localStorage.getItem("activeIndex");
-    if (storedIndex) {
-      setActiveIndex(parseInt(storedIndex));
-    }
-  }, []);
 
   useEffect(() => {
     // Check if the user and its followers exist
@@ -44,7 +41,6 @@ function Contacts() {
             .then((res) => res.json())
             .then((data: chatProps) => {
               setChats((prevChats) => [...prevChats, data.user]);
-              
             })
             .catch((error) => {
               console.error("Error fetching follower data:", error);
@@ -62,16 +58,27 @@ function Contacts() {
             href={`/chat/${chat._id}`}
             key={chat._id}
             className={`contacts hover:bg-stone-200 pl-3 pr-1 pt-1 pb-1 ${
-              activeIndex === index ? "bg-stone-200" : ""
+              contactId ===chat._id ? "bg-stone-200" : ""
             }`}
-            onClick={() => handleClick(index)}
           >
-            <ContactProps
-            _id={chat._id}
-              contactAvatar={chat.avatar}
-              contactText={"Might have a new message"}
-              contactName={chat.name}
-            />
+                <div className="flex gap-2">
+                  <Image
+                    className="profile-pic"
+                    src={chat.avatar}
+                    alt="picture"
+                    width={27}
+                    height={27}
+                  />
+                  <div>
+                    <h2 className=" font-semibold  ">{chat.name}</h2>
+                    <div className="flex">
+                      {" "}
+                      <p className="activity-time-text font-semibold ">
+                        you might have a new message{" "}
+                      </p>
+                    </div>
+                  </div>
+                </div>
           </Link>
         ))}
       </ul>

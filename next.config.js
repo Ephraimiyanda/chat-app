@@ -2,6 +2,9 @@
 const nextConfig = {}
 
 module.exports = {
+    experimental: {
+        scrollRestoration: true,
+      },
     images:{
         remotePatterns:[
             {

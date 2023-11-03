@@ -14,6 +14,8 @@ import { AppContext } from "../../public/context/AppContext";
 import { useContext } from "react";
 import FollowUnfollowBtn from "@/app/ui/buttons/followButtons";
 import ContactProps from "@/app/ui/contactProps";
+import StorySection from "@/app/ui/postComponent";
+import { Spinner } from "@nextui-org/react";
 interface posts {
   text: string;
   sender: string;
@@ -27,6 +29,7 @@ interface user {
     avatar: string;
     name: string;
     _id: string;
+    dateJoined:string
   };
 }
 interface Stats {
@@ -94,6 +97,30 @@ export default function Account() {
   if (!userId ||!user) {
     return <Loader />;
   }
+  const renderFollowerInfo = (sender: string) => {
+    if (user) {
+      const { avatar, name, dateJoined, _id } = user.user;
+
+      return (
+        <div>
+          <ContactProps
+            _id={_id}
+            contactAvatar={avatar}
+            contactName={name}
+            contactText={`About ${new Date(dateJoined)
+              .toLocaleTimeString([], {
+                hour: "numeric",
+                minute: "2-digit",
+              })
+              .toLocaleLowerCase()} on ${new Date(dateJoined).toDateString()}`}
+          />
+        </div>
+      );
+    }
+
+    return null; // Return null if follower information is not available
+  };
+
   return (
     <div className="bg-white h-screen overflow-auto pb-20">
       {user && (
@@ -142,78 +169,14 @@ export default function Account() {
           </div>
           <div>
             <div className="home max-w-[600px] flex flex-col gap-5  ml-auto mr-auto md:pl-2 md:pr-2 pt-3 pb-3">
-              {sortedData && sortedData.length > 0 ? (
-                sortedData.map((posts: posts, index: number) => {
-                  const { _id, sender, dateJoined, content, text } = posts;
-
-                  return (
-                    <section
-                      key={`${_id}-${dateJoined}`}
-                      className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full m-auto box-shadow"
-                    >
-                      <div className=" pb-2 ">
-                      <div>
-
-                  <ContactProps
-                  _id={user.user._id}
-                    contactAvatar={user.user.avatar}
-                    contactName={user.user.name}
-                    contactText={`About ${new Date(
-                     dateJoined
-                    )
-                      .toLocaleTimeString([], {
-                        hour: "numeric",
-                        minute: "2-digit",
-                      })
-                      .toLocaleLowerCase()} on ${new Date(dateJoined).toDateString()}`}
-                  />
-                     </div>
-                        <p className="pt-1 pb-1 max-w-[550px] border-b border-b-stone-300">
-                          {posts.text}
-                        </p>
-                      </div>
-                      <div className="relative rounded-lg">
-                        <div className=" h-fit">
-                          {!regex.test(posts?.content) ? (
-                            <video
-                              className=" h-full rounded-md object-cover"
-                              controls
-                              src={posts?.content}
-                            ></video>
-                          ) : (
-                            <Image
-                              //  loader={imageLoader}
-                              src={posts?.content}
-                              className="rounded-lg   h-auto w-full"
-                              alt="story picture"
-                              width={550}
-                              height={100}
-                            />
-                          )}
-                        </div>
-                        <div className=" bottom-0 left-0 w-full  pt-3 pb-3 flex items-center justify-between">
-                          <div className="flex gap-4 flex-row-reverse">
-                            <button>
-                              <Image src={share} alt="Share" width={20} />
-                            </button>
-                            <button>
-                              <Image src={comment} alt="Comment" width={20} />
-                            </button>
-                            <button>
-                              <Image src={like} alt="Like" width={20} />
-                            </button>
-                          </div>
-                          <button>
-                            <Image src={bookmark} alt="Bookmark" width={20} />
-                          </button>
-                        </div>
-                      </div>
-                    </section>
-                  );
-                })
-              ) : (
-                <p className="py-2 px-2 w-fit m-auto">{`${user.user.name} does not have any posts`}</p>
-              )}
+              {sortedData ?
+        sortedData.map((post: posts, index: number) => (
+          <StorySection
+            key={`${post._id}-${post.dateJoined}`}
+            post={post}
+            renderFollowerInfo={renderFollowerInfo}
+          />
+        )):<div className="flex items-center justify-center"><p>no posts of <b>{user.user.name}</b> have been found</p></div>}
             </div>
           </div>
         </div>

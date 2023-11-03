@@ -21,7 +21,9 @@ interface NavItemProps {
 
 const NavItem: React.FC<NavItemProps> = ({imgSrc, link }) => {
   return (
-   <Link href={link}>
+   <Link
+   scroll={false}
+    href={link}>
     <li className="flex items-center h-8">
       <Image
         width={27}
@@ -44,7 +46,6 @@ const SideNavbar = () => {
         <NavItem {...router.pathname==="/"?{imgSrc: { src: HomeActive,alt:"home" }}:{imgSrc: { src: Home,alt:"home" }}} link='/'  />
         <NavItem {...router.pathname==="/profile"?{imgSrc: { src:UserActive,alt:"profile" }}:{imgSrc: { src: ProfileIcon,alt:"profile" }}}  link="/profile"  />
         <NavItem {...router.pathname.includes("/chat")?{imgSrc: { src:MessageActive,alt:"chat" }}:{imgSrc: { src: MessageIcon,alt:"chat" }}} link="/chat" />
-        <NavItem {...router.pathname.includes("/Gallery")?{imgSrc: { src:VideoIcon,alt:"Gallery" }}:{imgSrc: { src: VideoIcon,alt:"Gallery" }}} link="/Gallery" />
         <NavItem imgSrc={{src:Explore,alt:"explore"}}  link=""  />
         <NavItem imgSrc={{src:NotificationIcon,alt:"notifications"}}  link=""  />
         <NavItem imgSrc={{src:SettingsIcon,alt:"settings"}}  link=""  />

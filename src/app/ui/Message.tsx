@@ -3,11 +3,11 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import io from "socket.io-client";
 import { AppContext } from "../../../public/context/AppContext";
-import { useContext } from "react";
-import useFetch from "../../../public/fetch/userfetch";
-import sendArrow from "./images/forward-message-arrow-right-svgrepo-com.svg"
+import { useContext, useRef } from "react";
+import sendArrow from "./images/forward-message-arrow-right-svgrepo-com.svg";
 import Link from "next/link";
-
+import { Button } from "@nextui-org/react";
+import {BsArrowDownCircleFill} from "react-icons/bs"
 interface UserProps {
   avatar: string;
   name: string;
@@ -30,13 +30,82 @@ function Message({ contactId }: ContactIdProps) {
   const [inputValue, setInputValue] = useState("");
   const { userMessages, setUserMessages } = useContext(AppContext); // New state for sent messages
   const userData = JSON.parse(Cookies.get("user") as string);
-  const { avatar, name ,_id} = follower || {};
+  const { avatar, name, _id } = follower || {};
   const socket = io("https://ephraim-iyanda.onrender.com");
+  const messageContainerRef = useRef(null);
+  const scrollButtonRef = useRef<any>(null);
+  const messageContainer = document.querySelector(".message_container");
+
+  const isAtBottom = useRef(true);
 
   useEffect(() => {
     fetchFollower();
     fetchMessagesFromAPI(); // Fetch messages from the API initially
   }, [contactId]);
+
+  useEffect(() => {
+    messageContainer?.scroll({
+      top: messageContainer.scrollHeight,
+      left: 0,
+      behavior: "smooth",
+    });
+    if (!isAtBottom.current) {
+      scrollButtonRef.current.style.display = "block";
+    } else {
+      scrollButtonRef.current.style.display = "none";
+    }
+    // Add a scroll event listener to handle the button visibility
+    messageContainer?.addEventListener("scroll", handleScroll);
+
+    return () => {
+      messageContainer?.removeEventListener("scroll", handleScroll);
+    };
+  }, [contactId]);
+
+  useEffect(() => {
+    if (!isAtBottom.current) {
+      scrollButtonRef.current.style.display = "block";
+    } else {
+      scrollButtonRef.current.style.display = "none";
+    }
+
+    // Scroll to the bottom when new messages arrive
+    if (isAtBottom.current) {
+      messageContainer?.scroll({
+        top: messageContainer.scrollHeight,
+        left: 0,
+        behavior: "smooth",
+      });
+    }
+    scrollButtonRef.current.style.display = "none";
+  }, [userMessages]);
+
+  const scrollToBottom = () => {
+    messageContainer?.scroll({
+      top: messageContainer.scrollHeight,
+      left: 0,
+      behavior: "smooth",
+    });
+
+    scrollButtonRef.current.style.display = "none";
+    isAtBottom.current = true;
+  };
+
+  const handleScroll = () => {
+    if (messageContainer) {
+      const isAtBottomValue =
+        messageContainer.scrollTop + messageContainer.clientHeight ===
+        messageContainer.scrollHeight;
+
+      if (isAtBottomValue) {
+        scrollButtonRef.current.style.display = "none";
+      } else {
+        scrollButtonRef.current.style.display = "block";
+      }
+
+      isAtBottom.current = isAtBottomValue;
+    }
+  };
 
   const fetchFollower = async () => {
     try {
@@ -119,8 +188,6 @@ function Message({ contactId }: ContactIdProps) {
 
   return (
     <div className="flex flex-col h-full">
-
-
       <div className="flex align-middle items-center gap-2 py-1 px-2 border-b border-b-stone-300">
         {avatar && (
           <Image
@@ -132,11 +199,12 @@ function Message({ contactId }: ContactIdProps) {
             priority
           />
         )}
-
-     <Link href={`/Accounts/${_id}`}> <p className="text-lg">{name}</p></Link>
+        <Link href={`/Accounts/${_id}`}>
+          <p className="text-lg">{name}</p>
+        </Link>
       </div>
-      <div className=" overflow-y-auto block pb-12 px-2 h-[109.5vh]">
-        <div className="pb-12 sm:h-full h-[75.5vh] overflow-y-auto" >
+      <div className="overflow-y-auto block pb-12 px-2 h-[109.5vh]">
+        <div className="message_container pb-12 sm:h-full h-[75.5vh] overflow-y-auto">
           {userMessages.map((message: MessageProps, index: number) => (
             <div
               key={index}
@@ -144,7 +212,7 @@ function Message({ contactId }: ContactIdProps) {
                 message.fromSelf ? "bg-green-300 ml-auto" : "bg-red-300"
               }`}
             >
-              <p className=" overflow-auto break-words"> {message.content} </p>
+              <p className="overflow-auto break-words">{message.content}</p>
               <span className="w-full text-right text-[9px]">
                 {new Date(message.timestamp).toLocaleTimeString([], {
                   hour: "numeric",
@@ -153,6 +221,13 @@ function Message({ contactId }: ContactIdProps) {
               </span>
             </div>
           ))}
+        </div>
+        <div
+          className="w-8 h-8 p-1 rounded-[50%] text-xl fixed  min-w-[unset] shadow sm:bottom-[70px] bottom-[50px] right-10 z-[70] cursor-pointer"
+          onClick={scrollToBottom}
+          ref={scrollButtonRef}
+        >
+          <BsArrowDownCircleFill size={30}/>
         </div>
       </div>
       <form
@@ -175,11 +250,11 @@ function Message({ contactId }: ContactIdProps) {
           className=" text-white w-10 p-1 h-10  sticky rounded-[40%] "
         >
           <Image
-          src={sendArrow}
-          className="w-1[100px]"
-          alt="send"
-          width={100}
-          height={100}
+            src={sendArrow}
+            className="w-1[100px]"
+            alt="send"
+            width={100}
+            height={100}
           />
         </button>
       </form>

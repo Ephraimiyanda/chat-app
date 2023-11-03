@@ -17,7 +17,7 @@ export default function FollowerUi({
   _id,
 }: followerUiProp) {
   return (
-    <div className="flex flex-col gap-1 align-middle  text-center bg-white py-2 px-[20px] rounded-md ">
+    <div className="flex flex-col gap-1 align-middle border  text-center bg-white py-2 px-[20px] rounded-md ">
       <Image
         className=" rounded-[50%]"
         src={src}

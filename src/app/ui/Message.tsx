@@ -209,7 +209,7 @@ function Message({ contactId }: ContactIdProps) {
             <div
               key={index}
               className={`p-1 px-2 rounded-lg mt-2 w-fit flex flex-col max-w-[50%] sm:max-w-[200px] h-fit ${
-                message.fromSelf ? "bg-green-300 ml-auto" : "bg-red-300"
+                message.fromSelf ? "bg-blue-700 ml-auto text-white" : "bg-[#ededed]"
               }`}
             >
               <p className="overflow-auto break-words">{message.content}</p>

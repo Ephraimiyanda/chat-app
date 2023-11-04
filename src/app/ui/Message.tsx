@@ -205,7 +205,7 @@ function Message({ contactId }: ContactIdProps) {
       </div>
       <div className="overflow-y-auto block pb-12 px-2 h-[109.5vh]">
         <div className="message_container pb-12 sm:h-full h-[75.5vh] overflow-y-auto">
-          {userMessages.map((message: MessageProps, index: number) => (
+          {userMessages?userMessages.map((message: MessageProps, index: number) => (
             <div
               key={index}
               className={`p-1 px-2 rounded-lg mt-2 w-fit flex flex-col max-w-[50%] sm:max-w-[200px] h-fit ${
@@ -220,7 +220,7 @@ function Message({ contactId }: ContactIdProps) {
                 })}
               </span>
             </div>
-          ))}
+          )):<div className="w-full flex flex-col justify-center items-center h-full"><p>you have no messages</p></div>}
         </div>
         <div
           className="w-8 h-8 p-1 rounded-[50%] text-xl fixed  min-w-[unset] shadow sm:bottom-[70px] bottom-[50px] right-10 z-[70] cursor-pointer"

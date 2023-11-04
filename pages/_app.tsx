@@ -17,7 +17,11 @@ interface props {
   Component: React.ComponentType<any>;
   pageProps: Record<string, any>;
 }
-
+interface MessageProps {
+  content: string;
+  fromSelf: boolean;
+  timestamp:string
+}
 function saveScrollPosition(
   url: string,
   element: HTMLElement,
@@ -47,7 +51,11 @@ function MyApp({ Component, pageProps }: props) {
   const userData = userCookie ? JSON.parse(userCookie) : null;
   const socket = io('https://ephraim-iyanda.onrender.com');
   const positions = React.useRef<{ [key: string]: number }>({});
-
+  const isAccessPage = router.pathname === '/Access';
+  const [isLoaderVisible, setIsLoaderVisible] = useState(false);
+  const showCreatePost = router.query?.createpost;
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [userMessages, setUserMessages] = useState<MessageProps[]>([]);
   const updatePosition = (url: string, pos: number) => {
     positions.current = {
       ...positions.current,
@@ -97,10 +105,30 @@ function MyApp({ Component, pageProps }: props) {
   }, [router]);
 
   useEffect(() => {
-    socket.on(`receive-${userData?._id}`, (data: any) => {
-      // Handle incoming messages
+    // Check if the screen size is smaller than 768px (small screen)
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 640);
+    };
+
+    handleResize(); // Set the initial screen size
+
+    // Listen for resize events to update the screen size state
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      // Clean up the resize event listener when the component unmounts
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(()=>{
+    socket.on(`receive-${userData?._id}`,(data: any) => {
+      setUserMessages(prevMessages => [...prevMessages, { content: data.content,timestamp:data.timestamp, fromSelf: false }]);
+   
     });
-  }, [userData, socket]);
+
+  },[])
+
 
   useEffect(() => {
     if (!user && userData) {
@@ -110,7 +138,7 @@ function MyApp({ Component, pageProps }: props) {
     }
   }, [user, router, userData]);
 
-  if (router.pathname.includes('/Access')) {
+  if (isAccessPage) {
     return (
       <AppContext.Provider value={{ user, setUser }}>
         <Component {...pageProps} />
@@ -124,7 +152,7 @@ function MyApp({ Component, pageProps }: props) {
 
   return (
     <NextUIProvider>
-      <AppContext.Provider value={{ user, setUser }}>
+      <AppContext.Provider value={{ user, setUser, showCreatePost ,userMessages, setUserMessages}}>
         <div className="fixed w-full">
           <Navbar />
           <div className="main-content fixed w-full flex" >

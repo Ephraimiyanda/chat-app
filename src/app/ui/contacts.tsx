@@ -22,7 +22,6 @@ function Contacts() {
   const [chats, setChats] = useState<chatProps[]>([]);
   const router = useRouter()
   const contactId=router.query;
-  console.log(router.query);
   const userCookie = Cookies.get("user");
   const userData = userCookie && JSON.parse(userCookie);
   const { user } = useFetch(

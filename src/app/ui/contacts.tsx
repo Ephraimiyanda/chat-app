@@ -36,7 +36,7 @@ function Contacts() {
       // Fetch information about each follower
       Promise.all(
         user.followers.map((followerId: string) => {
-          return fetch(`https://ephraim-iyanda.onrender.com/user/${followerId}`)
+          return fetch(`https://ephraim-iyanda.onrender.com/user/${followerId}`,{ cache: 'force-cache' })
             .then((res) => res.json())
             .then((data: chatProps) => {
               setChats((prevChats) => [...prevChats, data.user]);

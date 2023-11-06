@@ -13,15 +13,29 @@ import UserActive from "./images/userActive.svg"
 import MessageActive from "./images/MessageActive.svg"
 import { useRouter } from 'next/router';
 import videojs from 'video.js';
+import { SCROLL_POSITION_KEY } from '../../../public/constants/constants';
 
 interface NavItemProps {
   link:string;
   imgSrc:ImageProps;
 }
 
+
 const NavItem: React.FC<NavItemProps> = ({imgSrc, link }) => {
+const router=useRouter()
+
+const savePostion=()=>{
+const page_content=document.querySelector(".homepage")
+ if(router.pathname==="/"){
+    sessionStorage.setItem(SCROLL_POSITION_KEY,String(page_content?.scrollTop))
+    console.log(sessionStorage);
+   }
+  
+}
+  
   return (
    <Link
+   onClick={savePostion}
    scroll={false}
     href={link}>
     <li className="flex items-center h-8">

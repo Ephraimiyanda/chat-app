@@ -61,7 +61,9 @@ function Message({ contactId }: ContactIdProps) {
       messageContainer?.removeEventListener("scroll", handleScroll);
     };
   }, [contactId]);
-
+useEffect(()=>{
+  messageContainer?.addEventListener("scroll", handleScroll);
+},[])
   useEffect(() => {
     if (!isAtBottom.current) {
       scrollButtonRef.current.style.display = "block";
@@ -103,7 +105,7 @@ function Message({ contactId }: ContactIdProps) {
         scrollButtonRef.current.style.display = "block";
       }
 
-      isAtBottom.current = isAtBottomValue;
+      isAtBottom.current = true;
     }
   };
 

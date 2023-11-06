@@ -4,7 +4,7 @@ const useFetch=(url:string)=>{
     const [user,setuser]=useState<object|any|undefined>([]);
 
     useEffect(()=>{
-        fetch(url)
+        fetch(url,{ cache: 'force-cache' })
         .then(res=>{
          return res.json()
         })

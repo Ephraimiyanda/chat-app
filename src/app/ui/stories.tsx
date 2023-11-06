@@ -46,7 +46,7 @@ export default function Stories() {
   );
   const fetcher: Fetcher<posts[]> = async (url: string) => {
     try {
-      const res = await fetch(url);
+      const res = await fetch(url,{ cache: 'force-cache' });
       const sortedData = await res.json();
       return sortedData;
     } catch (error) {
@@ -75,7 +75,7 @@ export default function Stories() {
       Promise.all(
         sortedData.map((followerId: any) => {
           return fetch(
-            `https://ephraim-iyanda.onrender.com/user/${followerId.sender}`
+            `https://ephraim-iyanda.onrender.com/user/${followerId.sender}`,{ cache: 'force-cache' }
           )
             .then((res) => res.json())
             .then((data) => {

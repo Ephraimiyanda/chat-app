@@ -43,54 +43,23 @@ function Message({ contactId }: ContactIdProps) {
     fetchMessagesFromAPI(); // Fetch messages from the API initially
   }, [contactId]);
 
-  useEffect(() => {
-    messageContainer?.scroll({
-      top: messageContainer.scrollHeight,
-      left: 0,
-      behavior: "smooth",
-    });
-    if (!isAtBottom.current) {
-      scrollButtonRef.current.style.display = "block";
-    } else {
-      scrollButtonRef.current.style.display = "none";
-    }
-    // Add a scroll event listener to handle the button visibility
-    messageContainer?.addEventListener("scroll", handleScroll);
+ useEffect(() => {
+    if (messageContainer) {
+      // Add a scroll event listener to handle the button visibility
+      messageContainer.addEventListener("scroll", handleScroll);
 
-    return () => {
-      messageContainer?.removeEventListener("scroll", handleScroll);
-    };
-  }, [contactId]);
-useEffect(()=>{
-  messageContainer?.addEventListener("scroll", handleScroll);
-},[])
-  useEffect(() => {
-    if (!isAtBottom.current) {
-      scrollButtonRef.current.style.display = "block";
-    } else {
-      scrollButtonRef.current.style.display = "none";
+      return () => {
+        messageContainer.removeEventListener("scroll", handleScroll);
+      };
     }
-
-    // Scroll to the bottom when new messages arrive
-    if (isAtBottom.current) {
-      messageContainer?.scroll({
-        top: messageContainer.scrollHeight,
-        left: 0,
-        behavior: "smooth",
-      });
-    }
-    scrollButtonRef.current.style.display = "none";
-  }, [userMessages]);
+  }, [messageContainer]);
 
   const scrollToBottom = () => {
-    messageContainer?.scroll({
-      top: messageContainer.scrollHeight,
-      left: 0,
-      behavior: "smooth",
-    });
-
-    scrollButtonRef.current.style.display = "none";
-    isAtBottom.current = true;
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+      setShowScrollButton(false); // Hide the button when scrolling to the bottom
+      isAtBottom.current = true;
+    }
   };
 
   const handleScroll = () => {
@@ -100,15 +69,14 @@ useEffect(()=>{
         messageContainer.scrollHeight;
 
       if (isAtBottomValue) {
+        isAtBottom.current = true;
         scrollButtonRef.current.style.display = "none";
       } else {
+        isAtBottom.current = false;
         scrollButtonRef.current.style.display = "block";
       }
-
-      isAtBottom.current = true;
     }
   };
-
   const fetchFollower = async () => {
     try {
       const res = await fetch(

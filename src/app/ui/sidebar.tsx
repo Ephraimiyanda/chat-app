@@ -35,6 +35,7 @@ const page_content=document.querySelector(".homepage")
   
   return (
    <Link
+   prefetch
    onClick={savePostion}
    scroll={false}
     href={link}>

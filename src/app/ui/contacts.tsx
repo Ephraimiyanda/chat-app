@@ -50,8 +50,8 @@ function Contacts() {
   }, [user]);
 
   return (
-    <div className="contact-container h-[100svh] overflow-auto pb-16">
-      <ul className="flex flex-col gap-2 pb-10 h-[100svh] overflow-auto pb-10">
+    <div className="contact-container h-[90svh] overflow-auto pb-16">
+      <ul className="flex flex-col gap-2 pb-10 overflow-auto pb-10">
         {chats.map((chat, index) => (
           <Link
             href={`/chat/${chat._id}`}

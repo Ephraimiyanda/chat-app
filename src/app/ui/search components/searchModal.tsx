@@ -190,7 +190,7 @@ export default function SearchModal() {
             </ModalHeader>
 
             <ModalBody>
-              <div className="flex flex-wrap gap-3 py-3 overflow-auto">
+              <div className="flex flex-wrap gap-3 py-3 h-full w-full">
                 {loading // Display a loading state
                   ? myLoader()
                   : searchedItems.length > 0
@@ -201,7 +201,7 @@ export default function SearchModal() {
 
                         return (
                           <div
-                            className="px-3 py-3  bg-white flex flex-col gap-1 items-center justify-center w-[140px] border border-stone-200 shadow-sm rounded-xl"
+                            className="px-3 py-3  bg-white flex flex-col gap-1 items-center justify-center w-[140px] h-[190px] border border-stone-200 shadow-sm rounded-xl"
                             key={_id}
                           >
                             {avatar ? (
@@ -267,7 +267,7 @@ export default function SearchModal() {
                   : null}
               </div>
               {errorMessage&&(
-                <div className="flex flex-col h-full w-full justify-center items-center"><p>  Nothing mathes your search !!</p></div>
+                <div className="flex flex-col absolute m-auto top-[50%] w-full justify-center items-center"><p>  Nothing mathes your search !!</p></div>
               )}
             </ModalBody>
           </>

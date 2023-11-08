@@ -79,7 +79,7 @@ const Login = () => {
         </button>
      
         {loading=="error" &&
-          <p className="text-red-700">wrong email or password</p>
+          <p className="text-red-700">wrong username or password</p>
         }
       </form>
     </div>

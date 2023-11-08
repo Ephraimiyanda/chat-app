@@ -64,7 +64,6 @@ const StorySection = ({ post, renderFollowerInfo }:postintrface) => {
       const likeListRes = await fetch(
         `https://ephraim-iyanda.onrender.com/user/likedPosts/${_id}/${user._id}`);
       const likesListData = await likeListRes.json();
-      console.log(likesListData);
     } catch (error) {
       console.log(error);
     }
@@ -74,7 +73,7 @@ const StorySection = ({ post, renderFollowerInfo }:postintrface) => {
     PostLikes()
   },[])
   return (
-    <section className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full max-w-[550px] m-auto box-shadow">
+    <section id={`${_id}`} className="pl-3 pr-3 pt-3 rounded-lg bg-white w-full max-w-[550px] m-auto box-shadow">
       <div className="pb-2">
         {renderFollowerInfo(sender)}
         <p className="pt-1 pb-1 max-w-[550px] border-b border-b-stone-300">

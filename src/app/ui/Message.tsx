@@ -32,55 +32,63 @@ function Message({ contactId }: ContactIdProps) {
   const userData = JSON.parse(Cookies.get("user") as string);
   const { avatar, name, _id } = follower || {};
   const socket = io("https://ephraim-iyanda.onrender.com");
-  const messageContainerRef = useRef(null);
+  const messageContainerRef = useRef<any>(null);
   const scrollButtonRef = useRef<any>(null);
   const messageContainer = document.querySelector(".message_container");
-
-  const isAtBottom = useRef(true);
-
+  const [showButton,setShowButton]=useState(false)
+  
   useEffect(() => {
     fetchFollower();
     fetchMessagesFromAPI(); // Fetch messages from the API initially
   }, [contactId]);
-
- useEffect(() => {
-    if (messageContainer) {
-      // Add a scroll event listener to handle the button visibility
-      messageContainer.addEventListener("scroll", handleScroll);
-
-      return () => {
-        messageContainer.removeEventListener("scroll", handleScroll);
-      };
-    }
-  }, [messageContainer]);
-
+  
+  useEffect(() => {
+    fetchFollower();
+    fetchMessagesFromAPI(); // Fetch messages from the API initially
+  }, [contactId]);
+  
+  useEffect(() => {
+    scrollToBottom();
+  }, [userMessages, contactId]);
+  
   const scrollToBottom = () => {
-    if (messageContainerRef.current) {
-      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
-      setShowScrollButton(false); // Hide the button when scrolling to the bottom
-      isAtBottom.current = true;
-    }
-  };
-
-  const handleScroll = () => {
+    const messageContainer = messageContainerRef.current;
     if (messageContainer) {
-      const isAtBottomValue =
-        messageContainer.scrollTop + messageContainer.clientHeight ===
-        messageContainer.scrollHeight;
-
-      if (isAtBottomValue) {
-        isAtBottom.current = true;
-        scrollButtonRef.current.style.display = "none";
-      } else {
-        isAtBottom.current = false;
-        scrollButtonRef.current.style.display = "block";
-      }
+      const isAtBottom = messageContainer.scrollTop + messageContainer.clientHeight >= messageContainer.scrollHeight;
+      messageContainer.scroll({
+        top: messageContainer.scrollHeight,
+        left: 0,
+        behavior: "smooth",
+      });
+      setShowButton(isAtBottom); // Toggle the button based on whether you're at the bottom
     }
   };
+  
+  // Add an additional useEffect to handle scrolling up
+  useEffect(() => {
+    const messageContainer = messageContainerRef.current;
+    if (messageContainer) {
+      messageContainer.addEventListener('scroll', handleScroll);
+    }
+    return () => {
+      if (messageContainer) {
+        messageContainer.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [messageContainerRef]);
+  
+  const handleScroll = () => {
+    const messageContainer = messageContainerRef.current;
+    if (messageContainer) {
+      const isAtBottom = messageContainer.scrollTop + messageContainer.clientHeight >= messageContainer.scrollHeight;
+      setShowButton(isAtBottom); // Toggle the button based on whether you're at the bottom
+    }
+  };
+
   const fetchFollower = async () => {
     try {
       const res = await fetch(
-        `https://ephraim-iyanda.onrender.com/user/${contactId}`
+        `https://ephraim-iyanda.onrender.com/user/${contactId}`,{ cache: 'force-cache' }
       );
       const validRes = await res.json();
       if (validRes?.user) {
@@ -94,7 +102,7 @@ function Message({ contactId }: ContactIdProps) {
   const fetchMessagesFromAPI = async () => {
     try {
       const messageJson = await fetch(
-        `https://ephraim-iyanda.onrender.com/user/messages/${userData._id}/${contactId}`
+        `https://ephraim-iyanda.onrender.com/user/messages/${userData._id}/${contactId}`,{ cache: 'force-cache' }
       );
       const message = await messageJson.json();
 
@@ -174,7 +182,7 @@ function Message({ contactId }: ContactIdProps) {
         </Link>
       </div>
       <div className="overflow-y-auto block pb-12 px-2 h-[109.5vh]">
-        <div className="message_container pb-12 sm:h-full h-[75.5vh] overflow-y-auto">
+        <div className="message_container pb-12 sm:h-full h-[75.5vh] overflow-y-auto" ref={messageContainerRef} >
           {userMessages?userMessages.map((message: MessageProps, index: number) => (
             <div
               key={index}
@@ -193,7 +201,7 @@ function Message({ contactId }: ContactIdProps) {
           )):<div className="w-full flex flex-col justify-center items-center h-full"><p>you have no messages</p></div>}
         </div>
         <div
-          className="w-8 h-8 p-1 rounded-[50%] text-xl fixed  min-w-[unset] shadow sm:bottom-[70px] bottom-[50px] right-10 z-[70] cursor-pointer"
+          className={`w-8 h-8 p-1 rounded-[50%] text-xl fixed  min-w-[unset] shadow sm:bottom-[70px] bottom-[120px] right-10 z-[70] cursor-pointer ${showButton===true&&"hidden"}`}
           onClick={scrollToBottom}
           ref={scrollButtonRef}
         >

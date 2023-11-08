@@ -11,6 +11,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import "../src/app/globals.css";
 import { SCROLL_POSITION_KEY } from "../public/constants/constants";
 import { useRestorePosition } from "../public/hooks/scrollHook";
+import SearchModal from "@/app/ui/search components/searchModal";
 interface User {
   id: number;
 }
@@ -26,19 +27,35 @@ interface MessageProps {
 }
 
 function MyApp({ Component, pageProps }: props) {
-  const router: NextRouter = useRouter();
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [userMessages, setUserMessages] = useState<MessageProps[]>([]);
+  const [isLoaderVisible, setIsLoaderVisible] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [showSearchbar,setShowSearchbar]=useState(false)
+  const router: NextRouter = useRouter();
   const userCookie = Cookies.get("user");
   const userData = userCookie ? JSON.parse(userCookie) : null;
   const socket = io("https://ephraim-iyanda.onrender.com");
   const positions = React.useRef<{ [key: string]: number }>({});
   const isAccessPage = router.pathname === "/Access";
-  const [isLoaderVisible, setIsLoaderVisible] = useState(false);
-  const showCreatePost = router.query?.createpost;
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [userMessages, setUserMessages] = useState<MessageProps[]>([]);
- 
+  const showCreatePost =router.query?.createpost;
+  const [followerArray, setFollowerArray] =useState<string[]>([])
+
+  const fetchFollowers = async () => {
+   try {
+     const res = await fetch(
+       `https://ephraim-iyanda.onrender.com/user/followers/${userData._id}`
+     );
+     const followerRes = await res.json();
+     setFollowerArray(followerRes.followers); // Set the follower IDs to the followerArray state
+   } catch (error) {
+     console.error(error);
+   }
+ };
+
   useEffect(() => {
+    fetchFollowers();
+
     // Check if the screen size is smaller than 768px (small screen)
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 640);
@@ -87,7 +104,7 @@ function MyApp({ Component, pageProps }: props) {
   return (
     <NextUIProvider>
       <AppContext.Provider
-        value={{ user, setUser, showCreatePost, userMessages, setUserMessages }}
+        value={{ user, setUser, showCreatePost, userMessages, setUserMessages,showSearchbar,setShowSearchbar ,followerArray}}
       >
         <div className="fixed w-full">
           <Navbar />
@@ -102,6 +119,7 @@ function MyApp({ Component, pageProps }: props) {
               isOpen>
               <CreatePost />
             </Modal>}
+            <SearchModal/>
               <Component {...pageProps} />
             </div>
           </div>

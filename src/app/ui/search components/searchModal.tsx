@@ -34,6 +34,7 @@ export default function SearchModal() {
   const [selected, setSelected] = useState<string | any>("accounts");
   const [searchParams, setSearchParams] = useState("");
   const [searchedItems, setSearchedItems] = useState([]);
+  const [errorMessage,setErrorMessage]=useState(false)
   const [loading, setLoading] = useState(false); // Loading state
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const { showSearchbar, setShowSearchbar } = useContext(AppContext);
@@ -42,7 +43,7 @@ export default function SearchModal() {
   const myLoader = () => {
     if (selected === "accounts") {
       return (
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 h-full w-full">
           <Card className="w-[140px] h-[180px] flex flex-col gap-1 items-center justify-center">
             <Skeleton className="w-[80px] h-[80px] rounded-[50%]"></Skeleton>
             <Skeleton className="w-[120px] h-3 rounded-md"></Skeleton>
@@ -96,7 +97,12 @@ export default function SearchModal() {
         );
         const searchRes = await res.json();
         setSearchedItems(searchRes.results);
-        setLoading(false); // Set loading state to false when results are available
+        // Set loading state to false when results are available
+        setLoading(false);
+        setErrorMessage(false) 
+        if(searchRes.results.length===0){
+          setErrorMessage(true)
+        }
       } else {
         setSearchedItems([]); // Clear the searchItems array if searchParams is empty
       }
@@ -155,7 +161,11 @@ export default function SearchModal() {
                   variant="bordered"
                   value={searchParams}
                   onValueChange={setSearchParams}
-                  onKeyUp={search}
+                  onKeyUp={()=>{
+                    setTimeout(()=>{
+                      search()
+                    },500)
+                  }}
                 />
                 <Tabs
                   color="primary"
@@ -254,11 +264,11 @@ export default function SearchModal() {
                         </Link>
                       ))
                     : null
-                  :  searchParams.length === 0 ? (
-                    // Display an error message when there are no search parameters
-                    <p>No search parameters provided.</p>
-                  ) : null}
+                  : null}
               </div>
+              {errorMessage&&(
+                <div className="flex flex-col h-full w-full justify-center items-center"><p>  Nothing mathes your search !!</p></div>
+              )}
             </ModalBody>
           </>
         )}

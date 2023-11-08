@@ -162,6 +162,7 @@ export default function SearchModal() {
                   value={searchParams}
                   onValueChange={setSearchParams}
                   onKeyUp={()=>{
+                    setErrorMessage(false)
                     setTimeout(()=>{
                       search()
                     },500)

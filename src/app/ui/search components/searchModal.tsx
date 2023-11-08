@@ -254,7 +254,7 @@ export default function SearchModal() {
                       })
                     : selected === "posts"
                     ? searchedItems.map((post: any, index: number) => (
-                        <Link href={`/#${post._id}`} onClick={close}>
+                        <Link href={`/#${post._id}`} onClick={close} key={post._id}>
                           <Image
                             src={post.content}
                             alt={`${post.text}`}
